@@ -29,7 +29,7 @@ require 'hmac-sha1'
       almacenUsado = almacenAt[6].split(':')[1].tr('""', '')
       almacenV = almacenAt[7].split(':')[1].tr('""', '')
       almacen = [almacenID, almacenGrupo, almacenPulmon, almacenDespacho, almacenRecepcion, almacenTotal, almacenUsado, almacenV]
-      new Almacen(almacenID, almacenUsado, almacenTotal, almacenRecepcion, almacenDespacho, almacenPulmon)
+      #new Almacen(almacenID, almacenUsado, almacenTotal, almacenRecepcion, almacenDespacho, almacenPulmon)
       @almacenes << almacen
       i += 1
     end

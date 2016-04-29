@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429230919) do
+<<<<<<< HEAD
+ActiveRecord::Schema.define(version: 20160429230808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,14 +28,6 @@ ActiveRecord::Schema.define(version: 20160429230919) do
     t.datetime "updated_at",       null: false
   end
 
-  create_table "orden_compras", force: :cascade do |t|
-    t.string   "idOC"
-    t.integer  "sku"
-    t.integer  "cantidad"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "productosMercados", force: :cascade do |t|
     t.integer  "sku"
     t.string   "nombre"
@@ -46,6 +39,16 @@ ActiveRecord::Schema.define(version: 20160429230919) do
     t.float    "tiempoProduccion"
     t.datetime "created_at"
     t.datetime "updated_at"
+=======
+ActiveRecord::Schema.define(version: 20160429230919) do
+
+  create_table "orden_compras", force: :cascade do |t|
+    t.string   "idOC"
+    t.integer  "sku"
+    t.integer  "cantidad"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+>>>>>>> 19ad3769a8cf998a870413cc7668e87001f84ea3
   end
 
 end

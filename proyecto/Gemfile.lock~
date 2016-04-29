@@ -41,6 +41,7 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
     byebug (8.2.5)
+<<<<<<< HEAD
     capistrano (2.15.7)
       highline
       net-scp (>= 1.0.0)
@@ -54,7 +55,9 @@ GEM
     capistrano-rbenv (1.0.5)
       capistrano (< 3)
       capistrano-platform-resources (>= 0.1.3)
+=======
     chronic (0.10.2)
+>>>>>>> 19ad3769a8cf998a870413cc7668e87001f84ea3
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.1.x)
