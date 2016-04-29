@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  almacenId: MyString
+  espacioUtilizado: 1
+  espacioTotal: 1
+  recepcion: false
+  depacho: false
+  pulmon: false
+
+two:
+  almacenId: MyString
+  espacioUtilizado: 1
+  espacioTotal: 1
+  recepcion: false
+  depacho: false
+  pulmon: false
