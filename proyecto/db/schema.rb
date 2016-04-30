@@ -27,12 +27,73 @@ ActiveRecord::Schema.define(version: 20160429230919) do
     t.datetime "updated_at",       null: false
   end
 
+  create_table "formulas_productos", force: :cascade do |t|
+    t.integer  "skuProducto"
+    t.string   "nombreProducto"
+    t.integer  "lote"
+    t.string   "unidadProducto"
+    t.integer  "skuIngrediente"
+    t.string   "nombreIngrediente"
+    t.integer  "requerimiento"
+    t.string   "unidadIngrediente"
+    t.integer  "precioIngrediente"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
   create_table "orden_compras", force: :cascade do |t|
     t.string   "idOC"
     t.integer  "sku"
     t.integer  "cantidad"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "precios_productos", force: :cascade do |t|
+    t.integer  "sku"
+    t.string   "nombre"
+    t.integer  "precio"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "productosMercado", force: :cascade do |t|
+    t.integer  "sku"
+    t.string   "nombre"
+    t.string   "tipo"
+    t.integer  "grupo"
+    t.string   "unidades"
+    t.integer  "costoProduccion"
+    t.integer  "loteProduccion"
+    t.float    "tiempoProduccion"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "productosMercados", force: :cascade do |t|
+    t.integer  "sku"
+    t.string   "nombre"
+    t.string   "tipo"
+    t.integer  "grupo"
+    t.string   "unidades"
+    t.integer  "costoProduccion"
+    t.integer  "loteProduccion"
+    t.float    "tiempoProduccion"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "productos_mercados", force: :cascade do |t|
+    t.integer  "sku"
+    t.string   "nombre"
+    t.string   "tipo"
+    t.integer  "grupo"
+    t.string   "unidades"
+    t.integer  "costoProduccion"
+    t.integer  "loteProduccion"
+    t.float    "tiempoProduccion"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
 end

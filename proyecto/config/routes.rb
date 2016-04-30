@@ -3,13 +3,24 @@ Rails.application.routes.draw do
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-  
-  get 'api/consultar'
+
+  #get 'api/consultar'
 
   # You can have the root of your site routed with "root"
   root 'welcome#index'
 
   # Example of regular route:
+ 
+  get 'api/consultar/:sku' => 'api#consultarStock'
+
+  post 'api/oc/recibir' => 'api#recibirOC'
+
+  post 'api/facturas/recibir' => 'api#recibirFactura'
+
+  post 'api/pagos/recibir' => 'api#recibirPago'
+  #match "api/oc/recibir/", :to => "api#recibirOC", :via => :post
+
+
   #   get 'products/:id' => 'catalog#view'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
