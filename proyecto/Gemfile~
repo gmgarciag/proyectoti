@@ -18,7 +18,7 @@ gem 'ruby-hmac', '~> 0.4.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 #Gema para borrar database
-gem 'database_cleaner', '~> 1.5.3'
+gem 'database_cleaner'
 
 gem 'whenever', require: false
 

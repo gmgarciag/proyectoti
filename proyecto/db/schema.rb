@@ -35,4 +35,17 @@ ActiveRecord::Schema.define(version: 20160429230919) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "productosMercados", force: :cascade do |t|
+    t.integer  "sku"
+    t.string   "nombre"
+    t.string   "tipo"
+    t.integer  "grupo"
+    t.string   "unidades"
+    t.integer  "costoProduccion"
+    t.integer  "loteProduccion"
+    t.float    "tiempoProduccion"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
 end
