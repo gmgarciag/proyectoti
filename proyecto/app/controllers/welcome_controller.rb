@@ -4,7 +4,6 @@ require 'rubygems'
 require 'base64'
 require 'cgi'
 require 'hmac-sha1'
-require 'database_cleaner'
   def index
     #OBTENER LOS ALMACENES
     key = 'W0B@c0w9.xqo1nQ'
@@ -29,22 +28,19 @@ require 'database_cleaner'
       almacenTotal = almacenAt[5].split(':')[1].tr('""', '')
       almacenUsado = almacenAt[6].split(':')[1].tr('""', '')
       almacenV = almacenAt[7].split(':')[1].tr('""', '')
-      almacen = [almacenID, almacenGrupo, almacenPulmon, almacenDespacho, almacenRecepcion, almacenTotal, almacenUsado, almacenV]
       begin
         Almacen.find(i).update(id: i, almacenId:almacenID, espacioUtilizado:almacenUsado, espacioTotal:almacenTotal, recepcion:almacenRecepcion, depacho:almacenDespacho, pulmon:almacenPulmon)
         rescue
       Almacen.create(id: i, almacenId:almacenID, espacioUtilizado:almacenUsado, espacioTotal:almacenTotal, recepcion:almacenRecepcion, depacho:almacenDespacho, pulmon:almacenPulmon)
       end
-      @almacenes << almacen
       i += 1
     end
     #OBTENER EL CONTENIDO DE CADA ALMACEN
     i = 0
-    signature = [1,2,3,4,5]
-    clave = [1,2,3,4,5]
+    signature = []
+    clave = []
     productos = []
     until i > nAlmacenes do
-      #id = @almacenes[i][0]
       id = Almacen.find(i).almacenId
       signature[i] = 'GET' + id
       hmac.update(signature[i])
