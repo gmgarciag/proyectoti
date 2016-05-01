@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429230919) do
+ActiveRecord::Schema.define(version: 20160501230917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,12 +27,46 @@ ActiveRecord::Schema.define(version: 20160429230919) do
     t.datetime "updated_at",       null: false
   end
 
+  create_table "costo_produccions", force: :cascade do |t|
+    t.integer  "skuProducto"
+    t.string   "nombreProducto"
+    t.string   "tipoProducto"
+    t.integer  "costoProdUnitario"
+    t.integer  "loteProduccion"
+    t.integer  "tiempoMedio"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  create_table "formulas", force: :cascade do |t|
+    t.string   "productoProducir"
+    t.string   "insumo"
+    t.integer  "cantidadRequerida"
+    t.integer  "loteProducido"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "skuInsumo"
+    t.integer  "skuProducto"
+  end
+
   create_table "orden_compras", force: :cascade do |t|
     t.string   "idOC"
     t.integer  "sku"
     t.integer  "cantidad"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "proveedors", force: :cascade do |t|
+    t.string   "materiaPrima"
+    t.string   "productoProcesar"
+    t.integer  "grupoProveedor"
+    t.integer  "cantidadRequerida"
+    t.integer  "precio"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "skuMateriaPrima"
+    t.integer  "skuProducto"
   end
 
 end
