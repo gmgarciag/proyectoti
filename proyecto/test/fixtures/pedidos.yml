@@ -2,9 +2,8 @@
 
 one:
   id: MyString
-  creacion: 2016-05-01 16:48:34
-  cliente: MyString
-  sku: MyString
+  creacion: 2016-05-01 16:50:03
+  proveedor: MyString
   cantidad: 1
   despachado: 1
   fechaEntrega: 1
@@ -13,9 +12,8 @@ one:
 
 two:
   id: MyString
-  creacion: 2016-05-01 16:48:34
-  cliente: MyString
-  sku: MyString
+  creacion: 2016-05-01 16:50:03
+  proveedor: MyString
   cantidad: 1
   despachado: 1
   fechaEntrega: 1

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: MyString
+  sku: MyString
+  almacenId: MyString
+  costos: 
+
+two:
+  id: MyString
+  sku: MyString
+  almacenId: MyString
+  costos: 
