@@ -1,7 +1,7 @@
 class CreateOrdenCompras < ActiveRecord::Migration
   def change
     create_table :orden_compras do |t|
-      t.string :idOrden
+      t.string :id
       t.datetime :creacion
       t.string :cliente
       t.string :sku

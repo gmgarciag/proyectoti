@@ -1,7 +1,7 @@
 class CreatePedidos < ActiveRecord::Migration
   def change
     create_table :pedidos do |t|
-      t.string :id
+      t.string :idPedido
       t.datetime :creacion
       t.string :proveedor
       t.integer :cantidad

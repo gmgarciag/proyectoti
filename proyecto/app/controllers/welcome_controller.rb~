@@ -28,13 +28,11 @@ require 'hmac-sha1'
       almacenTotal = almacenAt[5].split(':')[1].tr('""', '')
       almacenUsado = almacenAt[6].split(':')[1].tr('""', '')
       almacenV = almacenAt[7].split(':')[1].tr('""', '')
-      #almacen = [almacenID, almacenGrupo, almacenPulmon, almacenDespacho, almacenRecepcion, almacenTotal, almacenUsado, almacenV]
       begin
         Almacen.find(i).update(id: i, almacenId:almacenID, espacioUtilizado:almacenUsado, espacioTotal:almacenTotal, recepcion:almacenRecepcion, depacho:almacenDespacho, pulmon:almacenPulmon)
         rescue
       Almacen.create(id: i, almacenId:almacenID, espacioUtilizado:almacenUsado, espacioTotal:almacenTotal, recepcion:almacenRecepcion, depacho:almacenDespacho, pulmon:almacenPulmon)
       end
-      #@almacenes << almacen
       i += 1
     end
     #OBTENER EL CONTENIDO DE CADA ALMACEN

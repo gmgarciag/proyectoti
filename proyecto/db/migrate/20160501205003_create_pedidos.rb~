@@ -1,10 +1,9 @@
-class CreateOrdenCompras < ActiveRecord::Migration
+class CreatePedidos < ActiveRecord::Migration
   def change
-    create_table :orden_compras do |t|
-      t.string :idOrden
+    create_table :pedidos do |t|
+      t.string :id
       t.datetime :creacion
-      t.string :cliente
-      t.string :sku
+      t.string :proveedor
       t.integer :cantidad
       t.integer :despachado
       t.integer :fechaEntrega
