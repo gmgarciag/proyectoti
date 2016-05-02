@@ -76,7 +76,33 @@ require 'hmac-sha1'
   		@idocIngresada = params[:IdOC]
 
   		## falta aplicar el modelo de negocios
-		ordenDeCompra = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/almacenes'
+  		## leemos la orden de compra que esta en un arreglo con un json
+  		ordenDeCompra = (RestClient.get 'http://mare.ing.puc.cl/oc/obtener/'+@idocIngresada)
+
+      ##puts ordenDeCompra
+  		##puts ordenDeCompra
+  		## hay que ver que no sea invalido 
+  	  hash = JSON.parse ordenDeCompra
+      puts hash[0]['_id']
+  		@loQueImprime = hash[0]['_id']
+
+      key = 'W0B@c0w9.xqo1nQ'
+      signature = 'GET'
+      hmac = HMAC::SHA1.new(key)
+      hmac.update(signature)
+      clave = Base64.encode64("#{hmac.digest}")
+      almacenes = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/almacenes', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'}
+      puts almacenes
+      hash2 = JSON.parse almacenes
+      for i in 0..(hash2.size - 1)
+        idBodega = hash2[i]['_id']
+        puts idBodega
+        ##signature[i] = 'GET' + idBodega
+        ##hmac.update(signature[i])
+        ##clave[i] = Base64.encode64("#{hmac.digest}")
+        ##temp = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/skusWithStock', {:Authorization => 'INTEGRACION grupo1:' + clave[i], :content_type => 'application/json', :params => {:almacenId => idBodega}}
+        ##puts temp
+      end
   		## revisar que la orden este correcta
   		## que no falten campos y cantidades esten correctas
 
@@ -95,7 +121,7 @@ require 'hmac-sha1'
 
   		render json: {
 			aceptado: estadoOC,
-			idoc: @idocIngresada
+			idoc: @loQueImprime
 		}
   end
 
@@ -103,8 +129,19 @@ require 'hmac-sha1'
   def recibirFactura
   		estadoFactura = false
   		@idFactura = params[:IdFactura]
+        ## Obtenemos la factura
+      factura = RestClient.get 'http://mare.ing.puc.cl/facturas/'+@idFactura ##,{:Content_Type => 'application/json'}
+      hashFactura = JSON.parse factura
+      ##puts hashFactura
+        ## Leemos la orden de compra correspondiente
+      ordenCompra = RestClient.get 'http://mare.ing.puc.cl/oc/obtener/'+ hashFactura[0]['oc'] ##,{:Content_Type => 'application/json'}
+      hashOrdenCompra = JSON.parse ordenCompra
+       ## Revisamos que los pagos calcen
+       if  hashFactura[0]['total'] == (hashOrdenCompra[0]['cantidad']*hashOrdenCompra[0]['precioUnitario'])
+        estadoFactura = true
+       end
 
-  		## falta implementar la logica de negocios!
+###################################LLAMAR AL METODO DE PAGO!!#################################################################################
 
 
   	  		render json: {
