@@ -21,6 +21,7 @@ costoProduccion = CostoProduccion.create([{skuProducto: 19,nombreProducto: 'Sém
 											{skuProducto: 45,nombreProducto: 'Celulosa',tipoProducto: 'Materia prima',costoProdUnitario: 1500,loteProduccion: 800,tiempoMedio: 0.759},
 											{skuProducto: 47,nombreProducto: 'Vino',tipoProducto: 'Producto procesado',costoProdUnitario: 1921,loteProduccion: 1000,tiempoMedio: 0.677}])
 
+#idGrupos = IdGrupos.create([{numeroGrupo:'' ,idGrupo:'',idBanco:'',idBodegaRecepcion:''},{},{},{},{},{},{},{},{},{},{},{}])
 
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)

@@ -4,8 +4,30 @@ require 'rubygems'
 require 'base64'
 require 'cgi'
 require 'hmac-sha1'
+  
+ #metodo que envia la orden de compra para comprar la materia prima cuando no se tiene
+  def comprar(_sku,cantidad)
+
+if _sku != nil
+  
+  grupoProveedor=(Proveedor.find_by skuProducto: _sku).grupoProveedor
+  puts grupoProveedor
+  #asumo que ya tengo plata
+  #obtengo el ID del grupo
+  #IDgrupo=(IdGrupo.find_by numeroGrupo: grupoProveedor).idGrupo
+
+#llamada a crear la orden de compra, retorna la orden de compra o error
+  @ordenCompra=RestClient.put 'http://mare.ing.puc.cl/oc/crear/', {:cliente => '571262b8a980ba030058ab4f', :proveedor => '571262b8a980ba030058ab4f', :sku => 47, :fechaEntrega => 1463797342000, :cantidad => 4, :precioUnitario => 7244, :canal => 'b2b'}.to_json, :content_type => 'application/json'
+
+  end
+
+end
+
   def index
     #OBTENER LOS ALMACENES
+
+    comprar(40,10)
+
     key = 'W0B@c0w9.xqo1nQ'
     signature = 'GET'
     hmac = HMAC::SHA1.new(key)
@@ -75,4 +97,5 @@ require 'hmac-sha1'
       i += 1
     end
   end
+
 end

@@ -178,6 +178,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport
   byebug
   capistrano-rails
   capistrano-rbenv (~> 1.0.0)
