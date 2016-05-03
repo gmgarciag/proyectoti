@@ -13,11 +13,11 @@ Rails.application.routes.draw do
  
   get 'api/consultar/:sku' => 'api#consultarStock'
 
-  post 'api/oc/recibir' => 'api#recibirOC'
+  get 'api/oc/recibir/:idoc' => 'api#recibirOC'
 
-  post 'api/facturas/recibir' => 'api#recibirFactura'
+  get 'api/facturas/recibir/:idfacturas' => 'api#recibirFactura'
 
-  post 'api/pagos/recibir' => 'api#recibirPago'
+  get 'api/pagos/recibir/:idtrx/:idfactura' => 'api#recibirPago'
   #match "api/oc/recibir/", :to => "api#recibirOC", :via => :post
 
 
