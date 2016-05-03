@@ -9,9 +9,8 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome#index'
 
-  #documentacion API
-  get 'documentacion' => 'welcome#documentacion'
-
+  #Documentacion API
+  get '/documentacion', :to => redirect('/documentacion.html')
   # Example of regular route:
  
   get 'api/consultar/:sku' => 'api#consultarStock'

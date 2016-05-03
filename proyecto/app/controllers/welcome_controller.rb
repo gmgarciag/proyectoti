@@ -28,6 +28,7 @@ end
 
   def index
 
+    
     obtenerOC
     obtenerOCcompletas
     #comprar(40,10)
@@ -110,7 +111,6 @@ def obtenerOCcompletas
 
     end
   end
-
 
 
   
