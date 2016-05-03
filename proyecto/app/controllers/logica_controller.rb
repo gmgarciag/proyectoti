@@ -4,6 +4,9 @@ require 'rubygems'
 require 'base64'
 require 'cgi'
 require 'hmac-sha1'
+
+
+
 def contestar
   idOrden = params[:idOrden]
   orden = RestClient.get 'http://mare.ing.puc.cl/oc/obtener/' +idOrden 
@@ -19,6 +22,9 @@ def contestar
     return true
   end
 end
+
+
+
 def actualizarInventario
   #OBTENER LOS ALMACENES
     key = 'W0B@c0w9.xqo1nQ'
@@ -104,6 +110,8 @@ def actualizarInventario
     (Inventario.find_by sku:45).update(cantidadBodega:@celulosa, cantidadVendida:0)
     (Inventario.find_by sku:47).update(cantidadBodega:@vino, cantidadVendida:0)
   end
+
+
   def moverA_Despacho
     sku = Integer(params[:sku])
     cantidad = Integer(params[:cantidad])

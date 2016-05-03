@@ -20,6 +20,18 @@ Rails.application.routes.draw do
   get 'api/facturas/recibir/:idfacturas' => 'api#recibirFactura'
 
   get 'api/pagos/recibir/:idtrx/:idfactura' => 'api#recibirPago'
+
+  get 'api/despachos/recibir/:idfactura' => 'api#recibirDespacho'
+
+  ## enviar informacion de nuestro servidor
+
+  get 'api/ids/grupo' => 'api#enviarGrupo'
+
+  get 'api/ids/banco' => 'api#enviarBanco'
+
+  get 'api/ids/almacenId' => 'api#enviarAlmacen'
+
+
   #match "api/oc/recibir/", :to => "api#recibirOC", :via => :post
 
 
