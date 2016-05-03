@@ -138,7 +138,7 @@ def actualizarInventario
       i = 0
       #recorremos los almacenes buscando el producto
       nAlmacenes = Almacen.last.id
-      while i < nAlmacenes 
+      while i <= nAlmacenes 
         id = Almacen.find(i).almacenId
         key = 'W0B@c0w9.xqo1nQ'
         hmac = HMAC::SHA1.new(key)
@@ -151,7 +151,7 @@ def actualizarInventario
         while contenido[j].nil? == false do
           sku_ = Integer(contenido[j]["_id"])
           total = Integer(contenido[j]["total"])
-          if sku_ == sku
+          if sku_ == sku && id != idDespacho
             #Encontramos el producto
             signature = 'GET' + id.to_s + sku_.to_s
             hmac.update(signature)

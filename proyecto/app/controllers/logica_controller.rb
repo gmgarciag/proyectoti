@@ -135,10 +135,10 @@ def actualizarInventario
       i += 1
     end
     while necesario > 0 do
-      i = 0
+      i = Almacen.first.id
       #recorremos los almacenes buscando el producto
       nAlmacenes = Almacen.last.id
-      while i < nAlmacenes 
+      while i <= nAlmacenes 
         id = Almacen.find(i).almacenId
         key = 'W0B@c0w9.xqo1nQ'
         hmac = HMAC::SHA1.new(key)
