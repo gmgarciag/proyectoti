@@ -17,8 +17,10 @@ gem 'rest-client', '~> 1.8.0'
 gem 'ruby-hmac', '~> 0.4.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-#Gema para borrar database
-gem 'database_cleaner', '~> 1.5.3'
+
+gem 'net-sftp'
+gem 'nokogiri'
+gem 'activesupport'
 
 gem 'whenever', require: false
 
