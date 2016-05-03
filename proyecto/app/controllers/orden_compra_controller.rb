@@ -3,10 +3,14 @@
 class OrdenCompraController < ApplicationController
 require 'net/sftp'
 
+def conseguirOrdenes
+
 Net::SFTP.start('mare.ing.puc.cl', 'integra1', :password => 'DhY9uFaU') do |sftp|
-	sftp.dir.foreach("./") do |entry|
-	  puts entry.longname
+	sftp.dir.foreach("./pedidos") do |entry|
+	  puts entry.name
 end 
+end
+
 end
 
 #Orden_compras.create(idOC: , sku: , cantidad:)
