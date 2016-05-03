@@ -8,6 +8,7 @@ def contestar
   idOrden = params[:idOrden]
   orden = RestClient.get 'http://mare.ing.puc.cl/oc/obtener/' +idOrden 
   ordenParseada = JSON.parse orden
+  @probando = ordenParseada.length
   sku = Integer(ordenParseada[0]["sku"])
   cantidad = Integer(ordenParseada[0]["cantidad"])
   inventario = Inventario.find_by sku: sku
@@ -78,7 +79,6 @@ def actualizarInventario
       productosParseado = JSON.parse productos[i]
       j = 0
       while productosParseado[j].nil? == false do
-      #if productosParseado[j].nil? == false
       id = Integer(productosParseado[0]["_id"])
       cantidad = Integer(productosParseado[0]["total"])
       if id == 19
@@ -134,7 +134,7 @@ def actualizarInventario
       end
       i += 1
     end
-    if necesario > 0
+    while necesario > 0 do
       i = 0
       #recorremos los almacenes buscando el producto
       nAlmacenes = Almacen.last.id
@@ -167,7 +167,8 @@ def actualizarInventario
              signature = 'POST' + idProducto + idDespacho
              hmac.update(signature)
              clave = Base64.encode64("#{hmac.digest}")
-             RestClient.post  'http://integracion-2016-dev.herokuapp.com/bodega/moveStock', {:productoId => idProducto, :almacenId => idDespacho}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'#, :params => {:productoId => idProducto, :almacenId => idDespacho}}
+             RestClient.post  'http://integracion-2016-dev.herokuapp.com/bodega/moveStock', {:productoId => idProducto, :almacenId => idDespacho}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
+             necesario -= 1
             k += 1
             end  
           end
