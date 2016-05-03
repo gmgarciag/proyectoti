@@ -9,7 +9,8 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome#index'
 
-
+  #documentacion API
+  get 'documentacion' => 'welcome#documentacion'
 
   # Example of regular route:
  

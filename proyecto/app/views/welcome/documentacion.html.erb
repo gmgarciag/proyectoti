@@ -1,0 +1,37 @@
+<h1>Documentación API</h1>
+
+ <!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+
+<h3>Funcion: Consultar Stock</h3>
+<p>Esta funcion tiene como objetivo consulta el stock de un producto en nuestra empresa,<br> recibe como parametro el sku de un producto y retorna un JSON<br> con su stock y su sku.</p>
+<p>- URL :integra1.ing.puc.cl/api/consultar/:sku</p>
+<p>- Metodo: GET</p>
+<p>- Retorno: {“stock”: integer, “sku”: integer}.</p>
+
+<h3>Funcion: Enviar orden de compra</h3>
+<p>Esta funcion tiene como objetivo el envio de una orden de compra a nuestra empresa,<br> recibe como parametro el id de la orden de compra que desean enviarnos<br> y se retorna un JSON con nuestra respuesta a la orden de compra<br> y el id de la orden.</p>
+<p>URL: integra1.ing.puc.cl/api/oc/recibir/:idoc</p>
+<p>Metodo: GET</p>
+<p>Retorno: {“aceptado”: boolean, “idoc”:string}</p>
+
+<h3>Funcion: Enviar factura</h3>
+<p>Esta funcion tiene como objetivo el enviar una factura a nuestra empresa,<br> recibe como para parametro el id de la factura y retorna un JSON con su validacion<br> de nuestra empresa, si es que la factura corresponde a lo que se desea comprar,<br> y el id de la factura.</p>
+<p>URL: integra1.ing.puc.cl/api/facturas/recibir/:idfactura</p>
+<p>Metodo: GET</p>
+<p>Retorno: {“validado”: boolean, “idfactura”: string}</p>
+
+<h3>Funcion: Enviar transaccion</h3>
+<p>Esta función tiene como objetivo el enviar una transaccion a nuestra empresa,<br> recibe como parametro el id de la transaccion y el id de la factura que se desea pagar.<br> Retorna un JSON con la validacion de nuestra empresa, que el pago este bien hecho<br> y corresponda al monto pactado en la factura, y el id de la transaccion.</p>
+<p>URL: integra1.ing.puc.cl/api/pagos/recibir/:idtrx/:idfactura</p>
+<p>Metodo: GET</p>
+<p>Retorno: {“validado”: boolean, “idtrx”: string}</p>
+</body>
+</html> 
+
+
+

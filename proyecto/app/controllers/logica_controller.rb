@@ -79,8 +79,8 @@ def actualizarInventario
       productosParseado = JSON.parse productos[i]
       j = 0
       while productosParseado[j].nil? == false do
-      id = Integer(productosParseado[0]["_id"])
-      cantidad = Integer(productosParseado[0]["total"])
+      id = Integer(productosParseado[j]["_id"])
+      cantidad = Integer(productosParseado[j]["total"])
       if id == 19
         @semola += cantidad
       elsif id == 27
