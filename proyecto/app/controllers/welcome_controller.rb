@@ -28,9 +28,9 @@ end
 
   def index
 
-  #obtenerOC
+    obtenerOC
     obtenerOCcompletas
-    comprar(40,10)
+    #comprar(40,10)
   end
 
   def comprar(_sku,cantidad)
@@ -41,7 +41,7 @@ end
       puts grupoProveedor
       #asumo que ya tengo plata
       #obtengo el ID del grupo
-      idGrupo=(IdGrupo.find_by numeroGrupo: grupoProveedor).idGrupo
+      #idGrupo=(IdGrupo.find_by numeroGrupo: grupoProveedor).idGrupo
 
       #llamada a crear la orden de compra, retorna la orden de compra o error
       @ordenCompra=RestClient.put 'http://mare.ing.puc.cl/oc/crear/', {:cliente => '571262b8a980ba030058ab4f', :proveedor => idGrupo, :sku => 47, :fechaEntrega => 1463797342000, :cantidad => 4, :precioUnitario => 7244, :canal => 'b2b'}.to_json, :content_type => 'application/json'
@@ -95,8 +95,14 @@ def obtenerOCcompletas
     @qty=f.gets.tr('<qty>', '')
     @qty=@qty.tr('</qty>', '').to_i
 
+    begin
+    if (OrdenCompra.find_by idOC: @id) == nil
     OrdenCompra.create(idOC: @id, sku: @sku, cantidad: @qty)
-
+    end 
+    rescue 
+    OrdenCompra.create(idOC: @id, sku: @sku, cantidad: @qty)  
+    end
+  end
     #@numeroOrden = OrdenCompra.find_by(id:14).idOC
 
     i=i+1
@@ -107,7 +113,7 @@ def obtenerOCcompletas
 
 
 
-  end
+  
 
 
   end

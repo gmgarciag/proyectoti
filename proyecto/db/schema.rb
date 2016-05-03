@@ -11,7 +11,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 20160503012538) do
 
   # These are extensions that must be enabled in order to support this database
@@ -28,7 +27,6 @@ ActiveRecord::Schema.define(version: 20160503012538) do
     t.datetime "updated_at",       null: false
   end
 
-
   create_table "costo_produccions", force: :cascade do |t|
     t.integer  "skuProducto"
     t.string   "nombreProducto"
@@ -36,7 +34,9 @@ ActiveRecord::Schema.define(version: 20160503012538) do
     t.integer  "costoProdUnitario"
     t.integer  "loteProduccion"
     t.integer  "tiempoMedio"
-end
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
 
   create_table "formulas", force: :cascade do |t|
     t.string   "productoProducir"
@@ -56,7 +56,7 @@ end
     t.string   "idBodegaRecepcion"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-end
+  end
 
   create_table "inventarios", force: :cascade do |t|
     t.string   "sku"
@@ -64,22 +64,14 @@ end
     t.string   "cantidadVendida"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-
   end
 
-
   create_table "orden_compras", force: :cascade do |t|
-    t.string   "idOrden"
-    t.datetime "creacion"
-    t.string   "cliente"
-    t.string   "sku"
+    t.string   "idOC"
+    t.integer  "sku"
     t.integer  "cantidad"
-    t.integer  "despachado"
-    t.integer  "fechaEntrega"
-    t.string   "estado"
-    t.boolean  "transaccion"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "pedidos", force: :cascade do |t|
@@ -120,6 +112,6 @@ end
     t.string   "nombreArchivo"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-end
+  end
 
 end
