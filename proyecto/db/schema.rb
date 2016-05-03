@@ -11,6 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20160503012538) do
 
   # These are extensions that must be enabled in order to support this database
@@ -56,12 +57,48 @@ ActiveRecord::Schema.define(version: 20160503012538) do
     t.string   "idBodegaRecepcion"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+
+  create_table "inventarios", force: :cascade do |t|
+    t.string   "sku"
+    t.string   "cantidadBodega"
+    t.string   "cantidadVendida"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+
   end
 
   create_table "orden_compras", force: :cascade do |t|
-    t.string   "idOC"
-    t.integer  "sku"
+    t.string   "idOrden"
+    t.datetime "creacion"
+    t.string   "cliente"
+    t.string   "sku"
     t.integer  "cantidad"
+    t.integer  "despachado"
+    t.integer  "fechaEntrega"
+    t.string   "estado"
+    t.boolean  "transaccion"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "pedidos", force: :cascade do |t|
+    t.string   "idPedido"
+    t.datetime "creacion"
+    t.string   "proveedor"
+    t.integer  "cantidad"
+    t.integer  "despachado"
+    t.integer  "fechaEntrega"
+    t.string   "estado"
+    t.boolean  "transaccion"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "productos", force: :cascade do |t|
+    t.string   "idProducto"
+    t.string   "sku"
+    t.string   "almacenId"
+    t.decimal  "costos"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

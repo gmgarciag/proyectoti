@@ -21,54 +21,10 @@ costoProduccion = CostoProduccion.create([{skuProducto: 19,nombreProducto: 'Sém
 											{skuProducto: 45,nombreProducto: 'Celulosa',tipoProducto: 'Materia prima',costoProdUnitario: 1500,loteProduccion: 800,tiempoMedio: 0.759},
 											{skuProducto: 47,nombreProducto: 'Vino',tipoProducto: 'Producto procesado',costoProdUnitario: 1921,loteProduccion: 1000,tiempoMedio: 0.677}])
 
-#idGrupos = IdGrupos.create([{numeroGrupo:'' ,idGrupo:'',idBanco:'',idBodegaRecepcion:''},{},{},{},{},{},{},{},{},{},{},{}])
+idGrupos = IdGrupos.create([{numeroGrupo:'1' ,idGrupo:'571262b8a980ba030058ab4f',idBanco:'571262c3a980ba030058ab5b',idBodegaRecepcion:''},{numeroGrupo:'1' ,idGrupo:'571262b8a980ba030058ab4f',idBanco:'571262c3a980ba030058ab5b',idBodegaRecepcion:'571262aaa980ba030058a147'},{numeroGrupo:'2' ,idGrupo:'571262b8a980ba030058ab50',idBanco:'571262c3a980ba030058ab5c',idBodegaRecepcion:'571262aaa980ba030058a14e'},{numeroGrupo:'3' ,idGrupo:'571262b8a980ba030058ab51',idBanco:'571262c3a980ba030058ab5d',idBodegaRecepcion:''},{numeroGrupo:'4' ,idGrupo:'571262b8a980ba030058ab52',idBanco:'571262c3a980ba030058ab5f',idBodegaRecepcion:''},{numeroGrupo:'5' ,idGrupo:'571262b8a980ba030058ab53',idBanco:'571262c3a980ba030058ab61',idBodegaRecepcion:''},{numeroGrupo:'6' ,idGrupo:'571262b8a980ba030058ab54',idBanco:'571262c3a980ba030058ab62',idBodegaRecepcion:''},{numeroGrupo:'7' ,idGrupo:'571262b8a980ba030058ab55',idBanco:'571262c3a980ba030058ab60',idBodegaRecepcion:''},{numeroGrupo:'8' ,idGrupo:'571262b8a980ba030058ab56',idBanco:'571262c3a980ba030058ab5e',idBodegaRecepcion:'571262aaa980ba030058a31e'},{numeroGrupo:'9' ,idGrupo:'',idBanco:'',idBodegaRecepcion:''},{numeroGrupo:'10' ,idGrupo:'571262b8a980ba030058ab58',idBanco:'571262c3a980ba030058ab63',idBodegaRecepcion:'571262aaa980ba030058a40c'},{numeroGrupo:'11' ,idGrupo:'571262b8a980ba030058ab59',idBanco:'571262c3a980ba030058ab64',idBodegaRecepcion:''},
+{numeroGrupo:'12' ,idGrupo:'571262b8a980ba030058ab5a',idBanco:'',idBodegaRecepcion:''}])
+
 
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-#OrdenCompra.create(idOC:1,sku:1,cantidad:1)
-=begin
-require 'nokogiri'
-require 'net/sftp'
-require 'active_support/core_ext'
 
-Net::SFTP.start('mare.ing.puc.cl', 'integra1', :password => 'DhY9uFaU') do |sftp|
-	#sftp.dir.foreach("./pedidos") do |entry|
-	
-		#puts entry.name
-		r=sftp.file.open("./pedidos/1461089425694.xml", "r") do |f|
-		#puts f.gets
-		#@doc = Nokogiri::XML(File.read(r))
-		#puts @doc.cdd("id").first.to_s
-
-		 r.xpath("//orden/*").each do |i|
-
-    	puts(i.attribute('id').content)
-
-    	end
-		#puts 
-		#puts(@doc.xpath("//sku").first)	
-		#puts(@doc.xpath("//qty").first)
-
-		r.close
-
-		#3.times{ r.gets }
-		#p $_
-
-		#r.close
-    	#	puts f.gets
-  		#if r != NULL
-		#@doc = Nokogiri::XML(File.read(r))
-		#			hash=Hash.from_xml(@doc)
-		#	puts hash 
-	#end
-		#puts(@doc.xpath("//id").to_s)
-		#puts(@doc.xpath("//sku").to_s)	
-		#puts(@doc.xpath("//qty").to_s)
-		#idOCs[0].to_s #aqui debemos cortar el string para quedarnos con lo que nos interesa
-
-
-	 # Orden_compras.create(idOC:id, sku: sku, cantidad:qty)
-
-	end
-=end
-#end

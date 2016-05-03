@@ -4,7 +4,7 @@ class CreateProductos < ActiveRecord::Migration
       t.string :idProducto
       t.string :sku
       t.string :almacenId
-      t.decimal :costos
+      t.t.decimal :costos
 
       t.timestamps null: false
     end
