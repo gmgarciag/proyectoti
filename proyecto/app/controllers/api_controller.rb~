@@ -145,7 +145,7 @@ require 'hmac-sha1'
 
       if(hashFactura[0]['total'].to_i ==hashTransaccion[0]['monto'].to_i)
         estadoPago = true
-        (Orden.find_by idFactura:idFactura).update(estado: "LPD")
+        ##if()
       
       else
         puts 'monto no calza'       

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160503012538) do
+ActiveRecord::Schema.define(version: 20160503060007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20160503012538) do
     t.string   "tipoProducto"
     t.integer  "costoProdUnitario"
     t.integer  "loteProduccion"
-    t.integer  "tiempoMedio"
+    t.decimal  "tiempoMedio"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
   end
@@ -43,10 +43,10 @@ ActiveRecord::Schema.define(version: 20160503012538) do
     t.string   "insumo"
     t.integer  "cantidadRequerida"
     t.integer  "loteProducido"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
     t.integer  "skuInsumo"
     t.integer  "skuProducto"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "id_grupos", force: :cascade do |t|
@@ -74,6 +74,24 @@ ActiveRecord::Schema.define(version: 20160503012538) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "ordens", force: :cascade do |t|
+    t.string   "idOrden"
+    t.datetime "fechaCreacion"
+    t.string   "canal"
+    t.string   "cliente"
+    t.string   "sku"
+    t.string   "cantidad"
+    t.string   "despachada"
+    t.integer  "precioUnitario"
+    t.datetime "fechaEntrega"
+    t.string   "estado"
+    t.string   "rechazo"
+    t.string   "anulacion"
+    t.string   "idFactura"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
   create_table "pedidos", force: :cascade do |t|
     t.string   "idPedido"
     t.datetime "creacion"
@@ -96,16 +114,29 @@ ActiveRecord::Schema.define(version: 20160503012538) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "productosMercados", force: :cascade do |t|
+    t.integer  "sku"
+    t.string   "nombre"
+    t.string   "tipo"
+    t.integer  "grupo"
+    t.string   "unidades"
+    t.integer  "costoProduccion"
+    t.integer  "loteProduccion"
+    t.float    "tiempoProduccion"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "proveedors", force: :cascade do |t|
     t.string   "materiaPrima"
+    t.integer  "skuMateriaPrima"
+    t.integer  "skuProducto"
     t.string   "productoProcesar"
     t.integer  "grupoProveedor"
     t.integer  "cantidadRequerida"
     t.integer  "precio"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.integer  "skuMateriaPrima"
-    t.integer  "skuProducto"
   end
 
   create_table "xmls", force: :cascade do |t|
