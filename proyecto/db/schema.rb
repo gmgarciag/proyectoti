@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20160503060007) do
     t.string   "tipoProducto"
     t.integer  "costoProdUnitario"
     t.integer  "loteProduccion"
-    t.decimal  "tiempoMedio"
+    t.integer  "tiempoMedio"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
   end
@@ -43,24 +43,10 @@ ActiveRecord::Schema.define(version: 20160503060007) do
     t.string   "insumo"
     t.integer  "cantidadRequerida"
     t.integer  "loteProducido"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.integer  "skuInsumo"
     t.integer  "skuProducto"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-  end
-
-  create_table "formulas_productos", force: :cascade do |t|
-    t.integer  "skuProducto"
-    t.string   "nombreProducto"
-    t.integer  "lote"
-    t.string   "unidadProducto"
-    t.integer  "skuIngrediente"
-    t.string   "nombreIngrediente"
-    t.integer  "requerimiento"
-    t.string   "unidadIngrediente"
-    t.integer  "precioIngrediente"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
   end
 
   create_table "id_grupos", force: :cascade do |t|
@@ -119,14 +105,6 @@ ActiveRecord::Schema.define(version: 20160503060007) do
     t.datetime "updated_at",   null: false
   end
 
-  create_table "precios_productos", force: :cascade do |t|
-    t.integer  "sku"
-    t.string   "nombre"
-    t.integer  "precio"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "productos", force: :cascade do |t|
     t.string   "idProducto"
     t.string   "sku"
@@ -136,55 +114,16 @@ ActiveRecord::Schema.define(version: 20160503060007) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "productosMercado", force: :cascade do |t|
-    t.integer  "sku"
-    t.string   "nombre"
-    t.string   "tipo"
-    t.integer  "grupo"
-    t.string   "unidades"
-    t.integer  "costoProduccion"
-    t.integer  "loteProduccion"
-    t.float    "tiempoProduccion"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "productosMercados", force: :cascade do |t|
-    t.integer  "sku"
-    t.string   "nombre"
-    t.string   "tipo"
-    t.integer  "grupo"
-    t.string   "unidades"
-    t.integer  "costoProduccion"
-    t.integer  "loteProduccion"
-    t.float    "tiempoProduccion"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "productos_mercados", force: :cascade do |t|
-    t.integer  "sku"
-    t.string   "nombre"
-    t.string   "tipo"
-    t.integer  "grupo"
-    t.string   "unidades"
-    t.integer  "costoProduccion"
-    t.integer  "loteProduccion"
-    t.float    "tiempoProduccion"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
-
   create_table "proveedors", force: :cascade do |t|
     t.string   "materiaPrima"
-    t.integer  "skuMateriaPrima"
-    t.integer  "skuProducto"
     t.string   "productoProcesar"
     t.integer  "grupoProveedor"
     t.integer  "cantidadRequerida"
     t.integer  "precio"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.integer  "skuMateriaPrima"
+    t.integer  "skuProducto"
   end
 
   create_table "xmls", force: :cascade do |t|

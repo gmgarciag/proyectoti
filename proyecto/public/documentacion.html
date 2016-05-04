@@ -3,7 +3,7 @@
  <!DOCTYPE html>
 <html>
 <head>
-<title>Documentacion API</title>
+<title>Documentaci&oacute;n API</title>
 </head>
 <body>
 
@@ -11,44 +11,50 @@
 <p>Retorna el id del grupo</p>
 <p>- URL: integra1.ing.puc.cl/api/ids/grupo</p>
 <p>- M&eacute;todo: GET</p>
-<p>- Retorno: {id:string}</p>
+<p>- Retorno: {&quot;id&quot;:string}</p>
 
 <h3>Funci&oacute;n: Entregar id Almacen</h3>
 <p>Retorna el id del grupo</p>
 <p>- URL: integra1.ing.puc.cl/api/ids/almacenId</p>
 <p>- M&eacute;todo: GET</p>
-<p>- Retorno: {id:string}</p>
+<p>- Retorno: {&quot;id&quot;:string}</p>
 
 <h3>Funci&oacute;n: Entregar id Banco</h3>
 <p>Retorna el id del banco</p>
 <p>- URL: integra1.ing.puc.cl/api/ids/banco</p>
 <p>- M&eacute;todo: GET</p>
-<p>- Retorno: {id:string}</p>
+<p>- Retorno: {&quot;id&quot;:string}</p>
 
-<h3>Funcion: Consultar Stock</h3>
+<h3>Funci&oacute;n: Consultar Stock</h3>
 <p>Esta funci&oacute;n tiene como objetivo consulta el stock de un producto en nuestra empresa,<br> recibe como parametro el sku de un producto y retorna un JSON<br> con su stock y su sku.</p>
 <p>- URL: integra1.ing.puc.cl/api/consultar/:sku</p>
 <p>- M&eacute;todo: GET</p>
 <p>- Retorno: {&quot;stock&quot;: integer, &quot;sku&quot;: integer}.</p>
 
-<h3>Funcion: Enviar orden de compra</h3>
+<h3>Funci&oacute;n: Enviar orden de compra</h3>
 <p>Esta funci&oacute;n tiene como objetivo el env&iacute;o de una orden de compra a nuestra empresa,<br> recibe como parametro el id de la orden de compra que desean enviarnos<br> y se retorna un JSON con nuestra respuesta a la orden de compra<br> y el id de la orden.</p>
 <p>URL: integra1.ing.puc.cl/api/oc/recibir/:idoc</p>
 <p>M&eacute;todo: GET</p>
 <p>Retorno: {&quot;aceptado&quot;: boolean, &quot;idoc&quot;:string}</p>
 
-<h3>Funcion: Enviar factura</h3>
+<h3>Funci&oacute;n: Enviar factura</h3>
 <p>Esta funci&oacute;n tiene como objetivo el enviar una factura a nuestra empresa,<br> recibe como para parametro el id de la factura y retorna un JSON con su validacion<br> de nuestra empresa, si es que la factura corresponde a lo que se desea comprar,<br> y el id de la factura.</p>
 <p>URL: integra1.ing.puc.cl/api/facturas/recibir/:idfactura</p>
 <p>M&eacute;todo: GET</p>
 <p>Retorno: {&quot;validado&quot;: boolean, &quot;idfactura&quot;: string}</p>
 
-<h3>Funcion: Enviar transacci&oacute;n</h3>
+<h3>Funci&oacute;n: Enviar transacci&oacute;n</h3>
 <p>Esta funci&oacute;n tiene como objetivo el enviar una transacci&oacute;n a nuestra empresa,<br> recibe como parametro el id de la transacci&oacute;n y el id de la factura que se desea pagar.<br> Retorna un JSON con la validaci&oacute;n de nuestra empresa, que el pago este bien hecho<br> y corresponda al monto pactado en la factura, y el id de la transacci&oacute;n.</p>
 <p>URL: integra1.ing.puc.cl/api/pagos/recibir/:idtrx/:idfactura</p>
 <p>M&eacute;todo: GET</p>
 <p>Retorno: {&quot;validado&quot;: boolean, &quot;idtrx&quot;: string}</p>
 
+
+<h3>Funci&oacute;n: Recibir despacho</h3>
+<p>Un cliente la llama cuando realiza un despacho a nuestra empresa<br> y env&iacute;a como parametro el id de la factura, para confirmar que el despacho est&aacute; recibido</p>
+<p>URL: integra1.ing.puc.cl/api/despachos/recibir/:idfactura</p>
+<p>M&eacute;todo: GET</p>
+<p>Retorno: {&quot;validado&quot;: boolean} </p>
 </body>
 </html> 
 
