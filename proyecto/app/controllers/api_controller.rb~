@@ -5,30 +5,27 @@ require 'rubygems'
 require 'base64'
 require 'cgi'
 require 'hmac-sha1'
+
+
+
   def consultarStock
+    ## Recibe el parametro del sku a consultar
     skuIngresado = params[:sku]
+    ## Consultamos nuestra base de datos y calculamos el stock disponible para compra
     cantidadRetorno = ((Inventario.find_by sku: skuIngresado).cantidadBodega).to_i - ((Inventario.find_by sku: skuIngresado).cantidadVendida).to_i
-  
-    # retorna un json con la informacion
-    render json: {
-      cantidad: cantidadRetorno,
-      sku: skuIngresado
+    ## Retornamos el JSON con el stock
+      render json: {
+    cantidad: cantidadRetorno,
+    sku: skuIngresado
     }
   end
 
   def recibirOC
+    ## seteamos la respuesta del estado como falsa
       estadoOC = false
+    ## leemos el parametro que ingreso el cliente
       idOrden = params[:idoc]
-############################# DEBE RESERVAR EL STOCK QUE SE ACEPTA #######################################################################################    
-
-      ## falta aplicar el modelo de negocios
-      ## leemos la orden de compra que esta en un arreglo con un json
-      ##ordenDeCompra = (RestClient.get 'http://mare.ing.puc.cl/oc/obtener/'+idocIngresada)
-
-      ##puts ordenDeCompra
-      ##puts ordenDeCompra
-      ## hay que ver que no sea invalido 
-      #dOrden = params[:idOrden]
+    ## 
       orden = RestClient.get 'http://mare.ing.puc.cl/oc/obtener/' +idOrden 
       ordenParseada = JSON.parse orden
       @probando = ordenParseada.length
@@ -55,7 +52,12 @@ require 'hmac-sha1'
         anulacion = ""
         idFactura = ""
         Orden.create(idOrden:id, fechaCreacion:fechaCreacion, canal:canal, cliente:cliente, sku:sku, cantidad:cantidad, despachada:despachada, precioUnitario:precioUnitario, fechaEntrega:fechaEntrega, estado:estado, rechazo:rechazo, anulacion:anulacion, idFactura:idFactura)
+      
       end
+
+
+############################# DEBE RESERVAR EL STOCK QUE SE ACEPTA #######################################################################################    
+
         ##signature[i] = 'GET' + idBodega
         ##hmac.update(signature[i])
         ##clave[i] = Base64.encode64("#{hmac.digest}")
@@ -82,8 +84,15 @@ require 'hmac-sha1'
       aceptado: estadoOC,
       idoc: idOrden
     }
+
+
+    ################ DEBERIA HACER SLEEP PARA QUE LA FACTURA NO LLEGUE ANTES DE QUE EL CLIENTE PROCESO LA ORDEN DE COMPRA ####################################
+    #Makes the request pause 1.5 seconds
+    #sleep 1.5
+
     if estadoOC
       #Creamos la factura
+      begin
       factura = RestClient.put 'http://mare.ing.puc.cl/facturas/', {:oc => idOrden}.to_json, :content_type => 'application/json'
       facturaParseada = JSON.parse factura
       idFactura = facturaParseada["_id"]
@@ -93,10 +102,15 @@ require 'hmac-sha1'
       if respuestaParseada[0]["validado"]
         (Orden.find_by idOrden: idOrden).update(idFactura:idFactura)
       end
+      rescue
+      end
     
     end
 
   end
+
+
+
 
 
   def recibirFactura
@@ -124,6 +138,9 @@ require 'hmac-sha1'
     }
   end
 
+
+
+
   def recibirPago
       estadoPago = false
       ##montoCalza = false
@@ -145,17 +162,63 @@ require 'hmac-sha1'
 
       if(hashFactura[0]['total'].to_i ==hashTransaccion[0]['monto'].to_i)
         estadoPago = true
-        ##if()
+        (Orden.find_by idFactura:idFactura).update(estado: "LPD")
       
       else
         puts 'monto no calza'       
       end
+
+      ### REVISAR SI LA TRANSACCION NO SE REPITE
+      ### REVISAR QUIEN LA MANDA A TRAVES DE LA CUENTA DEL BANCO
 
 ##################################### falta realizar el proceso con la bodega para programar el despacho  ##########################################################################
 
         render json: {
       validado: estadoPago,
       trx: idPago
+    }
+
+
+      ## DESPACHAR INMEDIATAMENTE
+
+      ## AVISAR A API DEL CLIENTE QUE LA CARGA FUE DESPACHADA, CUANDO TERMINE
+
+  end
+
+
+
+  def recibirDespacho
+    despachoValido = false
+    facturaDespacho = params[:idfactura]
+    ## VER FACTURA Y LEER LOS PRODUCTOS
+    ## VER QUE HAYAMOS PROCESADO LA FACTURA
+    ## VER QUE EN EL ALMACEN DE RECEPCION TENGA LOS PRODUCTOS QUE NECESITO
+    ## RESPONDER A LA FACTURA
+        render json: {
+      validado: despachoValido
+    }
+    ## MODIFICAR LA BASE DE DATOS
+    ## MOVER LOS PRODUCTOS DE RECEPCION Y PULMON A DEMAS ALMACENES
+
+
+
+  end
+
+  def enviarGrupo
+        render json: {
+      id: "571262b8a980ba030058ab4f"
+    }
+  end 
+
+  def enviarBanco
+        render json: {
+      id: "571262c3a980ba030058ab5b"
+    }
+  end
+
+  def enviarAlmacen
+        render json: {
+      id: "571262aaa980ba030058a147"
     }
   end
 

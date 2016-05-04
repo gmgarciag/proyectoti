@@ -92,6 +92,7 @@ require 'hmac-sha1'
 
     if estadoOC
       #Creamos la factura
+      begin
       factura = RestClient.put 'http://mare.ing.puc.cl/facturas/', {:oc => idOrden}.to_json, :content_type => 'application/json'
       facturaParseada = JSON.parse factura
       idFactura = facturaParseada["_id"]
@@ -100,6 +101,8 @@ require 'hmac-sha1'
       respuestaParseada = JSON.parse respuesta
       if respuestaParseada[0]["validado"]
         (Orden.find_by idOrden: idOrden).update(idFactura:idFactura)
+      end
+      rescue
       end
     
     end
