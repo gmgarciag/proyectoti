@@ -90,22 +90,22 @@ require 'hmac-sha1'
     #Makes the request pause 1.5 seconds
     #sleep 1.5
 
-    if estadoOC
+    #if estadoOC
       #Creamos la factura
-      begin
-      factura = RestClient.put 'http://mare.ing.puc.cl/facturas/', {:oc => idOrden}.to_json, :content_type => 'application/json'
-      facturaParseada = JSON.parse factura
-      idFactura = facturaParseada["_id"]
-      numeroGrupo = (IdGrupo.find_by idGrupo: cliente).numeroGrupo
-      respuesta = RestClient.get 'http://integra'+numeroGrupo.to_s+'.ing.puc.cl/api/facturas/recibir/' + idFactura
-      respuestaParseada = JSON.parse respuesta
-      if respuestaParseada[0]["validado"]
-        (Orden.find_by idOrden: idOrden).update(idFactura:idFactura)
-      end
-      rescue
-      end
+     # begin
+     # factura = RestClient.put 'http://mare.ing.puc.cl/facturas/', {:oc => idOrden}.to_json, :content_type => 'application/json'
+      #facturaParseada = JSON.parse factura
+      #idFactura = facturaParseada["_id"]
+      #numeroGrupo = (IdGrupo.find_by idGrupo: cliente).numeroGrupo
+      #respuesta = RestClient.get 'http://integra'+numeroGrupo.to_s+'.ing.puc.cl/api/facturas/recibir/' + idFactura
+      #respuestaParseada = JSON.parse respuesta
+      #if respuestaParseada[0]["validado"]
+       # (Orden.find_by idOrden: idOrden).update(idFactura:idFactura)
+      #end
+      #rescue
+      #end
     
-    end
+    #end
 
   end
 
