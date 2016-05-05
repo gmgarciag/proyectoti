@@ -241,8 +241,8 @@ if celulosa < 800
   producir 45, idTrx, 800
 end
 if queso < 900
-  leche = (Inventario.find_by sku:'7').cantidadBodega).to_i
-  sueroDeLeche = (Inventario.find_by sku:'41').cantidadBodega).to_i
+  leche = ((Inventario.find_by sku:'7').cantidadBodega).to_i
+  sueroDeLeche = ((Inventario.find_by sku:'41').cantidadBodega).to_i
   if leche < 1000
     #Pedimos leche a otro grupo
   end
@@ -259,15 +259,15 @@ if queso < 900
 end
 end
 if vino < 1000
-  azucar = (Inventario.find_by sku:'25').cantidadBodega).to_i
-  uva = (Inventario.find_by sku:'39').cantidadBodega).to_i
+  azucar = ((Inventario.find_by sku:'25').cantidadBodega).to_i
+  uva = ((Inventario.find_by sku:'39').cantidadBodega).to_i
   if azucar < 1000
     #pedimos a otro grupo
   end
   if uva < 495
     #pedimos a otro grupo
   end
-  if azucar >= 1000 && uva >= 495
+  if azucar >= 1000 && uva >= 495 && levadura >= 570
     moverA_Despacho 25, 1000
     moverA_Despacho 39, 495
     transaccion = RestClient.put 'http://mare.ing.puc.cl/banco/trx', {:monto => 1921000, :origen => '571262c3a980ba030058ab5b', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'

@@ -241,8 +241,8 @@ if celulosa < 800
   producir 45, idTrx, 800
 end
 if queso < 900
-  leche = (Inventario.find_by sku:'7').cantidadBodega).to_i
-  sueroDeLeche = (Inventario.find_by sku:'41').cantidadBodega).to_i
+  leche = ((Inventario.find_by sku:'7').cantidadBodega).to_i
+  sueroDeLeche = ((Inventario.find_by sku:'41').cantidadBodega).to_i
   if leche < 1000
     #Pedimos leche a otro grupo
   end
@@ -259,8 +259,8 @@ if queso < 900
 end
 end
 if vino < 1000
-  azucar = (Inventario.find_by sku:'25').cantidadBodega).to_i
-  uva = (Inventario.find_by sku:'39').cantidadBodega).to_i
+  azucar = ((Inventario.find_by sku:'25').cantidadBodega).to_i
+  uva = ((Inventario.find_by sku:'39').cantidadBodega).to_i
   if azucar < 1000
     #pedimos a otro grupo
   end
@@ -276,4 +276,5 @@ if vino < 1000
     producir 47, idTrx, 1000
   end
 end   
+end
 end
