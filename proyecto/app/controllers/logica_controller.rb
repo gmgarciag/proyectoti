@@ -267,7 +267,7 @@ if vino < 1000
   if uva < 495
     #pedimos a otro grupo
   end
-  if azucar >= 1000 && uva >= 495
+  if azucar >= 1000 && uva >= 495 && levadura >= 570
     moverA_Despacho 25, 1000
     moverA_Despacho 39, 495
     transaccion = RestClient.put 'http://mare.ing.puc.cl/banco/trx', {:monto => 1921000, :origen => '571262c3a980ba030058ab5b', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
