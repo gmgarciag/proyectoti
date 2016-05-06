@@ -269,6 +269,7 @@ if vino < 1000
   end
   if azucar >= 1000 && uva >= 495 && levadura >= 570
     moverA_Despacho 25, 1000
+    moverA_Despacho 27, 570
     moverA_Despacho 39, 495
     transaccion = RestClient.put 'http://mare.ing.puc.cl/banco/trx', {:monto => 1921000, :origen => '571262c3a980ba030058ab5b', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
     transaccionParseada = JSON.parse transaccion
@@ -276,5 +277,48 @@ if vino < 1000
     producir 47, idTrx, 1000
   end
 end   
+end
+def revisarRecepcion
+  idRecepcion = (Almacen.find_by recepcion:true).almacenId
+  almacenesIntermedios = (Almacen.where(recepcion:false)).where(pulmon:false).where(depacho:false)
+  key = 'W0B@c0w9.xqo1nQ'
+  hmac = HMAC::SHA1.new(key)
+  signature = 'GET' + idRecepcion
+  hmac.update(signature)
+  clave = Base64.encode64("#{hmac.digest}")
+  temp = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/skusWithStock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => idRecepcion}}
+  productos = JSON.parse temp
+  i = 0
+  while productos[i].nil? == false do
+    sku = Integer(productos[i]["_id"])
+    cantidad = Integer(productos[i]["total"])
+    signature = 'GET' + idRecepcion + sku.to_s
+    hmac.update(signature)
+    clave = Base64.encode64("#{hmac.digest}")
+    stock = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/stock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => idRecepcion, :sku => sku}}
+    stockParseado = JSON.parse stock
+    j = 0
+    while j < almacenesIntermedios.length
+      espacio = (almacenesIntermedios[j].espacioTotal).to_i - (almacenesIntermedios[j].espacioUtilizado).to_i
+      if espacio >= cantidad
+        k = 0
+        almacenId = almacenesIntermedios[j].almacenId
+        while stockParseado[k].nil? == false do
+          idProducto = stockParseado[k]["_id"]
+          key = 'W0B@c0w9.xqo1nQ'
+          hmac = HMAC::SHA1.new(key)
+          signature = 'POST' + idProducto + almacenId
+          hmac.update(signature)
+          clave = Base64.encode64("#{hmac.digest}")
+          RestClient.post  'http://integracion-2016-dev.herokuapp.com/bodega/moveStock', {:productoId => idProducto, :almacenId => almacenId}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
+          k += 1
+        end
+      end
+    j += 1
+    end
+    i+=1
+  end
+  
+
 end
 end
