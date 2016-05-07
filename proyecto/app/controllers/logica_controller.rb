@@ -194,89 +194,90 @@ def actualizarInventario
             end
           cantidad -= k
           end
-        else
-          necesario = cantidad - total
-          restante = cantidad - total
-          while total > 0
-          #Despachamos lo que teniamos en despacho
-          key = 'W0B@c0w9.xqo1nQ'
-          hmac = HMAC::SHA1.new(key)
-          signature = 'GET' + idDespacho + sku.to_s
-          hmac.update(signature)
-          clave = Base64.encode64("#{hmac.digest}")
-          stock = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/stock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => idDespacho, :sku => sku, :limit => total}}
-          stockParseado = JSON.parse stock
-          puts stockParseado.length
-          k = 0
-          while k < stockParseado.length
-            idProducto = stockParseado[k]["_id"]
-            direccion = 'internacional'
-            orden = RestClient.get 'http://mare.ing.puc.cl/oc/obtener/' + oc
-            ordenParseada = JSON.parse orden
-            precio = ordenParseada[0]["precioUnitario"]
-            key = 'W0B@c0w9.xqo1nQ'
-            hmac = HMAC::SHA1.new(key)
-            signature = 'DELETE' + idProducto + direccion + precio.to_s + oc
-            hmac.update(signature)
-            clave = Base64.encode64("#{hmac.digest}")
-            RestClient::Request.execute(method: :delete, url: 'http://integracion-2016-dev.herokuapp.com/bodega/stock', payload: {:productoId => idProducto, :direccion => direccion, :precio => precio, :oc => oc}, headers: {Authorization: 'INTEGRACION grupo1:'+clave})
-            k += 1
+            else
+                necesario = cantidad - total
+                restante = cantidad - total
+                while total > 0
+                #Despachamos lo que teniamos en despacho
+                key = 'W0B@c0w9.xqo1nQ'
+                hmac = HMAC::SHA1.new(key)
+                signature = 'GET' + idDespacho + sku.to_s
+                hmac.update(signature)
+                clave = Base64.encode64("#{hmac.digest}")
+                stock = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/stock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => idDespacho, :sku => sku, :limit => total}}
+                stockParseado = JSON.parse stock
+                puts stockParseado.length
+                k = 0
+                while k < stockParseado.length
+                  idProducto = stockParseado[k]["_id"]
+                  direccion = 'internacional'
+                  orden = RestClient.get 'http://mare.ing.puc.cl/oc/obtener/' + oc
+                  ordenParseada = JSON.parse orden
+                  precio = ordenParseada[0]["precioUnitario"]
+                  key = 'W0B@c0w9.xqo1nQ'
+                  hmac = HMAC::SHA1.new(key)
+                  signature = 'DELETE' + idProducto + direccion + precio.to_s + oc
+                  hmac.update(signature)
+                  clave = Base64.encode64("#{hmac.digest}")
+                  RestClient::Request.execute(method: :delete, url: 'http://integracion-2016-dev.herokuapp.com/bodega/stock', payload: {:productoId => idProducto, :direccion => direccion, :precio => precio, :oc => oc}, headers: {Authorization: 'INTEGRACION grupo1:'+clave})
+                  k += 1
+                  end
+                total -= k
+                end
+                #@necesario = necesario
+              end
+            else
+               #necesario = cantidad
+               #restante = cantidad
             end
-          total -= k
+            i += 1
           end
-          #@necesario = necesario
-        end
-      else
-         necesario = cantidad
-         restante = cantidad
-      end
-      i += 1
-    end
-    while necesario > 0 do
-      i = Almacen.first.id
-      #recorremos los almacenes buscando el producto
-      nAlmacenes = Almacen.last.id
-      while i <= nAlmacenes 
-        id = Almacen.find(i).almacenId
-        key = 'W0B@c0w9.xqo1nQ'
-        hmac = HMAC::SHA1.new(key)
-        signature = 'GET' + id
-        hmac.update(signature)
-        clave = Base64.encode64("#{hmac.digest}")
-        temp = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/skusWithStock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => id}}
-        contenido = JSON.parse temp
-        j=0
-        while contenido[j].nil? == false do
-          sku_ = Integer(contenido[j]["_id"])
-          total = Integer(contenido[j]["total"])
-          if sku_ == sku && id != idDespacho
-            #Encontramos el producto
-            signature = 'GET' + id.to_s + sku_.to_s
-            hmac.update(signature)
-            clave = Base64.encode64("#{hmac.digest}")
-            if necesario != 0
-            temp = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/stock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => id, :sku => sku_, :limit => necesario}}
-            productos = JSON.parse temp
-            @productos = productos
-            puts productos
-            k = 0
-            while k < productos.length
-             idProducto = productos[k]["_id"]
-             key = 'W0B@c0w9.xqo1nQ'
-             hmac = HMAC::SHA1.new(key)
-             signature = 'POST' + idProducto + idDespacho
-             hmac.update(signature)
-             clave = Base64.encode64("#{hmac.digest}")
-             RestClient.post  'http://integracion-2016-dev.herokuapp.com/bodega/moveStock', {:productoId => idProducto, :almacenId => idDespacho}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
-            k += 1
-            end
-            necesario -= k
+          while necesario > 0 do
+            i = Almacen.first.id
+            #recorremos los almacenes buscando el producto
+            nAlmacenes = Almacen.last.id
+            while i <= nAlmacenes 
+              id = Almacen.find(i).almacenId
+              key = 'W0B@c0w9.xqo1nQ'
+              hmac = HMAC::SHA1.new(key)
+              signature = 'GET' + id
+              hmac.update(signature)
+              clave = Base64.encode64("#{hmac.digest}")
+              temp = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/skusWithStock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => id}}
+              contenido = JSON.parse temp
+              j=0
+              while contenido[j].nil? == false do
+                sku_ = Integer(contenido[j]["_id"])
+                total = Integer(contenido[j]["total"])
+                if sku_ == sku && id != idDespacho
+                  #Encontramos el producto
+                  signature = 'GET' + id.to_s + sku_.to_s
+                  hmac.update(signature)
+                  clave = Base64.encode64("#{hmac.digest}")
+                  if necesario != 0
+                  puts necesario
+                  temp = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/stock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => id, :sku => sku_, :limit => necesario}}
+                  productos = JSON.parse temp
+                  @productos = productos
+                  puts productos
+                  k = 0
+                  while k < productos.length
+                   idProducto = productos[k]["_id"]
+                   key = 'W0B@c0w9.xqo1nQ'
+                   hmac = HMAC::SHA1.new(key)
+                   signature = 'POST' + idProducto + idDespacho
+                   hmac.update(signature)
+                   clave = Base64.encode64("#{hmac.digest}")
+                   RestClient.post  'http://integracion-2016-dev.herokuapp.com/bodega/moveStock', {:productoId => idProducto, :almacenId => idDespacho}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
+                  k += 1
+                  end
+                  necesario -= k
+                  end  
+                end
+                j += 1
+              end
+              i += 1
             end  
-          end
-          j += 1
-        end
-        i += 1
-      end  
     end
   #Enviamos lo restante
    while restante > 0
@@ -463,6 +464,7 @@ def actualizarInventario
    end
       
    end
+
   end
 
 =begin
@@ -602,6 +604,7 @@ def despachar# sku, cantidad, cliente
   i += 1
   end
 end
+=begin
 def llenarOrden
   ordens = OrdenCompra.all
   ordens.each do |orden|
@@ -678,4 +681,5 @@ def contestarOrdenServidor
   end
   
 end
+=end
 end

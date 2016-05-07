@@ -48,6 +48,7 @@ namespace :requests do
 	    f.gets
 	    @id=f.gets.gsub('<id>', '')
 	    @id=@id.gsub('</id>', '')
+	    @id=@id.gsub(' ', '')
 	    @sku=f.gets.gsub('<sku>', '')
 	    @sku=@sku.gsub('</sku>', '').to_i
 	    @qty=f.gets.gsub('<qty>', '')
@@ -256,5 +257,31 @@ namespace :requests do
 
   end
 
+  desc "TODO"
+  task llenarOrden: :environment do
 
+  	puts "Cron Llenar Orden #{Time.now}"
+
+	  ordens = OrdenCompra.all
+	  ordens.each do |orden|
+	  idOrden = orden.idOC
+	  temp = RestClient.get 'http://mare.ing.puc.cl/oc/obtener/' +idOrden.strip 
+	  ordenParseada = JSON.parse temp
+	  id = ordenParseada[0]["_id"]
+	  fechaCreacion = ordenParseada[0]["created_at"]
+	  canal = ordenParseada[0]["canal"]
+	  cliente = ordenParseada[0]["cliente"]
+	  sku = ordenParseada[0]["sku"]
+	  cantidad = ordenParseada[0]["cantidad"]
+	  despachada = 0
+	  precioUnitario = ordenParseada[0]["precioUnitario"]
+	  fechaEntrega = ordenParseada[0]["fechaEntrega"]
+	  estado = ordenParseada[0]["estado"]
+	  rechazo =""
+	  anulacion = ""
+	  idFactura = ""
+	  Orden.create(idOrden:id, fechaCreacion:fechaCreacion, canal:canal, cliente:cliente, sku:sku, cantidad:cantidad, despachada:despachada, precioUnitario:precioUnitario, fechaEntrega:fechaEntrega, estado:estado, rechazo:rechazo, anulacion:anulacion, idFactura:idFactura) 
+end
+
+end
 end
