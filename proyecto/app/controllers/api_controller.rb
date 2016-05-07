@@ -32,34 +32,41 @@ require 'hmac-sha1'
       estadoOC = false
     ## leemos el parametro que ingreso el cliente
       idOrden = params[:idoc]
+
+      status = 200
     ## 
-      orden = RestClient.get 'http://mare.ing.puc.cl/oc/obtener/' +idOrden 
-      ordenParseada = JSON.parse orden
-      @probando = ordenParseada.length
-      sku = Integer(ordenParseada[0]["sku"])
-      cantidad = Integer(ordenParseada[0]["cantidad"])
-      inventario = Inventario.find_by sku: sku
-      if inventario == nil
-      elsif cantidad > Integer(inventario.cantidadBodega) - Integer(inventario.cantidadVendida)
+      begin
+        orden = RestClient.get 'http://mare.ing.puc.cl/oc/obtener/' +idOrden 
+        ordenParseada = JSON.parse orden
+        @probando = ordenParseada.length
+        sku = Integer(ordenParseada[0]["sku"])
+        cantidad = Integer(ordenParseada[0]["cantidad"])
+        inventario = Inventario.find_by sku: sku
+        if inventario == nil
+        elsif cantidad > Integer(inventario.cantidadBodega) - Integer(inventario.cantidadVendida)
+          estadoOC = false
+        else
+          estadoOC = true
+          #Guardamos la OC en nuestra base de datos
+          id = ordenParseada[0]["_id"]
+          fechaCreacion = ordenParseada[0]["created_at"]
+          canal = ordenParseada[0]["canal"]
+          cliente = ordenParseada[0]["cliente"]
+          sku = ordenParseada[0]["sku"]
+          cantidad = ordenParseada[0]["cantidad"]
+          despachada = 0
+          precioUnitario = ordenParseada[0]["precioUnitario"]
+          fechaEntrega = ordenParseada[0]["fechaEntrega"]
+          estado = "aceptada"
+          rechazo =""
+          anulacion = ""
+          idFactura = ""
+          Orden.create(idOrden:id, fechaCreacion:fechaCreacion, canal:canal, cliente:cliente, sku:sku, cantidad:cantidad, despachada:despachada, precioUnitario:precioUnitario, fechaEntrega:fechaEntrega, estado:estado, rechazo:rechazo, anulacion:anulacion, idFactura:idFactura)
+        
+        end
+      rescue
         estadoOC = false
-      else
-        estadoOC = true
-        #Guardamos la OC en nuestra base de datos
-        id = ordenParseada[0]["_id"]
-        fechaCreacion = ordenParseada[0]["created_at"]
-        canal = ordenParseada[0]["canal"]
-        cliente = ordenParseada[0]["cliente"]
-        sku = ordenParseada[0]["sku"]
-        cantidad = ordenParseada[0]["cantidad"]
-        despachada = 0
-        precioUnitario = ordenParseada[0]["precioUnitario"]
-        fechaEntrega = ordenParseada[0]["fechaEntrega"]
-        estado = "aceptada"
-        rechazo =""
-        anulacion = ""
-        idFactura = ""
-        Orden.create(idOrden:id, fechaCreacion:fechaCreacion, canal:canal, cliente:cliente, sku:sku, cantidad:cantidad, despachada:despachada, precioUnitario:precioUnitario, fechaEntrega:fechaEntrega, estado:estado, rechazo:rechazo, anulacion:anulacion, idFactura:idFactura)
-      
+        status = 500
       end
 
 
@@ -82,37 +89,46 @@ require 'hmac-sha1'
       ## si decido aceptarla, hacer todos los tramites! 
       ## generar la factura y mandarla
       ## ponerla como pendiente en alguna bd y revisar constantemente estado
+      Thread.new do
+        ################ DEBERIA HACER SLEEP PARA QUE LA FACTURA NO LLEGUE ANTES DE QUE EL CLIENTE PROCESO LA ORDEN DE COMPRA ####################################
+        #Makes the request pause 1.5 seconds
+        #sleep 1.5
 
+        if estadoOC
+          #Creamos la factura
+          begin
+          factura = RestClient.put 'http://mare.ing.puc.cl/facturas/', {:oc => idOrden}.to_json, :content_type => 'application/json'
+          facturaParseada = JSON.parse factura
+          idFactura = facturaParseada["_id"]
+          numeroGrupo = (IdGrupo.find_by idGrupo: cliente).numeroGrupo
+          respuesta = RestClient.get 'localhost:3000/api/facturas/recibir/' + idFactura
+          puts idFactura
+          puts respuesta
+          puts "Se ha mandado la factura"
+          ##respuesta = RestClient.get 'http://integra'+numeroGrupo.to_s+'.ing.puc.cl/api/facturas/recibir/' + idFactura
+          respuestaParseada = JSON.parse respuesta
+          puts respuestaParseada
+          if respuestaParseada["validado"]
+            puts "primera parte del if"
+           (Orden.find_by idOrden: idOrden).update(idFactura:idFactura)
+            puts "Se ha validado todo y este es el fin"
+          else
+            puts "no entro al if"
+          end
+          rescue
+            puts "lo rescato"
+          end
+        
+        end
+      end
 
 
       ## falta aplicar el modelo de negocios
 
-      render json: {
+      render :status => status, json: {
       aceptado: estadoOC,
-      idoc: idOrden
-    }
-
-
-    ################ DEBERIA HACER SLEEP PARA QUE LA FACTURA NO LLEGUE ANTES DE QUE EL CLIENTE PROCESO LA ORDEN DE COMPRA ####################################
-    #Makes the request pause 1.5 seconds
-    #sleep 1.5
-
-    #if estadoOC
-      #Creamos la factura
-     # begin
-     # factura = RestClient.put 'http://mare.ing.puc.cl/facturas/', {:oc => idOrden}.to_json, :content_type => 'application/json'
-      #facturaParseada = JSON.parse factura
-      #idFactura = facturaParseada["_id"]
-      #numeroGrupo = (IdGrupo.find_by idGrupo: cliente).numeroGrupo
-      #respuesta = RestClient.get 'http://integra'+numeroGrupo.to_s+'.ing.puc.cl/api/facturas/recibir/' + idFactura
-      #respuestaParseada = JSON.parse respuesta
-      #if respuestaParseada[0]["validado"]
-       # (Orden.find_by idOrden: idOrden).update(idFactura:idFactura)
-      #end
-      #rescue
-      #end
-    
-    #end
+      idoc: idOrden, 
+      }
 
   end
 
@@ -121,6 +137,9 @@ require 'hmac-sha1'
 
 
   def recibirFactura
+    status = 200
+    begin
+      puts "Ha llegado factura!"
       estadoFactura = false
       idFactura = params[:idfactura]
       puts idFactura
@@ -132,14 +151,19 @@ require 'hmac-sha1'
       ordenCompra = RestClient.get 'http://mare.ing.puc.cl/oc/obtener/'+ hashFactura[0]['oc'] ##,{:Content_Type => 'application/json'}
       hashOrdenCompra = JSON.parse ordenCompra
        ## Revisamos que los pagos calcen
+       puts "Todo en orden hasta ahora"
        if  hashFactura[0]['total'] == (hashOrdenCompra[0]['cantidad']*hashOrdenCompra[0]['precioUnitario'])
         estadoFactura = true
+        puts "Mandamos un True"
        end
+    rescue
+      status = 500
+    end
 
 ###################################LLAMAR AL METODO DE PAGO!!#################################################################################
 
 
-          render json: {
+      render :status => status, json: {
       validado: estadoFactura,
       factura: idFactura
     }
@@ -149,7 +173,9 @@ require 'hmac-sha1'
 
 
   def recibirPago
-      estadoPago = false
+    status = 200
+    estadoPago = false
+    begin
       ##montoCalza = false
       idPago = params[:idtrx]
       idFactura = params[:idfactura]
@@ -174,13 +200,16 @@ require 'hmac-sha1'
       else
         puts 'monto no calza'       
       end
+    rescue
+      status = 500
+    end
 
       ### REVISAR SI LA TRANSACCION NO SE REPITE
       ### REVISAR QUIEN LA MANDA A TRAVES DE LA CUENTA DEL BANCO
 
 ##################################### falta realizar el proceso con la bodega para programar el despacho  ##########################################################################
 
-        render json: {
+      render :status => status, json: {
       validado: estadoPago,
       trx: idPago
     }
@@ -195,13 +224,21 @@ require 'hmac-sha1'
 
 
   def recibirDespacho
-    despachoValido = false
-    facturaDespacho = params[:idfactura]
-    ## VER FACTURA Y LEER LOS PRODUCTOS
-    ## VER QUE HAYAMOS PROCESADO LA FACTURA
-    ## VER QUE EN EL ALMACEN DE RECEPCION TENGA LOS PRODUCTOS QUE NECESITO
-    ## RESPONDER A LA FACTURA
-        render json: {
+    status = 200
+    begin
+      despachoValido = true
+      facturaDespacho = params[:idfactura]
+      ## VER FACTURA Y LEER LOS PRODUCTOS
+      factura = RestClient.get 'http://mare.ing.puc.cl/facturas/'+facturaDespacho ##,{:Content_Type => 'application/json'}
+      hashFactura = JSON.parse factura
+      ## VER QUE HAYAMOS PROCESADO LA FACTURA
+      ## VER QUE EN EL ALMACEN DE RECEPCION TENGA LOS PRODUCTOS QUE NECESITO
+      ## RESPONDER A LA FACTURA
+    rescue
+      status = 500
+    end
+
+      render :status => status, json: {
       validado: despachoValido
     }
     ## MODIFICAR LA BASE DE DATOS
