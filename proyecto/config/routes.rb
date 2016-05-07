@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
   get 'api/facturas/recibir/:idfactura' => 'api#recibirFactura'
 
-  get 'api/pagos/recibir/:idtrx/:idfactura' => 'api#recibirPago'
+  get 'api/pagos/recibir/:idtrx' => 'api#recibirPago'
 
   get 'api/despachos/recibir/:idfactura' => 'api#recibirDespacho'
 
