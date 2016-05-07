@@ -29,3 +29,6 @@ idGrupos = IdGrupo.create([{numeroGrupo:'1' ,idGrupo:'571262b8a980ba030058ab4f',
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+Orden.create(idOrden: 2)
+Orden.create(idOrden: 3)
+
