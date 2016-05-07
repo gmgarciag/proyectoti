@@ -28,10 +28,6 @@ require 'net/sftp'
 
   def index
 
-    
-    obtenerOC
-    obtenerOCcompletas
-    #comprar(40,10)
   end
 
   def comprar(_sku,cantidad)
@@ -50,72 +46,6 @@ require 'net/sftp'
     end
 
  end
-def obtenerOC
 
-Net::SFTP.start('mare.ing.puc.cl', 'integra1', :password => 'DhY9uFaU') do |sftp|
-  r=sftp.dir.foreach("./pedidos") do |entry|
-    puts entry.name
-    #busca si el archivo ya existia en las ordenes de compra y lo mete a la base de datos
-    begin
-    if ((Xml.find_by nombreArchivo: entry.name).nombreArchivo == nil && (entry.name!= '.' && entry.name!= '..'))
-          Xml.create(nombreArchivo: entry.name)
-    end 
-    rescue
-      if(entry.name != '.' && entry.name!= '..')
-      Xml.create(nombreArchivo: entry.name)
-    end
-    end
-
-
-    #a=r.file.open("./"+entry.name, "r") #do |f|
-    #puts a.gets
-  #end
-  end
-end
-
-end
-
-def obtenerOCcompletas
-
-
-
-  Net::SFTP.start('mare.ing.puc.cl', 'integra1', :password => 'DhY9uFaU') do |sftp|
-
-    i=Xml.first.id
-  totalArchivos = Xml.last.id
-  while i<=totalArchivos
-    nombre = Xml.find(i).nombreArchivo
-
-  sftp.file.open("./pedidos/"+nombre, "r") do |f|
-    f.gets
-    f.gets
-    @id=f.gets.tr('<id>', '')
-    @id=@id.tr('</id>+', '')
-    @sku=f.gets.tr('<sku>', '')
-    @sku=@sku.tr('</sku>', '').to_i
-    @qty=f.gets.tr('<qty>', '')
-    @qty=@qty.tr('</qty>', '').to_i
-
-    begin
-    if (OrdenCompra.find_by idOC: @id) == nil
-    OrdenCompra.create(idOC: @id, sku: @sku, cantidad: @qty)
-    end 
-    rescue 
-    OrdenCompra.create(idOC: @id, sku: @sku, cantidad: @qty)  
-    end
-  end
-    #@numeroOrden = OrdenCompra.find_by(id:14).idOC
-
-    i=i+1
-  #Xml.all(:select => "idOC").each do |x|  
-
-    end
-  end
-
-
-  
-
-
-  end
 
 end

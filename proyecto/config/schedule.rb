@@ -36,4 +36,8 @@ end
 every 2.minute do
 	rake "requests:actualizarInventario"
 end
+
+every 3.minute do
+	rake "requests:revisarStock"
+end
 # Learn more: http://github.com/javan/whenever

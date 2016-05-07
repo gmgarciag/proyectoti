@@ -212,6 +212,8 @@ def actualizarInventario
       end  
     end 
   end
+
+=begin
 def producir sku, idTrx, cantidad
   #sku = params[:sku]
   #idTrx = params[:trx]
@@ -223,6 +225,7 @@ def producir sku, idTrx, cantidad
   clave = Base64.encode64("#{hmac.digest}")
   RestClient.put 'http://integracion-2016-dev.herokuapp.com/bodega/fabrica/fabricar', {:sku => sku, :trxId => idTrx, :cantidad => cantidad}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'    
 end
+
 def revisarStock
 semola = ((Inventario.find_by sku:'19').cantidadBodega).to_i - ((Inventario.find_by sku:'19').cantidadVendida).to_i
 levadura = ((Inventario.find_by sku:'27').cantidadBodega).to_i - ((Inventario.find_by sku:'27').cantidadVendida).to_i
@@ -285,6 +288,8 @@ if vino < 1000
   end
 end   
 end
+
+=end
 def revisarRecepcion
   idRecepcion = (Almacen.find_by recepcion:true).almacenId
   almacenesIntermedios = (Almacen.where(recepcion:false)).where(pulmon:false).where(depacho:false)
