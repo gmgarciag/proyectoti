@@ -27,5 +27,9 @@ every 3.minute do
 	rake "requests:llenarOrden"
 end
 
+every 1.hour do
+	rake "requests:despachar"
+end
+
 
 # Learn more: http://github.com/javan/whenever

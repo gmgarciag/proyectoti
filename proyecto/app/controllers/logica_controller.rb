@@ -130,7 +130,7 @@ def actualizarInventario
     (Inventario.find_by sku:47).update(cantidadBodega:@vino)
   end
 =end
-
+=begin
   def moverA_Despacho #oc
     #sku = Integer(params[:sku])
     #cantidad = Integer(params[:cantidad])
@@ -466,6 +466,8 @@ def actualizarInventario
    end
 
   end
+
+=end
 
 =begin
 def producir sku, idTrx, cantidad
