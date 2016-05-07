@@ -29,6 +29,7 @@ end
   def index
     #OBTENER LOS ALMACENES
 
+=begin
 def obtenerOC
 
 Net::SFTP.start('mare.ing.puc.cl', 'integra1', :password => 'DhY9uFaU') do |sftp|
@@ -92,10 +93,11 @@ def obtenerOCcompletas
 
   end
 
+=end
 
   #obtenerOC
-    obtenerOCcompletas
-    comprar(40,10)
+   # obtenerOCcompletas
+    #comprar(40,10)
 
     key = 'W0B@c0w9.xqo1nQ'
     signature = 'GET'
