@@ -73,6 +73,11 @@ ActiveRecord::Schema.define(version: 20160507091422) do
   end
 
   create_table "idgrupo_produccions", force: :cascade do |t|
+
+    t.integer  "numeroGrupo"
+    t.string   "idGrupo"
+    t.string   "idBanco"
+    t.string   "idBodegaRecepcion"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

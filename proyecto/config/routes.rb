@@ -42,11 +42,13 @@ Rails.application.routes.draw do
   #   get 'products/:id' => 'catalog#view'
   get 'logica/:idOrden' => 'logica#contestar'
   get 'actualizarInventario' => 'logica#actualizarInventario'
-  get 'moverParaDespachar/:sku/:cantidad' => 'logica#moverA_Despacho'
+  get 'moverParaDespachar/:oc' => 'logica#moverA_Despacho'
   get 'producir/:sku/:trx/:cantidad' => 'logica#producir'
   get 'revisarStock' => 'logica#revisarStock'
   get 'revisarRecepcion' => 'logica#revisarRecepcion'
   get 'despachar/:sku/:cantidad/:cliente' => 'logica#despachar'
+  get 'llenarOrden' => 'logica#llenarOrden'
+  get 'contestarOrdenServidor' => 'logica#contestarOrdenServidor'
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
