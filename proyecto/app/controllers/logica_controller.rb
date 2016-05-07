@@ -24,7 +24,7 @@ def contestar
 end
 
 
-
+=begin
 def actualizarInventario
   #OBTENER LOS ALMACENES
     key = 'W0B@c0w9.xqo1nQ'
@@ -110,7 +110,7 @@ def actualizarInventario
     (Inventario.find_by sku:45).update(cantidadBodega:@celulosa, cantidadVendida:0)
     (Inventario.find_by sku:47).update(cantidadBodega:@vino, cantidadVendida:0)
   end
-
+=end
 
   def moverA_Despacho
     sku = Integer(params[:sku])
