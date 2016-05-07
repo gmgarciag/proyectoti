@@ -4,7 +4,7 @@ require 'rubygems'
 require 'base64'
 require 'cgi'
 require 'hmac-sha1'
-
+require "resolv-replace.rb"
 
 
 def contestar
@@ -131,9 +131,9 @@ def actualizarInventario
   end
 
 
-  def moverA_Despacho sku, cantidad
-    #sku = Integer(params[:sku])
-    #cantidad = Integer(params[:cantidad])
+  def moverA_Despacho #sku, cantidad
+    sku = Integer(params[:sku])
+    cantidad = Integer(params[:cantidad])
     idDespacho = (Almacen.find_by depacho:true).almacenId
     @id = idDespacho
     #Vemos si tenemos lo suficiente en el almacén de despacho
@@ -155,6 +155,8 @@ def actualizarInventario
           #Despachamos ya que tenemos lo pedido en el almacen
         else
           necesario = cantidad - total
+          RestClient::Request.execute(method: :delete, url: 'http://integracion-2016-dev.herokuapp.com/bodega/stock', payload: {:productoId => "572bec06b5df620300b0ff01", :direccion => "internacional", :precio => 2168, :oc => "57128e450606410300c3fbe9"}, headers: {Authorization: 'INTEGRACION grupo1:3xSnVzPkFFo+omcq4zHqAGecYIo='})
+          #@necesario = necesario
         end
       else
          necesario = cantidad
@@ -196,6 +198,10 @@ def actualizarInventario
              clave = Base64.encode64("#{hmac.digest}")
              RestClient.post  'http://integracion-2016-dev.herokuapp.com/bodega/moveStock', {:productoId => idProducto, :almacenId => idDespacho}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
              necesario -= 1
+             if necesario == 0
+             break
+             end
+             puts necesario
             k += 1
             end  
           end
@@ -317,8 +323,25 @@ def revisarRecepcion
     j += 1
     end
     i+=1
+  end 
+end
+def despachar# sku, cantidad, cliente
+  sku = params[:sku]
+  cantidad = params[:cantidad].to_i
+  cliente = params[:cliente]
+  #sku = sku
+  #cantidad = cantidad
+  #cliente = cliente
+  veces = cantidad/200
+  i = 0
+  while i <= veces do
+  if i == veces
+    moverA_Despacho sku, cantidad - 200*veces 
   end
-  
-
+  #else
+   # moverA_Despacho sku, 200
+  #end
+  i += 1
+  end
 end
 end

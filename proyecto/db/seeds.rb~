@@ -4,7 +4,6 @@
 # Examples:
 #
 proveedor = Proveedor.create([{ materiaPrima: 'Leche',skuMateriaPrima: 7,skuProducto: 40 ,productoProcesar:'Queso',grupoProveedor: 12,cantidadRequerida: 1000,precio: 1307 },
-<<<<<<< HEAD
 								{ materiaPrima: 'Levadura',skuMateriaPrima: 27,skuProducto: 47,productoProcesar:'Vino',grupoProveedor: 1,cantidadRequerida: 570,precio: 1376 },
 								{ materiaPrima: 'Uva',skuMateriaPrima: 39,skuProducto: 47,productoProcesar:'Vino',grupoProveedor: 7,cantidadRequerida: 495,precio: 1217},
 								{ materiaPrima: 'Suero de Leche',skuMateriaPrima: 41,skuProducto: 40,productoProcesar:'Queso',grupoProveedor: 10,cantidadRequerida: 800,precio: 3148 },
@@ -22,112 +21,11 @@ costoProduccion = CostoProduccion.create([{skuProducto: 19,nombreProducto: 'Sém
 											{skuProducto: 45,nombreProducto: 'Celulosa',tipoProducto: 'Materia prima',costoProdUnitario: 1500,loteProduccion: 800,tiempoMedio: 0.759},
 											{skuProducto: 47,nombreProducto: 'Vino',tipoProducto: 'Producto procesado',costoProdUnitario: 1921,loteProduccion: 1000,tiempoMedio: 0.677}])
 
-#idGrupos = IdGrupos.create([{numeroGrupo:'' ,idGrupo:'',idBanco:'',idBodegaRecepcion:''},{},{},{},{},{},{},{},{},{},{},{}])
+idGrupos = IdGrupo.create([{numeroGrupo:'1' ,idGrupo:'571262b8a980ba030058ab4f',idBanco:'571262c3a980ba030058ab5b',idBodegaRecepcion:''},{numeroGrupo:'1' ,idGrupo:'571262b8a980ba030058ab4f',idBanco:'571262c3a980ba030058ab5b',idBodegaRecepcion:'571262aaa980ba030058a147'},	{numeroGrupo:'2' ,idGrupo:'571262b8a980ba030058ab50',idBanco:'571262c3a980ba030058ab5c',idBodegaRecepcion:'571262aaa980ba030058a14e'},{numeroGrupo:'3' ,idGrupo:'571262b8a980ba030058ab51',idBanco:'571262c3a980ba030058ab5d',idBodegaRecepcion:''},{numeroGrupo:'4' ,idGrupo:'571262b8a980ba030058ab52',idBanco:'571262c3a980ba030058ab5f',idBodegaRecepcion:''},{numeroGrupo:'5' ,idGrupo:'571262b8a980ba030058ab53',idBanco:'571262c3a980ba030058ab61',idBodegaRecepcion:''},{numeroGrupo:'6' ,idGrupo:'571262b8a980ba030058ab54',idBanco:'571262c3a980ba030058ab62',idBodegaRecepcion:''},{numeroGrupo:'7' ,idGrupo:'571262b8a980ba030058ab55',idBanco:'571262c3a980ba030058ab60',idBodegaRecepcion:''},{numeroGrupo:'8' ,idGrupo:'571262b8a980ba030058ab56',idBanco:'571262c3a980ba030058ab5e',idBodegaRecepcion:'571262aaa980ba030058a31e'},{numeroGrupo:'9' ,idGrupo:'',idBanco:'',idBodegaRecepcion:''},{numeroGrupo:'10' ,idGrupo:'571262b8a980ba030058ab58',idBanco:'571262c3a980ba030058ab63',idBodegaRecepcion:'571262aaa980ba030058a40c'},{numeroGrupo:'11' ,idGrupo:'571262b8a980ba030058ab59',idBanco:'571262c3a980ba030058ab64',idBodegaRecepcion:''},
+{numeroGrupo:'12' ,idGrupo:'571262b8a980ba030058ab5a',idBanco:'',idBodegaRecepcion:''}])
+
+nuestrosProductos = NuestroProducto.create([{sku:19 descripcion:'semola', precio:1159}, {sku:27 descripcion:'levadura', precio:718}, {sku:40 descripcion:'queso', precio:1805}, {sku:45 descripcion:'celulosa', precio:3112}, {sku:47 descripcion:'vino', precio:26027}])
 
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-=======
-{ materiaPrima: 'Levadura',skuMateriaPrima: 27,skuProducto: 47,productoProcesar:'Vino',grupoProveedor: 1,cantidadRequerida: 570,precio: 1376 },
-{ materiaPrima: 'Uva',skuMateriaPrima: 39,skuProducto: 47,productoProcesar:'Vino',grupoProveedor: 7,cantidadRequerida: 495,precio: 1217},
-{ materiaPrima: 'Suero de Leche',skuMateriaPrima: 41,skuProducto: 40,productoProcesar:'Queso',grupoProveedor: 10,cantidadRequerida: 800,precio: 3148 },
-{ materiaPrima: 'Azucar',skuMateriaPrima: 25,skuProducto: 47,productoProcesar:'Vino',grupoProveedor: 6,cantidadRequerida: 1000,precio: 1016 }])
-formula = Formula.create([{productoProducir: 'Queso',insumo:'Leche',cantidadRequerida: 1000,loteProducido: 900,skuInsumo: 7,skuProducto: 40},
-{productoProducir: 'Queso',insumo:'Suero de Leche',cantidadRequerida: 800,loteProducido: 900,skuInsumo: 41,skuProducto: 40},
-{productoProducir: 'Vino',insumo:'Uva',cantidadRequerida: 495,loteProducido: 1000,skuInsumo: 39,skuProducto: 47},
-{productoProducir: 'Vino',insumo:'Levadura',cantidadRequerida: 570,loteProducido: 1000,skuInsumo: 27,skuProducto: 47},
-{productoProducir: 'Vino',insumo:'Azucar',cantidadRequerida: 1000,loteProducido: 1000,skuInsumo: 25,skuProducto: 47}])
-costoProduccion = CostoProduccion.create([{skuProducto: 19,nombreProducto: 'Sémola',tipoProducto: 'Materia prima',costoProdUnitario: 1428,loteProduccion: 1420,tiempoMedio: 4.033},
-{skuProducto: 27,nombreProducto: 'Levadura',tipoProducto: 'Materia prima',costoProdUnitario: 1084,loteProduccion: 620,tiempoMedio: 2.717},
-{skuProducto: 40,nombreProducto: 'Queso',tipoProducto: 'Producto procesado',costoProdUnitario: 2324,loteProduccion: 900,tiempoMedio: 3.589},
-{skuProducto: 45,nombreProducto: 'Celulosa',tipoProducto: 'Materia prima',costoProdUnitario: 1500,loteProduccion: 800,tiempoMedio: 0.759},
-{skuProducto: 47,nombreProducto: 'Vino',tipoProducto: 'Producto procesado',costoProdUnitario: 1921,loteProduccion: 1000,tiempoMedio: 0.677}])
-idGrupos = IdGrupos.create([{numeroGrupo:'1' ,idGrupo:'571262b8a980ba030058ab4f',idBanco:'571262c3a980ba030058ab5b',idBodegaRecepcion:''},{numeroGrupo:'1' ,idGrupo:'571262b8a980ba030058ab4f',idBanco:'571262c3a980ba030058ab5b',idBodegaRecepcion:'571262aaa980ba030058a147'},{numeroGrupo:'2' ,idGrupo:'571262b8a980ba030058ab50',idBanco:'571262c3a980ba030058ab5c',idBodegaRecepcion:'571262aaa980ba030058a14e'},{numeroGrupo:'3' ,idGrupo:'571262b8a980ba030058ab51',idBanco:'571262c3a980ba030058ab5d',idBodegaRecepcion:''},{numeroGrupo:'4' ,idGrupo:'571262b8a980ba030058ab52',idBanco:'571262c3a980ba030058ab5f',idBodegaRecepcion:''},{numeroGrupo:'5' ,idGrupo:'571262b8a980ba030058ab53',idBanco:'571262c3a980ba030058ab61',idBodegaRecepcion:''},{numeroGrupo:'6' ,idGrupo:'571262b8a980ba030058ab54',idBanco:'571262c3a980ba030058ab62',idBodegaRecepcion:''},{numeroGrupo:'7' ,idGrupo:'571262b8a980ba030058ab55',idBanco:'571262c3a980ba030058ab60',idBodegaRecepcion:''},{numeroGrupo:'8' ,idGrupo:'571262b8a980ba030058ab56',idBanco:'571262c3a980ba030058ab5e',idBodegaRecepcion:'571262aaa980ba030058a31e'},{numeroGrupo:'9' ,idGrupo:'',idBanco:'',idBodegaRecepcion:''},{numeroGrupo:'10' ,idGrupo:'571262b8a980ba030058ab58',idBanco:'571262c3a980ba030058ab63',idBodegaRecepcion:'571262aaa980ba030058a40c'},{numeroGrupo:'11' ,idGrupo:'571262b8a980ba030058ab59',idBanco:'571262c3a980ba030058ab64',idBodegaRecepcion:''},
-{numeroGrupo:'12' ,idGrupo:'571262b8a980ba030058ab5a',idBanco:'',idBodegaRecepcion:''}])
 
-# cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-# Mayor.create(name: 'Emanuel', city: cities.first)
->>>>>>> logica
-#OrdenCompra.create(idOC:1,sku:1,cantidad:1)
-=begin
-require 'nokogiri'
-require 'net/sftp'
-require 'active_support/core_ext'
-<<<<<<< HEAD
-
-Net::SFTP.start('mare.ing.puc.cl', 'integra1', :password => 'DhY9uFaU') do |sftp|
-	#sftp.dir.foreach("./pedidos") do |entry|
-	
-		#puts entry.name
-		r=sftp.file.open("./pedidos/1461089425694.xml", "r") do |f|
-		#puts f.gets
-		#@doc = Nokogiri::XML(File.read(r))
-		#puts @doc.cdd("id").first.to_s
-
-		 r.xpath("//orden/*").each do |i|
-
-    	puts(i.attribute('id').content)
-
-    	end
-		#puts 
-		#puts(@doc.xpath("//sku").first)	
-		#puts(@doc.xpath("//qty").first)
-
-		r.close
-
-		#3.times{ r.gets }
-		#p $_
-
-		#r.close
-    	#	puts f.gets
-  		#if r != NULL
-		#@doc = Nokogiri::XML(File.read(r))
-		#			hash=Hash.from_xml(@doc)
-		#	puts hash 
-	#end
-		#puts(@doc.xpath("//id").to_s)
-		#puts(@doc.xpath("//sku").to_s)	
-		#puts(@doc.xpath("//qty").to_s)
-		#idOCs[0].to_s #aqui debemos cortar el string para quedarnos con lo que nos interesa
-
-
-	 # Orden_compras.create(idOC:id, sku: sku, cantidad:qty)
-
-	end
-=end
-#end
-=======
-Net::SFTP.start('mare.ing.puc.cl', 'integra1', :password => 'DhY9uFaU') do |sftp|
-#sftp.dir.foreach("./pedidos") do |entry|
-#puts entry.name
-r=sftp.file.open("./pedidos/1461089425694.xml", "r") do |f|
-#puts f.gets
-#@doc = Nokogiri::XML(File.read(r))
-#puts @doc.cdd("id").first.to_s
-r.xpath("//orden/*").each do |i|
-puts(i.attribute('id').content)
-end
-#puts
-#puts(@doc.xpath("//sku").first)
-#puts(@doc.xpath("//qty").first)
-r.close
-#3.times{ r.gets }
-#p $_
-#r.close
-# puts f.gets
-#if r != NULL
-#@doc = Nokogiri::XML(File.read(r))
-# hash=Hash.from_xml(@doc)
-# puts hash
-#end
-#puts(@doc.xpath("//id").to_s)
-#puts(@doc.xpath("//sku").to_s)
-#puts(@doc.xpath("//qty").to_s)
-#idOCs[0].to_s #aqui debemos cortar el string para quedarnos con lo que nos interesa
-# Orden_compras.create(idOC:id, sku: sku, cantidad:qty)
-end
-=end
-#end
-
-
-
->>>>>>> logica
