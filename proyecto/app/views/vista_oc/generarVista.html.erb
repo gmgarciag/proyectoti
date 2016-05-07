@@ -1,0 +1,34 @@
+<table style="width:100%">
+  <tr>
+        <td>ID de la orden: </td>
+        <td>Fecha de creación:</td>
+        <td>Canal de la orden:</td> 
+        <td>Cliente:</td> 
+        <td>Sku de la orden: </td>
+        <td>Cantidad de la orden:</td>
+        <td>Estado de despacho:</td>
+        <td>Precio unitario: </td>
+        <td>Fecha de entrega:</td>
+        <td>Estado de la orden:</td>
+        <td>Rechazada:</td>
+        <td>Anulada :</td>
+        <td>Id de factura:</td>
+  </tr>
+<% (Orden.all).each do |orden|%>
+        <tr>
+        <td><%= orden.idOrden %></td>
+        <td> <%= orden.fechaCreacion%></td>
+        <td> <%= orden.canal%></td>
+        <td><%= orden.cliente%></td>
+        <td><%= orden.sku%></td>
+        <td><%=orden.cantidad%></td>
+        <td> <%= orden.despachada%></td>
+        <td><%= orden.precioUnitario%></td>
+        <td> <%= orden.fechaEntrega%></td>
+        <td><%= orden.estado%></td>
+        <td><%= orden.rechazo%></td>
+        <td> <%= orden.anulacion%></td>
+        <td> <%= orden.idFactura%></td>
+        </tr>     
+    <%end%>
+</table>
