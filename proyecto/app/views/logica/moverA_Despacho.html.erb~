@@ -1,0 +1,4 @@
+<h1>Taller de Integración Grupo 1</h1>
+productos: <%= @clave %>
+largo: <%= @largo %>
+

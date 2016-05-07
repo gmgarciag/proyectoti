@@ -24,7 +24,7 @@ def contestar
 end
 
 
-=begin
+
 def actualizarInventario
   #OBTENER LOS ALMACENES
     key = 'W0B@c0w9.xqo1nQ'
@@ -129,7 +129,7 @@ def actualizarInventario
     (Inventario.find_by sku:45).update(cantidadBodega:@celulosa)
     (Inventario.find_by sku:47).update(cantidadBodega:@vino)
   end
-=end
+
 
   def moverA_Despacho #sku, cantidad
     sku = Integer(params[:sku])
@@ -155,7 +155,6 @@ def actualizarInventario
           #Despachamos ya que tenemos lo pedido en el almacen
         else
           necesario = cantidad - total
-          
           RestClient::Request.execute(method: :delete, url: 'http://integracion-2016-dev.herokuapp.com/bodega/stock', payload: {:productoId => "572bec06b5df620300b0ff01", :direccion => "internacional", :precio => 2168, :oc => "57128e450606410300c3fbe9"}, headers: {Authorization: 'INTEGRACION grupo1:3xSnVzPkFFo+omcq4zHqAGecYIo='})
           #@necesario = necesario
         end

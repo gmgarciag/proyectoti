@@ -14,17 +14,17 @@ require 'hmac-sha1'
     ## Consultamos nuestra base de datos y calculamos el stock disponible para compra
     begin
     cantidadRetorno = ((Inventario.find_by sku: skuIngresado).cantidadBodega).to_i - ((Inventario.find_by sku: skuIngresado).cantidadVendida).to_i
- ## Retornamos el JSON con el stock
-      render json: {
-    cantidad: cantidadRetorno,
-    sku: skuIngresado
-    }
     rescue
      render json: {
     cantidad: 0,
     sku: skuIngresado
     }
     end
+    ## Retornamos el JSON con el stock
+      render json: {
+    cantidad: cantidadRetorno,
+    sku: skuIngresado
+    }
   end
 
   def recibirOC
