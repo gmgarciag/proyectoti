@@ -29,3 +29,6 @@ nuestrosProductos = NuestroProducto.create([{sku:19, descripcion:'semola', preci
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+Orden.create(idOrden: 2)
+Orden.create(idOrden: 3)
+

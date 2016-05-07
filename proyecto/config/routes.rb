@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'vista_bodega/generarVista'
+
+  get 'vista_oc/generarVista'
+
   get 'welcome/index'
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -17,7 +21,7 @@ Rails.application.routes.draw do
 
   get 'api/oc/recibir/:idoc' => 'api#recibirOC'
 
-  get 'api/facturas/recibir/:idfacturas' => 'api#recibirFactura'
+  get 'api/facturas/recibir/:idfactura' => 'api#recibirFactura'
 
   get 'api/pagos/recibir/:idtrx/:idfactura' => 'api#recibirPago'
 
