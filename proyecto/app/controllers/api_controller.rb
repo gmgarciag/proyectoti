@@ -226,7 +226,7 @@ require 'hmac-sha1'
   def recibirDespacho
     status = 200
     begin
-      despachoValido = false
+      despachoValido = true
       facturaDespacho = params[:idfactura]
       ## VER FACTURA Y LEER LOS PRODUCTOS
       factura = RestClient.get 'http://mare.ing.puc.cl/facturas/'+facturaDespacho ##,{:Content_Type => 'application/json'}
