@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   #   get 'products/:id' => 'catalog#view'
   get 'logica/:idOrden' => 'logica#contestar'
   get 'actualizarInventario' => 'logica#actualizarInventario'
-  get 'moverParaDespachar/:sku/:cantidad' => 'logica#moverA_Despacho'
+  get 'moverParaDespachar/:sku/:cantidad/:oc' => 'logica#moverA_Despacho'
   get 'producir/:sku/:trx/:cantidad' => 'logica#producir'
   get 'revisarStock' => 'logica#revisarStock'
   get 'revisarRecepcion' => 'logica#revisarRecepcion'
