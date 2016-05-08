@@ -7,35 +7,31 @@ env :PATH, ENV['PATH']
 
 # Example:
 #
-set :environment, "development"
+set :environment, "production"
 set :output, "log/cron_log.log"
 #
 
-every 1.minute do
+every 10.minute do
 	rake "requests:nombresOC"
 end
 
-every 2.minute do
+every 15.minute do
 	rake "requests:ordenesCompra"
 end
 
-every 2.minute do
+every 5.minute do
 	rake "requests:actualizarInventario"
 end
 
-every 3.minute do
+every 15.minute do
 	rake "requests:llenarOrden"
 end
-
-#every 1.day, :at =>'22:18' do
-#	rake "requests:despachar"
-#end
 
 every 2.hours do
 	rake "requests:despachar"
 end
 
-every 2.minute do
+every 20.minute do
 	rake "requests:contestarOrden"
 end
 
