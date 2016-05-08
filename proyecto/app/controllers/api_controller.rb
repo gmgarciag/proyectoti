@@ -51,8 +51,13 @@ require 'hmac-sha1'
         rechazo =""
         anulacion = ""
         idFactura = ""
+        puts 'la cantidad es'
+        puts cantidad
+        puts 'Lo disponible'
+        puts (Integer(inventario.cantidadBodega) - Integer(inventario.cantidadVendida))
         if inventario == nil
         elsif cantidad > Integer(inventario.cantidadBodega) - Integer(inventario.cantidadVendida)
+          puts 'NO HAY STOCK!'
           estadoOC = false
           estado = "rechazada"
           rechazo = "falta de stock"
@@ -60,6 +65,7 @@ require 'hmac-sha1'
           ## RECHAZAR ORDEN DE COMPRA
           RestClient.post  'http://mare.ing.puc.cl/oc/rechazar/'+idOrden.strip, {:id => idOrden, :rechazo => rechazo}.to_json, :content_type => 'application/json'
         else
+          puts 'HAY STOCK!'
           estadoOC = true
           ## RECEPCIONAR ORDEN DE COMPRA
           estado = "aceptada"
@@ -106,16 +112,21 @@ require 'hmac-sha1'
         if estadoOC
           #Creamos la factura
           begin
+          puts "entre a factura"
           factura = RestClient.put 'http://mare.ing.puc.cl/facturas/', {:oc => idOrden}.to_json, :content_type => 'application/json'
           facturaParseada = JSON.parse factura
+          puts facturaParseada
           idFactura = facturaParseada["_id"]
-          numeroGrupo = (IdGrupo.find_by idGrupo: cliente).numeroGrupo
-          respuesta = RestClient.get 'localhost:3000/api/facturas/recibir/' + idFactura
           puts idFactura
-          puts respuesta
+          numeroGrupo = (IdGrupo.find_by idGrupo: cliente).numeroGrupo
+          numeroGrupo= 3
+          ##respuesta = RestClient.get 'localhost:3000/api/facturas/recibir/' + idFactura
           puts "Se ha mandado la factura"
 ## ARREGLAR ESTO!!!!!ARREGLAR ESTO!!!!ARREGLAR ESTO!!!!ARREGLAR ESTO!!!!ARREGLAR ESTO!!!!ARREGLAR ESTO!!!!ARREGLAR ESTO!!!!ARREGLAR ESTO!!!!###########################################################          
-          ##respuesta = RestClient.get 'http://integra'+numeroGrupo.to_s+'.ing.puc.cl/api/facturas/recibir/' + idFactura
+          puts idFactura
+          puts  numeroGrupo
+          respuesta = RestClient.get 'http://integra'+numeroGrupo.to_s+'.ing.puc.cl/api/facturas/recibir/' + idFactura, :content_type => 'application/json'
+          puts respuesta
           respuestaParseada = JSON.parse respuesta
           puts respuestaParseada
           if respuestaParseada["validado"]

@@ -36,6 +36,10 @@ Rails.application.routes.draw do
   get 'api/ids/almacenId' => 'api#enviarAlmacen'
 
 
+
+  get 'welcome/comprar/:sku' => 'welcome#comprar'
+
+
   #match "api/oc/recibir/", :to => "api#recibirOC", :via => :post
 
 
