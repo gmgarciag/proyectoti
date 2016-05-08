@@ -186,8 +186,8 @@ namespace :requests do
 		  #cantidad = params[:cantidad]
 		  key = '.k3GBP9YYZmzWCr'
 		  hmac = HMAC::SHA1.new(key)
-		  signature = 'PUT' + sku.to_s + cantidad.to_s + idTrx
-		  hmac.update(signature)
+		  signature = 'GET'
+ 		  hmac.update(signature)
 		  clave = Base64.encode64("#{hmac.digest}")
 		  RestClient.put 'http://integracion-2016-prod.herokuapp.com/bodega/fabrica/fabricar', {:sku => sku, :trxId => idTrx, :cantidad => cantidad}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'    
 		end
@@ -201,7 +201,7 @@ namespace :requests do
 		vino = ((Inventario.find_by sku:'47').cantidadBodega).to_i - ((Inventario.find_by sku:'47').cantidadVendida).to_i
                 key = '.k3GBP9YYZmzWCr'
 	        hmac = HMAC::SHA1.new(key)
-	        signature = 'GET'
+	        signature = 'PUT' + sku.to_s + cantidad.to_s + idTrx
 		hmac.update(signature)
 		clave = Base64.encode64("#{hmac.digest}")
                 cuentaFabrica = RestClient.get 'http://integracion-2016-prod.herokuapp.com/bodega/fabrica/getCuenta', :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json' 
@@ -209,19 +209,19 @@ namespace :requests do
                 puts semola	
            	if semola < 1000
                 
-		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2027760, :origen => '572aac69bdb6d403005fb04e', :destino => '572aac69bdb6d403005fb040'}.to_json, :content_type => 'application/json'
+		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2027760, :origen => '572aac69bdb6d403005fb04e', :destino => cuentaFabrica}.to_json, :content_type => 'application/json'
 		  transaccionParseada = JSON.parse transaccion
 		  idTrx = transaccionParseada["_id"]
 		  producir 19, idTrx, 1420
 		end
 		if levadura < 2000
-		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2016240, :origen => '572aac69bdb6d403005fb04e', :destino => '572aac69bdb6d403005fb040'}.to_json, :content_type => 'application/json'
+		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2016240, :origen => '572aac69bdb6d403005fb04e', :destino => cuentaFabrica}.to_json, :content_type => 'application/json'
 		  transaccionParseada = JSON.parse transaccion
 		  idTrx = transaccionParseada["_id"]
 		  producir 27, idTrx, 1860
 		end
 		if celulosa < 800
-		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 1200000, :origen => '572aac69bdb6d403005fb04e', :destino => '572aac69bdb6d403005fb040'}.to_json, :content_type => 'application/json'
+		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 1200000, :origen => '572aac69bdb6d403005fb04e', :destino => cuentaFabrica}.to_json, :content_type => 'application/json'
 		  transaccionParseada = JSON.parse transaccion
 		  idTrx = transaccionParseada["_id"]
 		  producir 45, idTrx, 800
