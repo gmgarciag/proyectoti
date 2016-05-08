@@ -111,6 +111,7 @@ require 'hmac-sha1'
           idFactura = facturaParseada["_id"]
           numeroGrupo = (IdGrupo.find_by idGrupo: cliente).numeroGrupo
           #respuesta = RestClient.get 'localhost:3000/api/facturas/recibir/' + idFactura
+          puts "esta es la id de la factura"
           puts idFactura
           #puts respuesta
           puts "Se ha mandado la factura"
