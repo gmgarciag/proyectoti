@@ -212,13 +212,13 @@ namespace :requests do
 		  producir 19, idTrx, 1420
 		end
 		if levadura < 2000
-		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2016240, :origen => '572aac69bdb6d403005fb04e', :destino => cuentaFabrica.to_json, :content_type => 'application/json'
+		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2016240, :origen => '572aac69bdb6d403005fb04e', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
 		  transaccionParseada = JSON.parse transaccion
 		  idTrx = transaccionParseada["_id"]
 		  producir 27, idTrx, 1860
 		end
 		if celulosa < 800
-		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 1200000, :origen => '572aac69bdb6d403005fb04e', :destino => cuentaFabrica}.to_json, :content_type => 'application/json'
+		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 1200000, :origen => '572aac69bdb6d403005fb04e', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
 		  transaccionParseada = JSON.parse transaccion
 		  idTrx = transaccionParseada["_id"]
 		  producir 45, idTrx, 800
@@ -235,7 +235,7 @@ namespace :requests do
 		  if leche >= 1000 && sueroDeLeche >= 800
 		    moverA_Despacho 7, 1000
 		    moverA_Despacho 41, 1000
-		    transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2091600, :origen => '572aac69bdb6d403005fb04e', :destino => cuentaFabrica}.to_json, :content_type => 'application/json'
+		    transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2091600, :origen => '572aac69bdb6d403005fb04e', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
 		    transaccionParseada = JSON.parse transaccion
 		    idTrx = transaccionParseada["_id"]
 		    producir 40, idTrx, 900
@@ -254,7 +254,7 @@ namespace :requests do
 		    moverA_Despacho 25, 1000
 		    moverA_Despacho 27, 570
 		    moverA_Despacho 39, 495
-		    transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 1921000, :origen => '572aac69bdb6d403005fb04e', :destino => cuentaFabrica}.to_json, :content_type => 'application/json'
+		    transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 1921000, :origen => '572aac69bdb6d403005fb04e', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
 		    transaccionParseada = JSON.parse transaccion
 		    idTrx = transaccionParseada["_id"]
 		    producir 47, idTrx, 1000
