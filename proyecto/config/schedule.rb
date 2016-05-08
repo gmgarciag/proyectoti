@@ -35,4 +35,8 @@ every 20.minute do
 	rake "requests:contestarOrden"
 end
 
+every 2.hours do
+	rake "requests:revisarStock"
+end
+
 # Learn more: http://github.com/javan/whenever
