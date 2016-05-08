@@ -529,6 +529,8 @@ puts "Cron Despachar #{Time.now}"
    end
    restante -= k
    end
+
+   #(Orden.find_by idOrden: oc).update(estado: "despachada")
    #Aquí termina el if internacional 
    else
     almacenRecepcion = (IdGrupo.find_by idGrupo: cliente).idBodegaRecepcion
@@ -685,7 +687,7 @@ puts "Cron Despachar #{Time.now}"
    end
    restante -= k
    end
-      
+  #(Orden.find_by idOrden: oc).update(estado: "despachada")
    end
 
   end
@@ -696,7 +698,7 @@ puts "Cron Despachar #{Time.now}"
 		if (orden.estado == "LPD") #&& (orden.fechaEntrega > Time.now))
 			moverA_Despacho(orden.idOrden)
 			idOrden = orden.id
-			(Orden.find_by id: idOrden).update(cliente: "despachada")
+			(Orden.find_by id: idOrden).update(estado: "despachada")
 			## llamar a metodo moverAdespacho
 
 		end

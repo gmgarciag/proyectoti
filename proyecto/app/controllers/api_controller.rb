@@ -110,12 +110,11 @@ require 'hmac-sha1'
           facturaParseada = JSON.parse factura
           idFactura = facturaParseada["_id"]
           numeroGrupo = (IdGrupo.find_by idGrupo: cliente).numeroGrupo
-          respuesta = RestClient.get 'localhost:3000/api/facturas/recibir/' + idFactura
+          #respuesta = RestClient.get 'localhost:3000/api/facturas/recibir/' + idFactura
           puts idFactura
-          puts respuesta
+          #puts respuesta
           puts "Se ha mandado la factura"
-## ARREGLAR ESTO!!!!!ARREGLAR ESTO!!!!ARREGLAR ESTO!!!!ARREGLAR ESTO!!!!ARREGLAR ESTO!!!!ARREGLAR ESTO!!!!ARREGLAR ESTO!!!!ARREGLAR ESTO!!!!###########################################################          
-          ##respuesta = RestClient.get 'http://integra'+numeroGrupo.to_s+'.ing.puc.cl/api/facturas/recibir/' + idFactura
+          respuesta = RestClient.get 'http://integra'+numeroGrupo.to_s+'.ing.puc.cl/api/facturas/recibir/' + idFactura, :content_type => 'application/json'
           respuestaParseada = JSON.parse respuesta
           puts respuestaParseada
           if respuestaParseada["validado"]
