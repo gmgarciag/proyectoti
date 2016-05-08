@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  numeroGrupo: 1
+  idGrupo: MyString
+  idBanco: MyString
+  idBodegaRecepcion: MyString
+
+two:
+  numeroGrupo: 1
+  idGrupo: MyString
+  idBanco: MyString
+  idBodegaRecepcion: MyString

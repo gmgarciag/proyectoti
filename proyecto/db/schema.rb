@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160507091422) do
+ActiveRecord::Schema.define(version: 20160508014827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 20160507091422) do
     t.integer  "skuProducto"
   end
 
-  create_table "id_grupos", force: :cascade do |t|
+  create_table "id_grupo_produccions", force: :cascade do |t|
     t.integer  "numeroGrupo"
     t.string   "idGrupo"
     t.string   "idBanco"
@@ -58,13 +58,13 @@ ActiveRecord::Schema.define(version: 20160507091422) do
     t.datetime "updated_at",        null: false
   end
 
-  create_table "idgrupo_produccions", force: :cascade do |t|
+  create_table "id_grupos", force: :cascade do |t|
     t.integer  "numeroGrupo"
     t.string   "idGrupo"
     t.string   "idBanco"
     t.string   "idBodegaRecepcion"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "inventarios", force: :cascade do |t|

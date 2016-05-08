@@ -1,5 +1,14 @@
-Sémola: <%= @semola %>
-Levadura: <%= @levadura %>
-Queso: <%= @queso %>
-Celulosa: <%= @celulosa %>
-Vino: <%= @vino %>
+<table style="width:50%">
+  <tr>
+        <td>SKU: </td>
+        <td>Cantidad en bodega:</td>
+        <td>Cantidad reservada:</td> 
+  </tr>
+<% (Inventario.all).each do |inventario|%>
+        <tr>
+        <td><%= inventario.sku %></td>
+        <td> <%= inventario.cantidadBodega%></td>
+        <td> <%= inventario.cantidadVendida%></td>
+        </tr>     
+    <%end%>
+</table>
