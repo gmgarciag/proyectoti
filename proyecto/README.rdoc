@@ -1,28 +1,5 @@
-== README
+Grupo 1 Taller de Integración
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Como lógica de negocios, revisamos periódicamente las órdenes que llegan por el servidor sftp, rechazando las que tienen una fecha de entrega ya expirada, y las que incluyen un precio menor al especificado en el excel con los precios de nuestros productos.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Para abastecernos, ocupamos una lógica simple de mantener ciertos niveles de stock por producto, revisando periódicamente nuestro inventario y mandando a producir cuando tenemos menos del rango especificado.
