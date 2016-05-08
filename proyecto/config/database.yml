@@ -80,6 +80,6 @@ test:
 #
 production:
   <<: *default
-  database: library_production
-  username: daniel
-  password: <%= ENV['PRUEBA3_DATABASE_PASSWORD'] %>
+  database: library_development
+  #username: daniel
+  #password: <%= ENV['PRUEBA3_DATABASE_PASSWORD'] %>
