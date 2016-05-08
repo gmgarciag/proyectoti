@@ -276,7 +276,8 @@ namespace :requests do
 	  despachada = 0
 	  precioUnitario = ordenParseada[0]["precioUnitario"]
 	  fechaEntrega = ordenParseada[0]["fechaEntrega"]
-	  estado = ordenParseada[0]["estado"]
+	  #estado = ordenParseada[0]["estado"]
+	  estado="creada"
 	  rechazo =""
 	  anulacion = ""
 	  idFactura = ""
@@ -285,28 +286,78 @@ end
 
 end
 
+desc "TODO"
+task contestarOrden: :environment do
+
+ puts "Cron Contestar Orden #{Time.now}"
+
+  ordenesServidor = Orden.where(cliente: "internacional")
+  time = Time.now
+  #puts time
+  #milisegundos = time.to_formatted_s(:number)
+  ordenesServidor.each do |orden|
+  fecha = orden.fechaEntrega
+  estado = orden.estado
+  #puts fecha
+  idOrden = orden.idOrden
+  #Revisamos que no haya pasado la fecha de despacho
+  if fecha <= time && estado != 'aceptada' && estado!= 'rechazada' && estado != 'LPD'
+   (Orden.find_by idOrden: idOrden).update(estado: "rechazada", rechazo: "expiró la fecha de entrega")
+  RestClient.post  'http://mare.ing.puc.cl/oc/rechazar/' + idOrden.strip, {:id => idOrden, :rechazo => "expiró la fecha de entrega"}.to_json, :content_type => 'application/json' 
+  end
+
+  end
+  #Revisamos que el precio sea mayor o igual al que pedimos
+  ordenesServidor.each do |orden|
+    sku = orden.sku
+    precio = orden.precioUnitario
+    idOrden = orden.idOrden
+    precioMinimo = (NuestroProducto.find_by sku: sku).precio
+    if precio < precioMinimo
+      (Orden.find_by idOrden: idOrden).update(estado: "rechazada" , rechazo: "el precio especificado es menor al pactado")
+      RestClient.post  'http://mare.ing.puc.cl/oc/rechazar/' + idOrden.strip, {:id => idOrden, :rechazo => "El precio especificado es menor al pactado"}.to_json, :content_type => 'application/json'
+    end
+  end
+  ordenesPorContestar = ordenesServidor.where(estado: "creada")
+  ordenesPorContestar.each do |orden|
+     sku = orden.sku
+     cantidad = orden.cantidad
+     idOrden = orden.idOrden
+     disponible = ((Inventario.find_by sku: sku).cantidadBodega).to_i - ((Inventario.find_by sku: sku).cantidadVendida).to_i
+     #puts disponible
+
+     if cantidad.to_i <= disponible #Aceptamos la orden
+     (Orden.find_by idOrden: idOrden).update(estado: "aceptada")
+     RestClient.post  'http://mare.ing.puc.cl/oc/recepcionar/' + idOrden.strip, {:id => idOrden}.to_json, :content_type => 'application/json'
+     cantidadVendida = (Inventario.find_by sku: sku).cantidadVendida.to_i
+     cantidadVendida += cantidad.to_i
+     (Inventario.find_by sku: sku).update(cantidadVendida: cantidadVendida)
+     factura = RestClient.put 'http://mare.ing.puc.cl/facturas/', {:oc => idOrden}.to_json, :content_type => 'application/json'
+     (Orden.find_by idOrden: idOrden).update(estado: "LPD")
+
+
+     elsif cantidad.to_i > disponible #Hay falta de stock
+      (Orden.find_by idOrden: idOrden).update(estado: "rechazada")
+      (Orden.find_by idOrden: idOrden).update(rechazo: "no hay stock")
+
+      RestClient.post  'http://mare.ing.puc.cl/oc/rechazar/' + idOrden.strip, {:id => idOrden, :rechazo => "No hay stock"}.to_json, :content_type => 'application/json'
+     end
+  end
+  
+end
+
+
 #despacha tanto a internacional como a B2B
 desc "TODO"
 task despachar: :environment do
 
-	(Orden.all).each do |orden|
-
-		if (orden.cliente == "LPD" && (orden.fechaEntrega > Time.now))
-			moverA_Despacho(orden.idOrden)
-			idOrden = orden.id
-			(Orden.find_by id: idOrden).update(cliente: "despachada")
-			## llamar a metodo moverAdespacho
-
-		end
-	end 
-
-
+puts "Cron Despachar #{Time.now}"
 
 ##### aqui debe pegarse el metodo 'mover A despacho' que actualmente esta en logica controller
-  def moverA_Despacho #oc
+  def moverA_Despacho oc
     #sku = Integer(params[:sku])
     #cantidad = Integer(params[:cantidad])
-    oc = params[:oc]
+    #oc = params[:oc]
     idDespacho = (Almacen.find_by depacho:true).almacenId
     @id = idDespacho
     sku = (((Orden.find_by idOrden: oc).sku).strip).to_i
@@ -640,6 +691,19 @@ task despachar: :environment do
   end
 
 
+	(Orden.all).each do |orden|
+
+		if (orden.estado == "LPD") #&& (orden.fechaEntrega > Time.now))
+			moverA_Despacho(orden.idOrden)
+			idOrden = orden.id
+			(Orden.find_by id: idOrden).update(cliente: "despachada")
+			## llamar a metodo moverAdespacho
+
+		end
+	end 
+
 
 end
+
+
 end

@@ -27,9 +27,12 @@ every 3.minute do
 	rake "requests:llenarOrden"
 end
 
-every 1.hour do
+every 1.day, :at =>'22:18' do
 	rake "requests:despachar"
 end
 
+every 2.minute do
+	rake "requests:contestarOrden"
+end
 
 # Learn more: http://github.com/javan/whenever
