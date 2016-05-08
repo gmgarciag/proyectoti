@@ -28,6 +28,11 @@ require 'net/sftp'
 
   def index
 
+    @semola = 34
+
+
+
+
   end
 
   def comprar
