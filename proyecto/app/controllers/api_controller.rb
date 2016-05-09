@@ -14,12 +14,12 @@ require 'hmac-sha1'
     cantidadRetorno = ((Inventario.find_by sku: skuIngresado).cantidadBodega).to_i - ((Inventario.find_by sku: skuIngresado).cantidadVendida).to_i
  ## Retornamos el JSON con el stock
       render json: {
-    cantidad: cantidadRetorno,
+    stock: cantidadRetorno,
     sku: skuIngresado
     }
     rescue
      render json: {
-    cantidad: 0,
+    stock: 0,
     sku: skuIngresado
     }
     end
@@ -195,7 +195,7 @@ require 'hmac-sha1'
 
       render :status => status, json: {
       validado: estadoFactura,
-      factura: idFactura
+      idfactura: idFactura
     }
   end
 
@@ -244,7 +244,7 @@ require 'hmac-sha1'
 
       render :status => status, json: {
       validado: estadoPago,
-      trx: idPago
+      idtrx: idPago
     }
 
 

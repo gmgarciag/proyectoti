@@ -310,7 +310,7 @@ task contestarOrden: :environment do
   #puts fecha
   idOrden = orden.idOrden
   #Revisamos que no haya pasado la fecha de despacho
-  if fecha <= time && estado != 'aceptada' && estado!= 'rechazada' && estado != 'LPD'
+  if fecha <= time && estado != 'aceptada' && estado != 'despachada'  && estado!= 'rechazada' && estado != 'LPD'
    (Orden.find_by idOrden: idOrden).update(estado: "rechazada", rechazo: "expiró la fecha de entrega")
   RestClient.post  'http://moto.ing.puc.cl/oc/rechazar/' + idOrden.strip, {:id => idOrden, :rechazo => "expiró la fecha de entrega"}.to_json, :content_type => 'application/json' 
   end

@@ -31,7 +31,7 @@ every 2.hours do
 	rake "requests:despachar"
 end
 
-every 20.minute do
+every 4.hours do
 	rake "requests:contestarOrden"
 end
 
@@ -39,7 +39,7 @@ every 2.hours do
 	rake "requests:revisarStock"
 end
 
-every 1.day, :at => '11:53 am' do
-       rake "requests:revisarStock"
-end
+#every 1.day, :at => '00:05 am' do
+ #      rake "requests:contestarOrden"
+#end
 # Learn more: http://github.com/javan/whenever
