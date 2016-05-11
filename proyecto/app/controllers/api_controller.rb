@@ -118,14 +118,18 @@ require 'hmac-sha1'
           respuesta = RestClient.get 'http://integra'+numeroGrupo.to_s+'.ing.puc.cl/api/facturas/recibir/' + idFactura, :content_type => 'application/json'
           respuestaParseada = JSON.parse respuesta
           puts respuestaParseada
-          if respuestaParseada["validado"]
+          if respuestaParseada["validado"] == 'true' ## REVISAR ESTE IF, NO SE SI ENTRA SIEMPRE, alomejor lo entrega como string
             puts "primera parte del if"
+           ## Cambiar a lista para despachar!
            (Orden.find_by idOrden: idOrden).update(idFactura:idFactura)
+           (Orden.find_by idOrden: idOrden).update(estado: 'esperando pago')
             puts "Se ha validado todo y este es el fin"
           else
             puts "no entro al if"
             ## HAY QUE ANULAR LA FACTURA
-            RestClient.post  'http://moto.ing.puc.cl/facturas/cancel', {:id => idFactura, :motivo => "Rechazaron Factura"}.to_json, :content_type => 'application/json'
+            (Orden.find_by idOrden: idOrden).update(idFactura:idFactura)
+            (Orden.find_by idOrden: idOrden).update(estado: 'factura Rechazada')
+            RestClient.post  'http://mare.ing.puc.cl/facturas/cancel', {:id => idFactura, :motivo => "Rechazaron Factura"}.to_json, :content_type => 'application/json'
 
           end
           rescue
@@ -166,23 +170,47 @@ require 'hmac-sha1'
        ## Revisamos que los pagos calcen
        puts "Todo en orden hasta ahora"
        if  hashFactura[0]['total'] >= (hashOrdenCompra[0]['cantidad']*hashOrdenCompra[0]['precioUnitario'])
-        estadoFactura = true
-###################################LLAMAR AL METODO DE PAGO!!#################################################################################
-      
-        ## Crear thread que hace el pago de la factura que acabamos de aceptar
-        Thread.new do
-          ## realizar transferencia
-          RestClient.put  'http://moto.ing.puc.cl/banco/trx', {:id => idFactura}.to_json, :content_type => 'application/json'
-
-          ## enviar transferencia al grupo proveedor
-
-          ## ver que acepten la transferencia
-
-
-###################################LLAMAR AL METODO DE PAGAR FACTURA!!#################################################################################
-          RestClient.post  'http://moto.ing.puc.cl/facturas/pay', {:id => idFactura}.to_json, :content_type => 'application/json'
-          puts "Mandamos un True"
-
+      ## Revisamos si existe nuestro pedido
+         puts 'llego 189'
+         puts hashFactura[0]['oc']
+         puts (Pedido.where(:idPedido => hashFactura[0]['oc'])).idPedido
+         ## En este IF falla
+        if Pedido.where(:idPedido => hashFactura[0]['oc'].strip).blank?
+          ## No existe
+           puts 'llego 192'
+          estadoFactura = false
+        else
+           puts 'llego 195'
+          ## Esta OK todo
+          estadoFactura = true
+          ## Crear thread que hace el pago de la factura que acabamos de aceptar
+          Thread.new do
+            idProveedor = hashOrdenCompra[0]['proveedor']
+            numeroProveedor = (IdGrupoProduccion.find_by idGrupo: idProveedor).numeroGrupo
+            cuentaProveedor = (IdGrupoProduccion.find_by idGrupo: idProveedor).idBanco
+            ##numeroProveedor = (IdGrupo.find_by idGrupo: idProveedor).numeroGrupo
+            ##cuentaProveedor = (IdGrupo.find_by idGrupo: idProveedor).idBanco
+            ## realizar transferencia
+            transferencia = RestClient.put  'http://moto.ing.puc.cl/banco/trx', {:monto => hashFactura[0]['total'], :origen => '572aac69bdb6d403005fb04e', :destino => cuentaProveedor}.to_json, :content_type => 'application/json'
+            puts transferencia
+            ## Para desarrollo
+            ##transferencia = RestClient.put  'http://mare.ing.puc.cl/banco/trx', {:monto => hashFactura[0]['total'], :origen => '572aac69bdb6d403005fb04e', :destino => cuntaProveedor}.to_json, :content_type => 'application/json'
+            hashTransferencia = JSON.parse transferencia
+            ## enviar transferencia al grupo proveedor
+            respuestaTransferencia = RestClient.get 'http://integra'+grupoProveedor.to_s+'.ing.puc.cl/api/pagos/recibir/'+hashTransferencia[0]['_id'] ,{:Content_Type => 'application/json'}
+            puts respuestaTransferencia
+            ## ver que acepten la transferencia
+            hasRespuestaTrans = JSON.parse respuestaTransferencia
+            puts hasRespuestaTrans
+            if hasRespuestaTrans['validado']
+              (Pedido.where(:idPedido => hashFactura[0]['oc'])).update(estado: 'pagada')
+              ## Marcamos la factura como pagada
+              RestClient.post  'http://moto.ing.puc.cl/facturas/pay', {:id => idFactura}.to_json, :content_type => 'application/json'
+            else
+              puts 'No validaron el pago'
+              RestClient.post  'http://moto.ing.puc.cl/facturas/reject', {:id => idFactura, :motivo => "No fue validada"}.to_json, :content_type => 'application/json'
+            end
+          end
         end
 
       else
