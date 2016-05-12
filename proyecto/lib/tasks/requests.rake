@@ -320,6 +320,7 @@ def moverInsumosDespacho sku, cantidad
          i += 1
        end  
     end
+   end
 
   		puts "Cron Revisar Stock #{Time.now}"
 

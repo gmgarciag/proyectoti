@@ -320,6 +320,7 @@ def moverInsumosDespacho sku, cantidad
          i += 1
        end  
     end
+   end
 
   		puts "Cron Revisar Stock #{Time.now}"
 
@@ -360,11 +361,11 @@ def moverInsumosDespacho sku, cantidad
 		  sueroDeLeche = ((Inventario.find_by sku:'41').cantidadBodega).to_i
 		  if leche < 1000
                     time = Time.now + 4.hours
-		    #Pedimos leche a otro grupo
+		    comprar 7, 1000, time
 		  end
 		  if sueroDeLeche < 800
                     time = Time.now + 4.hours
-		    #Pedimos a otro grupo
+		    comprar 41, 800, time
 		  end
 		  if leche >= 1000 && sueroDeLeche >= 800
 		    moverInsumosDespacho 7, 1000
@@ -380,11 +381,11 @@ def moverInsumosDespacho sku, cantidad
 		  uva = ((Inventario.find_by sku:'39').cantidadBodega).to_i
 		  if azucar < 1000
                     time = Time.now + 4.hours
-		    #pedimos a otro grupo
+		    comprar 25, 1000, time
 		  end
 		  if uva < 495
                     time = Time.now + 4.hours
-		    #pedimos a otro grupo
+		    comprar 39, 495, time
 		  end
 		  if azucar >= 1000 && uva >= 495 && levadura >= 570
 		    moverInsumosDespacho 25, 1000
