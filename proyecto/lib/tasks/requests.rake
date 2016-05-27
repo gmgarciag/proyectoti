@@ -330,19 +330,19 @@ task revisarStock: :environment do
                 puts semola	
     if semola < 1000
                 
-		  transaccion = RestClient.put 'http://mare.ing.puc.cl/banco/trx', {:monto => 2027760, :origen => '572aac69bdb6d403005fb04e', :destino => '572aac69bdb6d403005fb040'}.to_json, :content_type => 'application/json'## ver que onda el ambiente y los ids
+		  transaccion = RestClient.put 'http://mare.ing.puc.cl/banco/trx', {:monto => 2027760, :origen => '571262c3a980ba030058ab5b', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'## ver que onda el ambiente y los ids
 		  transaccionParseada = JSON.parse transaccion
 		  idTrx = transaccionParseada["_id"]
 		  producir 19, idTrx, 1420
 		end
 		if levadura < 2000
-		  transaccion = RestClient.put 'http://mare.ing.puc.cl/banco/trx', {:monto => 4032480, :origen => '572aac69bdb6d403005fb04e', :destino => '572aac69bdb6d403005fb040'}.to_json, :content_type => 'application/json'
+		  transaccion = RestClient.put 'http://mare.ing.puc.cl/banco/trx', {:monto => 4032480, :origen => '571262c3a980ba030058ab5b', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
 		  transaccionParseada = JSON.parse transaccion
 		  idTrx = transaccionParseada["_id"]
 		  producir 27, idTrx, 3720
 		end
 		if celulosa < 800
-		  transaccion = RestClient.put 'http://mare.ing.puc.cl/banco/trx', {:monto => 1200000, :origen => '572aac69bdb6d403005fb04e', :destino => '572aac69bdb6d403005fb040'}.to_json, :content_type => 'application/json'
+		  transaccion = RestClient.put 'http://mare.ing.puc.cl/banco/trx', {:monto => 1200000, :origen => '571262c3a980ba030058ab5b', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
 		  transaccionParseada = JSON.parse transaccion
 		  idTrx = transaccionParseada["_id"]
 		  producir 45, idTrx, 800
@@ -361,7 +361,7 @@ task revisarStock: :environment do
 		  if leche >= 1000 && sueroDeLeche >= 800
 		    moverInsumosDespacho 7, 1000
 		    moverInsumosDespacho 41, 800
-		    transaccion = RestClient.put 'http://mare.ing.puc.cl/banco/trx', {:monto => 2091600, :origen => '572aac69bdb6d403005fb04e', :destino => cuentaFabrica}.to_json, :content_type => 'application/json'
+		    transaccion = RestClient.put 'http://mare.ing.puc.cl/banco/trx', {:monto => 2091600, :origen => '571262c3a980ba030058ab5b', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
 		    transaccionParseada = JSON.parse transaccion
 		    idTrx = transaccionParseada["_id"]
 		    producir 40, idTrx, 900
@@ -382,7 +382,7 @@ task revisarStock: :environment do
 		    moverInsumosDespacho 25, 1000
 		    moverInsumosDespacho 27, 570
 		    moverInsumosDespacho 39, 495
-		    transaccion = RestClient.put 'http://mare.ing.puc.cl/banco/trx', {:monto => 1921000, :origen => '572aac69bdb6d403005fb04e', :destino => cuentaFabrica}.to_json, :content_type => 'application/json'
+		    transaccion = RestClient.put 'http://mare.ing.puc.cl/banco/trx', {:monto => 1921000, :origen => '571262c3a980ba030058ab5b', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
 		    transaccionParseada = JSON.parse transaccion
 		    idTrx = transaccionParseada["_id"]
 		    producir 47, idTrx, 1000
