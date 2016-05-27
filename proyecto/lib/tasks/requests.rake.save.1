@@ -337,18 +337,18 @@ def moverInsumosDespacho sku, cantidad
                 cuentaFabrica = RestClient.get 'http://integracion-2016-prod.herokuapp.com/bodega/fabrica/getCuenta', :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json' 
                 puts cuentaFabrica
                 puts semola	
-           	if semola < 1000
+           	if semola < 4000
                 
-		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2027760, :origen => '572aac69bdb6d403005fb04e', :destino => '572aac69bdb6d403005fb040'}.to_json, :content_type => 'application/json'
+		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 6083280, :origen => '572aac69bdb6d403005fb04e', :destino => '572aac69bdb6d403005fb040'}.to_json, :content_type => 'application/json'
 		  transaccionParseada = JSON.parse transaccion
 		  idTrx = transaccionParseada["_id"]
-		  producir 19, idTrx, 1420
+		  producir 19, idTrx, 4240
 		end
-		if levadura < 2000
-		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 4032480, :origen => '572aac69bdb6d403005fb04e', :destino => '572aac69bdb6d403005fb040'}.to_json, :content_type => 'application/json'
+		if levadura < 4000
+		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2016240, :origen => '572aac69bdb6d403005fb04e', :destino => '572aac69bdb6d403005fb040'}.to_json, :content_type => 'application/json'
 		  transaccionParseada = JSON.parse transaccion
 		  idTrx = transaccionParseada["_id"]
-		  producir 27, idTrx, 3720
+		  producir 27, idTrx, 1860
 		end
 		if celulosa < 800
 		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 1200000, :origen => '572aac69bdb6d403005fb04e', :destino => '572aac69bdb6d403005fb040'}.to_json, :content_type => 'application/json'
