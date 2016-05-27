@@ -58,3 +58,7 @@ nuestrosProductos = NuestroProducto.create([
 {sku:47, descripcion:'Vino', precio:26027}])
 
 
+
+
+Spree::Core::Engine.load_seed if defined?(Spree::Core)
+Spree::Auth::Engine.load_seed if defined?(Spree::Auth)
