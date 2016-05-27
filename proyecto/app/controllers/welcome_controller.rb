@@ -20,7 +20,7 @@ require 'net/sftp'
       #IDgrupo=(IdGrupoProduccion.find_by numeroGrupo: grupoProveedor).idGrupo
 
     #llamada a crear la orden de compra, retorna la orden de compra o error
-      @ordenCompra=RestClient.put 'http://moto.ing.puc.cl/oc/crear/', {:cliente => '572aac69bdb6d403005fb042', :proveedor => '572aac69bdb6d403005fb042', :sku => 47, :fechaEntrega => 1463797342000, :cantidad => 4, :precioUnitario => 7244, :canal => 'b2b'}.to_json, :content_type => 'application/json'
+      @ordenCompra=RestClient.put 'http://mare.ing.puc.cl/oc/crear/', {:cliente => '571262b8a980ba030058ab4f', :proveedor => '571262b8a980ba030058ab4f', :sku => 47, :fechaEntrega => 1463797342000, :cantidad => 4, :precioUnitario => 7244, :canal => 'b2b'}.to_json, :content_type => 'application/json'
 
       end
 
@@ -51,7 +51,7 @@ require 'net/sftp'
         ## Buscamos el id del grupo proveedor
         idGrupo = (IdGrupoProduccion.find_by numeroGrupo: grupoProveedor).idGrupo
         ## Creamos la orden de compra
-        ordenCompra=RestClient.put 'http://moto.ing.puc.cl/oc/crear/', {:cliente => '572aac69bdb6d403005fb042', :proveedor => idGrupo, :sku => sku, :fechaEntrega => fechaEntrega, :cantidad => cantidad, :precioUnitario => 7244, :canal => 'b2b'}.to_json, :content_type => 'application/json'
+        ordenCompra=RestClient.put 'http://mare.ing.puc.cl/oc/crear/', {:cliente => '571262b8a980ba030058ab4f', :proveedor => idGrupo, :sku => sku, :fechaEntrega => fechaEntrega, :cantidad => cantidad, :precioUnitario => 7244, :canal => 'b2b'}.to_json, :content_type => 'application/json'
         ## Ya creada la orden de compra tenemos que ir a la aplicacion del grupo proveedor y exigir dicha cantidad
         hashOrdenCompra = JSON.parse ordenCompra
         ## Esperamos la respuesta y si es positiva tendriamos que guardarla en una base de datos y esperar que nos llegue la factura, que generara el pago automaticamente
@@ -77,7 +77,7 @@ require 'net/sftp'
       #idGrupo=(IdGrupoProduccion.find_by numeroGrupo: grupoProveedor).idGrupo
 
       #llamada a crear la orden de compra, retorna la orden de compra o error
-      @ordenCompra=RestClient.put 'http://moto.ing.puc.cl/oc/crear/', {:cliente => '572aac69bdb6d403005fb042', :proveedor => idGrupo, :sku => 47, :fechaEntrega => 1463797342000, :cantidad => 4, :precioUnitario => 7244, :canal => 'b2b'}.to_json, :content_type => 'application/json'
+      @ordenCompra=RestClient.put 'http://mare.ing.puc.cl/oc/crear/', {:cliente => '572aac69bdb6d403005fb042', :proveedor => idGrupo, :sku => 47, :fechaEntrega => 1463797342000, :cantidad => 4, :precioUnitario => 7244, :canal => 'b2b'}.to_json, :content_type => 'application/json'
 
     end
 

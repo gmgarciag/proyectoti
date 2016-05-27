@@ -7,7 +7,7 @@ env :PATH, ENV['PATH']
 
 # Example:
 #
-set :environment, "production"
+set :environment, "development"
 set :output, "log/cron_log.log"
 #
 
