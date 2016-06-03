@@ -6,11 +6,13 @@ Rails.application.routes.draw do
   #
   # We ask that you don't use the :as option here, as Spree relies on it being the default of "spree"
   mount Spree::Core::Engine, at: '/'
-          get 'vista_bodega/generarVista'
+  get 'vista_bodega/generarVista'
 
   get 'vista_oc/generarVista'
 
   get 'welcome/index'
+  
+  get 'spree/orders/confirmarCompra'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

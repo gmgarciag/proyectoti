@@ -1,0 +1,7 @@
+class ConfirmacionController < ApplicationController
+  def generarVista
+
+  	
+  	
+  end
+end

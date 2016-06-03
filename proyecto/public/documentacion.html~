@@ -1,13 +1,13 @@
-<h1>Tu compra fue realizada con exito</h1>
+<h1>Documentaci&oacute;n API</h1>
 
  <!DOCTYPE html>
 <html>
 <head>
-<title>Boleta</title>
+<title>Documentaci&oacute;n API</title>
 </head>
 <body>
 
-<h3>Id Boleta: </h3>
+<h3>Funci&oacute;n: Entregar id Grupo</h3>
 <p>Retorna el id del grupo</p>
 <p>- URL: integra1.ing.puc.cl/api/ids/grupo</p>
 <p>- M&eacute;todo: GET</p>
