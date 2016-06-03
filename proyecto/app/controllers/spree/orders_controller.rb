@@ -5,6 +5,7 @@ module Spree
     helper 'spree/products', 'spree/orders'
 
     respond_to :html
+
     before_action :assign_order_with_lock, only: :update
     skip_before_action :verify_authenticity_token, only: [:populate]
 
@@ -34,6 +35,7 @@ module Spree
       @order = current_order || Order.incomplete.find_or_initialize_by(guest_token: cookies.signed[:guest_token])
       associate_user
     end
+
     # Adds a new item to the order (creating a new order if none already exists)
     def populate
       order    = current_order(create_order_if_necessary: true)
@@ -53,7 +55,6 @@ module Spree
       elsif aux == 5
         sku = 47
       end
-      puts direccion
       # 2,147,483,647 is crazy. See issue #2695.
       if quantity.between?(1, 2_147_483_647)
         begin
@@ -64,6 +65,7 @@ module Spree
       else
         error = Spree.t(:please_enter_reasonable_quantity)
       end
+
       if error
         flash[:error] = error
         redirect_back_or_default(spree.root_path)
@@ -84,16 +86,13 @@ module Spree
       end
     end
 
-    def mostrarBoleta
-    
-    end
-
     def empty
       if @order = current_order
         @order.empty!
       end
 
       redirect_to 'http://integracion-2016-dev.herokuapp.com/web/pagoenlinea'
+
     end
 
     def accurate_title

@@ -49,13 +49,16 @@ module Spree
         Product.find(i).destroy
         i += 1
       end
+<<<<<<< HEAD
       (Variant.where(is_master: false)).find_each do |variant|
         Variant.find(variant.id).destroy
       end
       #product = Spree::Product.last
       #Spree::Image.create!(:attachment => File.open('levadura.png'), :viewable_id => product.id, :viewable => product)
-      #@products = @searcher.retrieve_products
-      #@taxonomies = Spree::Taxonomy.includes(root: :children)
+=======
+>>>>>>> aa533eee95fbf4f41776aa00e068e53b0e19eb06
+      @products = @searcher.retrieve_products
+      @taxonomies = Spree::Taxonomy.includes(root: :children)
     end
   end
 end
