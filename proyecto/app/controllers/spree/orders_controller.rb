@@ -248,7 +248,7 @@ module Spree
         bruto = $montoBruto
         $total = facturaParseada["total"]
         total = $total
-        urlOk = 'http%3A%2F%2Flocalhost:3000/spree/orders/confirmarCompra/' + boleta
+        urlOk = 'http%3A%2F%2Fintegra1.ing.puc.cl/spree/orders/confirmarCompra/' + boleta
         urlFail = 'http://www.uc.cl'
         url = 'http://integracion-2016-dev.herokuapp.com/web/pagoenlinea?callbackUrl='+urlOk+'&cancelUrl='+urlFail+'&boletaId=' + boleta
         redirect_to url
