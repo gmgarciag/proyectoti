@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160527192857) do
+ActiveRecord::Schema.define(version: 20160604011857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,19 @@ ActiveRecord::Schema.define(version: 20160527192857) do
     t.datetime "updated_at",       null: false
   end
 
+  create_table "boleta", force: :cascade do |t|
+    t.string   "string"
+    t.string   "idBoleta"
+    t.string   "int"
+    t.string   "sku"
+    t.string   "cantidad"
+    t.string   "iva"
+    t.string   "bruto"
+    t.string   "total"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "costo_produccions", force: :cascade do |t|
     t.integer  "skuProducto"
     t.string   "nombreProducto"
@@ -36,6 +49,19 @@ ActiveRecord::Schema.define(version: 20160527192857) do
     t.decimal  "tiempoMedio"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+  end
+
+  create_table "cuenta", force: :cascade do |t|
+    t.string   "string"
+    t.string   "idBoleta"
+    t.string   "int"
+    t.string   "sku"
+    t.string   "cantidad"
+    t.string   "iva"
+    t.string   "bruto"
+    t.string   "total"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "formulas", force: :cascade do |t|
@@ -1210,6 +1236,20 @@ ActiveRecord::Schema.define(version: 20160527192857) do
 
   add_index "spree_zones", ["default_tax"], name: "index_spree_zones_on_default_tax", using: :btree
   add_index "spree_zones", ["kind"], name: "index_spree_zones_on_kind", using: :btree
+
+  create_table "tickets", force: :cascade do |t|
+    t.string   "string"
+    t.string   "idBoleta"
+    t.string   "direccion"
+    t.string   "int"
+    t.string   "sku"
+    t.string   "cantidad"
+    t.string   "iva"
+    t.string   "bruto"
+    t.string   "total"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "xmls", force: :cascade do |t|
     t.string   "nombreArchivo"
