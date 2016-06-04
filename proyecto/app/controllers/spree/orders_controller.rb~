@@ -249,7 +249,7 @@ module Spree
         $total = facturaParseada["total"]
         total = $total
         urlOk = 'http://integra1.ing.puc.cl/spree/orders/confirmarCompra/' + boleta
-        urlFail = 'http://www.integra1.ing.puc.cl/cancelacion/index'
+        urlFail = 'http://www.integra1.ing.puc.cl/cancelacion'
         url = 'http://integracion-2016-dev.herokuapp.com/web/pagoenlinea?callbackUrl='+urlOk+'&cancelUrl='+urlFail+'&boletaId=' + boleta
         redirect_to url
         #precio = NuestroProducto.find(aux).precio

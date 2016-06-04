@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 
   get 'welcome/index'
 
-  get 'cancelacion/index' => 'cancelacion#index'
+  get 'cancelacion' => 'cancelacion#index'
   
   get 'Celulosa', :to => redirect('http://integra1.ing.puc.cl/products/ruby-on-rails-jr-spaghetti')
   get 'Sémola', :to => redirect('http://integra1.ing.puc.cl/products/ruby-on-rails-tote')

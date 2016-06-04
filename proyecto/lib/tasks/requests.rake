@@ -162,7 +162,7 @@ task actualizarInventario: :environment do
     (Inventario.find_by sku:27).update(cantidadBodega:@levadura)
     (Inventario.find_by sku:39).update(cantidadBodega:@uva)
     (Inventario.find_by sku:40).update(cantidadBodega:@queso)
-    (Inventario.find_by sku:41).update(cantidadBodega:@queso)
+    (Inventario.find_by sku:41).update(cantidadBodega:@sueroDeLeche)
     (Inventario.find_by sku:45).update(cantidadBodega:@celulosa)
     (Inventario.find_by sku:47).update(cantidadBodega:@vino)
 
@@ -214,7 +214,7 @@ task revisarStock: :environment do
           respuestaEnvioOC = RestClient.get 'http://integra'+grupoProveedor.to_s+'.ing.puc.cl/api/oc/recibir/'+hashOrdenCompra['_id'] ,{:Content_Type => 'application/json'}
           hashEnvioOC = JSON.parse respuestaEnvioOC
           ## Esperamos la respuesta y si es positiva tendriamos que guardarla en una base de datos y esperar que nos llegue la factura, que generara el pago automaticamente
-          if hashEnvioOC['aceptado'] == true
+          if hashEnvioOC['aceptado'] == true || hashEnvioOC['aceptado'] == 'true' ## ACA SE CAMBIO
             ## Deberiamos guardar en la base de datos que tenemos una orden aceptada
             puts 'se acepto la orden'
             ## Ver bien la insercion!
@@ -234,6 +234,7 @@ task revisarStock: :environment do
      end
 
      end
+
     def moverInsumosDespacho sku, cantidad
     #sku = Integer(params[:sku])
     #cantidad = Integer(params[:cantidad])
@@ -508,6 +509,17 @@ task despachar: :environment do
     cantidadVendida = ((Inventario.find_by sku: sku).cantidadVendida).to_i
     cantidadVendida = cantidadVendida - cantidad
     (Inventario.find_by sku: sku).update(cantidadVendida: cantidadVendida)
+    producto = ((Inventario.find_by sku: sku).cantidadBodega).to_i - ((Inventario.find_by sku: sku).cantidadVendida).to_i
+    if sku == 19
+    StockItem.find(1).update(count_on_hand:producto)
+    elsif sku == 27
+    StockItem.find(2).update(count_on_hand:producto)
+    elsif sku == 40
+    StockItem.find(3).update(count_on_hand:producto)
+    elsif sku == 45
+    StockItem.find(4).update(count_on_hand:producto)
+    elsif sku == 47
+    StockItem.find(5).update(count_on_hand:producto)
     if cliente == 'internacional'
     #Vemos si tenemos lo suficiente en el almacén de despacho
     key = 'W0B@c0w9.xqo1nQ'
