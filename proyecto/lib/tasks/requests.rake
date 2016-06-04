@@ -465,6 +465,14 @@ task contestarOrden: :environment do
      cantidadVendida += cantidad.to_i
      (Inventario.find_by sku: sku).update(cantidadVendida: cantidadVendida)
      factura = RestClient.put 'http://mare.ing.puc.cl/facturas/', {:oc => idOrden}.to_json, :content_type => 'application/json'
+     facturaParseada = JSON.parse factura
+     creado = facturaParseada['created_at']
+     cliente = facturaParseada['cliente']
+     proveedor = facturaParseada['proveedor']
+     total = facturaParseada['total']
+     id = facturaParseada['_id']
+     estado = facturaParseada['estado']
+     Factura.create(creado:creado, cliente:cliente, proveedor:proveedor, total:total, idFactura:id, estado:estado)
      (Orden.find_by idOrden: idOrden).update(estado: "LPD")
 
 

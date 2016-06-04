@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  string: MyString
+  creado: MyString
+  string: MyString
+  clinte: MyString
+  string: MyString
+  proveedor: MyString
+  int: MyString
+  total: MyString
+  string: MyString
+  idFactura: MyString
+  string: MyString
+  estado: MyString
+
+two:
+  string: MyString
+  creado: MyString
+  string: MyString
+  clinte: MyString
+  string: MyString
+  proveedor: MyString
+  int: MyString
+  total: MyString
+  string: MyString
+  idFactura: MyString
+  string: MyString
+  estado: MyString

@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   get 'vista_oc/generarVista'
 
+  get 'vista_factura/generarVista'
+
   get 'welcome/index'
   
   get 'spree/orders/confirmarCompra/:boleta' => 'spree/orders#despachar'
