@@ -14,7 +14,11 @@ Rails.application.routes.draw do
 
   get 'welcome/index'
   
-  #get ''
+  get 'Celulosa', :to => redirect('http://localhost:3000/products/ruby-on-rails-jr-spaghetti')
+  get 'Sémola', :to => redirect('http://localhost:3000/products/ruby-on-rails-tote')
+  get 'Vino', :to => redirect('http://localhost:3000/products/ruby-on-rails-ringer-t-shirt')
+  get 'Queso', :to => redirect('http://localhost:3000/products/ruby-on-rails-baseball-jersey')
+  get 'Levadura', :to => redirect('http://localhost:3000/products/ruby-on-rails-bag')
   
   get 'spree/orders/confirmarCompra/:boleta' => 'spree/orders#despachar'
 
