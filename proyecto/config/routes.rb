@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   get 'vista_factura/generarVista'
 
   get 'welcome/index'
+
+  get 'cancelacion' => 'cancelacion#index'
   
   get 'Celulosa', :to => redirect('http://integra1.ing.puc.cl/products/ruby-on-rails-jr-spaghetti')
   get 'Sémola', :to => redirect('http://integra1.ing.puc.cl/products/ruby-on-rails-tote')
