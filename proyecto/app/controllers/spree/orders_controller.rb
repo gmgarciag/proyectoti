@@ -27,12 +27,12 @@ module Spree
     cantidadVendida = ((Inventario.find_by sku: sku).cantidadVendida).to_i
     cantidadVendida = cantidadVendida - cantidad
     (Inventario.find_by sku: sku).update(cantidadVendida: cantidadVendida)
-    key = 'W0B@c0w9.xqo1nQ'
+    key = '.k3GBP9YYZmzWCr'
     hmac = HMAC::SHA1.new(key)
     signature = 'GET' + idDespacho
     hmac.update(signature)
     clave = Base64.encode64("#{hmac.digest}")
-    temp = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/skusWithStock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => idDespacho}}
+    temp = RestClient.get 'http://integracion-2016-prod.herokuapp.com/bodega/skusWithStock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => idDespacho}}
     contenido = JSON.parse temp
     i=0
     necesario = cantidad
@@ -45,24 +45,24 @@ module Spree
           necesario = 0
           restante = 0
           while cantidad > 0
-          key = 'W0B@c0w9.xqo1nQ'
+          key = '.k3GBP9YYZmzWCr'
           hmac = HMAC::SHA1.new(key)
           signature = 'GET' + idDespacho + sku.to_s
           hmac.update(signature)
           clave = Base64.encode64("#{hmac.digest}")
-          stock = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/stock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => idDespacho, :sku => sku, :limit => cantidad}}
+          stock = RestClient.get 'http://integracion-2016-prod.herokuapp.com/bodega/stock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => idDespacho, :sku => sku, :limit => cantidad}}
           stockParseado = JSON.parse stock
           puts stockParseado.length
           k = 0
           puts cantidad
           while k < stockParseado.length
             idProducto = stockParseado[k]["_id"]
-            key = 'W0B@c0w9.xqo1nQ'
+            key = '.k3GBP9YYZmzWCr'
             hmac = HMAC::SHA1.new(key)
             signature = 'DELETE' + idProducto + direccion + precio.to_s + idBoleta
             hmac.update(signature)
             clave = Base64.encode64("#{hmac.digest}")
-            RestClient::Request.execute(method: :delete, url: 'http://integracion-2016-dev.herokuapp.com/bodega/stock', payload: {:productoId => idProducto, :direccion => direccion, :precio => precio, :oc => idBoleta}, headers: {Authorization: 'INTEGRACION grupo1:'+clave})
+            RestClient::Request.execute(method: :delete, url: 'http://integracion-2016-prod.herokuapp.com/bodega/stock', payload: {:productoId => idProducto, :direccion => direccion, :precio => precio, :oc => idBoleta}, headers: {Authorization: 'INTEGRACION grupo1:'+clave})
             k += 1
             end
           cantidad -= k
@@ -72,23 +72,23 @@ module Spree
                 restante = cantidad - total
                 while total > 0
                 #Despachamos lo que teniamos en despacho
-                key = 'W0B@c0w9.xqo1nQ'
+                key = '.k3GBP9YYZmzWCr'
                 hmac = HMAC::SHA1.new(key)
                 signature = 'GET' + idDespacho + sku.to_s
                 hmac.update(signature)
                 clave = Base64.encode64("#{hmac.digest}")
-                stock = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/stock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => idDespacho, :sku => sku, :limit => total}}
+                stock = RestClient.get 'http://integracion-2016-prod.herokuapp.com/bodega/stock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => idDespacho, :sku => sku, :limit => total}}
                 stockParseado = JSON.parse stock
                 puts stockParseado.length
                 k = 0
                 while k < stockParseado.length
                   idProducto = stockParseado[k]["_id"]
-                  key = 'W0B@c0w9.xqo1nQ'
+                  key = '.k3GBP9YYZmzWCr'
                   hmac = HMAC::SHA1.new(key)
                   signature = 'DELETE' + idProducto + direccion + precio.to_s + idBoleta
                   hmac.update(signature)
                   clave = Base64.encode64("#{hmac.digest}")
-                  RestClient::Request.execute(method: :delete, url: 'http://integracion-2016-dev.herokuapp.com/bodega/stock', payload: {:productoId => idProducto, :direccion => direccion, :precio => precio, :oc => idBoleta}, headers: {Authorization: 'INTEGRACION grupo1:'+clave})
+                  RestClient::Request.execute(method: :delete, url: 'http://integracion-2016-prod.herokuapp.com/bodega/stock', payload: {:productoId => idProducto, :direccion => direccion, :precio => precio, :oc => idBoleta}, headers: {Authorization: 'INTEGRACION grupo1:'+clave})
                   k += 1
                   end
                 total -= k
@@ -107,12 +107,12 @@ module Spree
             nAlmacenes = Almacen.last.id
             while i <= nAlmacenes 
               id = Almacen.find(i).almacenId
-              key = 'W0B@c0w9.xqo1nQ'
+              key = '.k3GBP9YYZmzWCr'
               hmac = HMAC::SHA1.new(key)
               signature = 'GET' + id
               hmac.update(signature)
               clave = Base64.encode64("#{hmac.digest}")
-              temp = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/skusWithStock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => id}}
+              temp = RestClient.get 'http://integracion-2016-prod.herokuapp.com/bodega/skusWithStock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => id}}
               contenido = JSON.parse temp
               j=0
               while contenido[j].nil? == false do
@@ -125,19 +125,19 @@ module Spree
                   clave = Base64.encode64("#{hmac.digest}")
                   if necesario != 0
                   puts necesario
-                  temp = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/stock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => id, :sku => sku_, :limit => necesario}}
+                  temp = RestClient.get 'http://integracion-2016-prod.herokuapp.com/bodega/stock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => id, :sku => sku_, :limit => necesario}}
                   productos = JSON.parse temp
                   @productos = productos
                   puts productos
                   k = 0
                   while k < productos.length
                    idProducto = productos[k]["_id"]
-                   key = 'W0B@c0w9.xqo1nQ'
+                   key = '.k3GBP9YYZmzWCr'
                    hmac = HMAC::SHA1.new(key)
                    signature = 'POST' + idProducto + idDespacho
                    hmac.update(signature)
                    clave = Base64.encode64("#{hmac.digest}")
-                   RestClient.post  'http://integracion-2016-dev.herokuapp.com/bodega/moveStock', {:productoId => idProducto, :almacenId => idDespacho}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
+                   RestClient.post  'http://integracion-2016-prod.herokuapp.com/bodega/moveStock', {:productoId => idProducto, :almacenId => idDespacho}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
                   k += 1
                   end
                   necesario -= k
@@ -150,23 +150,23 @@ module Spree
     end
     #Enviamos lo restante
    while restante > 0
-   key = 'W0B@c0w9.xqo1nQ'
+   key = '.k3GBP9YYZmzWCr'
    hmac = HMAC::SHA1.new(key)
    signature = 'GET' + idDespacho + sku.to_s
    hmac.update(signature)
    clave = Base64.encode64("#{hmac.digest}")
-   stock = RestClient.get 'http://integracion-2016-dev.herokuapp.com/bodega/stock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => idDespacho, :sku => sku, :limit => restante}}
+   stock = RestClient.get 'http://integracion-2016-prod.herokuapp.com/bodega/stock', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json', :params => {:almacenId => idDespacho, :sku => sku, :limit => restante}}
    stockParseado = JSON.parse stock
    puts stockParseado.length
    k = 0
    while k < stockParseado.length
    idProducto = stockParseado[k]["_id"]
-   key = 'W0B@c0w9.xqo1nQ'
+   key = '.k3GBP9YYZmzWCr'
    hmac = HMAC::SHA1.new(key)
    signature = 'DELETE' + idProducto + direccion + precio.to_s + idBoleta
    hmac.update(signature)
    clave = Base64.encode64("#{hmac.digest}")
-   RestClient::Request.execute(method: :delete, url: 'http://integracion-2016-dev.herokuapp.com/bodega/stock', payload: {:productoId => idProducto, :direccion => direccion, :precio => precio, :oc => idBoleta}, headers: {Authorization: 'INTEGRACION grupo1:'+clave})
+   RestClient::Request.execute(method: :delete, url: 'http://integracion-2016-prod.herokuapp.com/bodega/stock', payload: {:productoId => idProducto, :direccion => direccion, :precio => precio, :oc => idBoleta}, headers: {Authorization: 'INTEGRACION grupo1:'+clave})
    k += 1
    end
    restante -= k
@@ -238,7 +238,7 @@ module Spree
         redirect_back_or_default(spree.root_path)
       else
         total = NuestroProducto.find(aux).precio * quantity
-        factura = RestClient.put 'http://mare.ing.puc.cl/facturas/boleta', {:proveedor => '571262b8a980ba030058ab4f', :cliente => 'b2c', :total => total}
+        factura = RestClient.put 'http://moto.ing.puc.cl/facturas/boleta', {:proveedor => '572aac69bdb6d403005fb042', :cliente => 'b2c', :total => total}
         facturaParseada = JSON.parse factura
         boleta = facturaParseada["_id"]
         $idBoleta = boleta
@@ -250,7 +250,7 @@ module Spree
         total = $total
         urlOk = 'http://integra1.ing.puc.cl/spree/orders/confirmarCompra/' + boleta
         urlFail = 'http://integra1.ing.puc.cl/cancelacion'
-        url = 'http://integracion-2016-dev.herokuapp.com/web/pagoenlinea?callbackUrl='+urlOk+'&cancelUrl='+urlFail+'&boletaId=' + boleta
+        url = 'http://integracion-2016-prod.herokuapp.com/web/pagoenlinea?callbackUrl='+urlOk+'&cancelUrl='+urlFail+'&boletaId=' + boleta
         redirect_to url
         #precio = NuestroProducto.find(aux).precio
         #moverA_Despacho boleta, direccion, quantity, sku, precio
@@ -274,7 +274,7 @@ module Spree
         @order.empty!
       end
 
-      redirect_to 'http://integracion-2016-dev.herokuapp.com/web/pagoenlinea'
+      redirect_to 'http://integracion-2016-prod.herokuapp.com/web/pagoenlinea'
 
     end
    

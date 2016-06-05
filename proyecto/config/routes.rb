@@ -21,11 +21,11 @@ Rails.application.routes.draw do
 
   get 'cancelacion' => 'cancelacion#index'
   
-  get 'Celulosa', :to => redirect('http://integra1.ing.puc.cl/products/ruby-on-rails-jr-spaghetti')
-  get 'Sémola', :to => redirect('http://integra1.ing.puc.cl/products/ruby-on-rails-tote')
-  get 'Vino', :to => redirect('http://integra1.ing.puc.cl/products/ruby-on-rails-ringer-t-shirt')
-  get 'Queso', :to => redirect('http://integra1.ing.puc.cl/products/ruby-on-rails-baseball-jersey')
-  get 'Levadura', :to => redirect('http://integra1.ing.puc.cl/products/ruby-on-rails-bag')
+  get 'Celulosa', :to => redirect('http://integra1.ing.puc.cl/spree/products/ruby-on-rails-jr-spaghetti')
+  get 'Sémola', :to => redirect('http://integra1.ing.puc.cl/spree/products/ruby-on-rails-tote')
+  get 'Vino', :to => redirect('http://integra1.ing.puc.cl/spree/products/ruby-on-rails-ringer-t-shirt')
+  get 'Queso', :to => redirect('http://integra1.ing.puc.cl/spree/products/ruby-on-rails-baseball-jersey')
+  get 'Levadura', :to => redirect('http://integra1.ing.puc.cl/spree/products/ruby-on-rails-bag')
   
   get 'spree/orders/confirmarCompra/:boleta' => 'spree/orders#despachar'
 

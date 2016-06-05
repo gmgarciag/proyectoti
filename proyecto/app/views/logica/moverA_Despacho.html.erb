@@ -1,4 +1,4 @@
 <h1>Taller de Integración Grupo 1</h1>
 productos: <%= @necesario %>
 largo: <%= @largo %>
- RestClient.post  'http://integracion-2016-dev.herokuapp.com/bodega/moveStock', {:productoId => idProducto, :almacenId => almacenId}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
+ RestClient.post  'http://integracion-2016-prod.herokuapp.com/bodega/moveStock', {:productoId => idProducto, :almacenId => almacenId}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
