@@ -181,8 +181,7 @@ task revisarStock: :environment do
 		  hmac.update(signature)
 		  clave = Base64.encode64("#{hmac.digest}")
 		  RestClient.put 'http://integracion-2016-prod.herokuapp.com/bodega/fabrica/fabricar', {:sku => sku, :trxId => idTrx, :cantidad => cantidad}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'    
-		 end
-                
+		 end           
                 #metodo que envia la orden de compra para comprar la materia prima cuando no se tiene
     def comprar sku, cantidad, fechaEntrega
      begin
@@ -234,7 +233,7 @@ task revisarStock: :environment do
      end
 
      end
-
+  
     def moverInsumosDespacho sku, cantidad
     #sku = Integer(params[:sku])
     #cantidad = Integer(params[:cantidad])
@@ -520,6 +519,7 @@ task despachar: :environment do
     StockItem.find(4).update(count_on_hand:producto)
     elsif sku == 47
     StockItem.find(5).update(count_on_hand:producto)
+  end
     if cliente == 'internacional'
     #Vemos si tenemos lo suficiente en el almacén de despacho
     key = '.k3GBP9YYZmzWCr'
