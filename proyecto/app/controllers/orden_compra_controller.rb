@@ -5,7 +5,7 @@ require 'net/sftp'
 
 def conseguirOrdenes
 
-Net::SFTP.start('moto.ing.puc.cl', 'integra1', :password => 'KPg5RqHE') do |sftp|
+Net::SFTP.start('moto.ing.puc.cl', 'integra1', :password => 'KPg5RqHE') do |sftp|#cambiar prod/dev
 	sftp.dir.foreach("./pedidos") do |entry|
 	  puts entry.name
 end 

@@ -308,7 +308,7 @@ def actualizarInventario
    end
    #Aquí termina el if internacional 
    else
-    almacenRecepcion = (IdGrupo.find_by idGrupo: cliente).idBodegaRecepcion
+    almacenRecepcion = (IdGrupoProduccion.find_by idGrupo: cliente).idBodegaRecepcion
     #Vemos si hay lo suficiente en el almacén de despacho
     key = '.k3GBP9YYZmzWCr'
     hmac = HMAC::SHA1.new(key)
@@ -489,19 +489,19 @@ celulosa = ((Inventario.find_by sku:'45').cantidadBodega).to_i - ((Inventario.fi
 queso = ((Inventario.find_by sku:'40').cantidadBodega).to_i - ((Inventario.find_by sku:'40').cantidadVendida).to_i
 vino = ((Inventario.find_by sku:'47').cantidadBodega).to_i - ((Inventario.find_by sku:'47').cantidadVendida).to_i
 if semola < 1000
-  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2027760, :origen => '571262c3a980ba030058ab5b', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
+  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2027760, :origen => '572aac69bdb6d403005fb04e', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
   transaccionParseada = JSON.parse transaccion
   idTrx = transaccionParseada["_id"]
   producir 19, idTrx, 1420
 end
 if levadura < 2000
-  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2016240, :origen => '571262c3a980ba030058ab5b', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
+  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2016240, :origen => '572aac69bdb6d403005fb04e', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
   transaccionParseada = JSON.parse transaccion
   idTrx = transaccionParseada["_id"]
   producir 27, idTrx, 1860
 end
 if celulosa < 800
-  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 1200000, :origen => '571262c3a980ba030058ab5b', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
+  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 1200000, :origen => '572aac69bdb6d403005fb04e', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
   transaccionParseada = JSON.parse transaccion
   idTrx = transaccionParseada["_id"]
   producir 45, idTrx, 800
@@ -518,7 +518,7 @@ if queso < 900
   if leche >= 1000 && sueroDeLeche >= 800
     moverA_Despacho 7, 1000
     moverA_Despacho 41, 1000
-    transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2091600, :origen => '571262c3a980ba030058ab5b', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
+    transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2091600, :origen => '572aac69bdb6d403005fb04e', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
     transaccionParseada = JSON.parse transaccion
     idTrx = transaccionParseada["_id"]
     producir 40, idTrx, 900
@@ -537,7 +537,7 @@ if vino < 1000
     moverA_Despacho 25, 1000
     moverA_Despacho 27, 570
     moverA_Despacho 39, 495
-    transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 1921000, :origen => '571262c3a980ba030058ab5b', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
+    transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 1921000, :origen => '572aac69bdb6d403005fb04e', :destino => '571262aea980ba030058a5d8'}.to_json, :content_type => 'application/json'
     transaccionParseada = JSON.parse transaccion
     idTrx = transaccionParseada["_id"]
     producir 47, idTrx, 1000
@@ -549,7 +549,7 @@ end
 def revisarRecepcion
   idRecepcion = (Almacen.find_by recepcion:true).almacenId
   almacenesIntermedios = (Almacen.where(recepcion:false)).where(pulmon:false).where(depacho:false)
-  key = '.k3GBP9YYZmzWCr'
+  key = '.k3GBP9YYZmzWCr'#cambiar para produccion/dev
   hmac = HMAC::SHA1.new(key)
   signature = 'GET' + idRecepcion
   hmac.update(signature)

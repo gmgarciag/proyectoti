@@ -1,9 +1,33 @@
 Rails.application.routes.draw do
+
+  # This line mounts Spree's routes at the root of your application.
+  # This means, any requests to URLs such as /products, will go to Spree::ProductsController.
+  # If you would like to change where this engine is mounted, simply change the :at option to something different.
+  #
+        
+  # This line mounts Spree's routes at the root of your application.
+  # This means, any requests to URLs such as /products, will go to Spree::ProductsController.
+  # If you would like to change where this engine is mounted, simply change the :at option to something different.
+  #
+  # We ask that you don't use the :as option here, as Spree relies on it being the default of "spree"
+  mount Spree::Core::Engine, at: '/spree'
   get 'vista_bodega/generarVista'
 
   get 'vista_oc/generarVista'
 
+  get 'vista_factura/generarVista'
+
   get 'welcome/index'
+
+  get 'cancelacion' => 'cancelacion#index'
+  
+  get 'Celulosa', :to => redirect('http://integra1.ing.puc.cl/spree/products/ruby-on-rails-jr-spaghetti')
+  get 'Sémola', :to => redirect('http://integra1.ing.puc.cl/spree/products/ruby-on-rails-tote')
+  get 'Vino', :to => redirect('http://integra1.ing.puc.cl/spree/products/ruby-on-rails-ringer-t-shirt')
+  get 'Queso', :to => redirect('http://integra1.ing.puc.cl/spree/products/ruby-on-rails-baseball-jersey')
+  get 'Levadura', :to => redirect('http://integra1.ing.puc.cl/spree/products/ruby-on-rails-bag')
+  
+  get 'spree/orders/confirmarCompra/:boleta' => 'spree/orders#despachar'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

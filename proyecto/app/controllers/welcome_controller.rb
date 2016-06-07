@@ -20,7 +20,7 @@ require 'net/sftp'
       #IDgrupo=(IdGrupoProduccion.find_by numeroGrupo: grupoProveedor).idGrupo
 
     #llamada a crear la orden de compra, retorna la orden de compra o error
-      @ordenCompra=RestClient.put 'http://moto.ing.puc.cl/oc/crear/', {:cliente => '572aac69bdb6d403005fb042', :proveedor => '572aac69bdb6d403005fb042', :sku => 47, :fechaEntrega => 1463797342000, :cantidad => 4, :precioUnitario => 7244, :canal => 'b2b'}.to_json, :content_type => 'application/json'
+    #@ordenCompra=RestClient.put 'http://moto.ing.puc.cl/oc/crear/', {:cliente => '572aac69bdb6d403005fb042', :proveedor => '572aac69bdb6d403005fb042', :sku => 47, :fechaEntrega => 1463797342000, :cantidad => 4, :precioUnitario => 7244, :canal => 'b2b'}.to_json, :content_type => 'application/json'
 
       end
 

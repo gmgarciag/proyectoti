@@ -1,0 +1,16 @@
+<table style="width:100%">
+  <tr>
+        <td>ID de la factura: </td>
+        <td>Fecha de creación:</td> 
+        <td>Cliente:</td> 
+        <td>Estado de factura:</td>
+  </tr>
+<% (Factura.all).each do |factura|%>
+        <tr>
+        <td><%= factura.idFactura %></td>
+        <td> <%= factura.creado%></td>
+        <td><%= factura.cliente%></td>
+        <td> <%= factura.estado%></td>
+        </tr>     
+    <%end%>
+</table>

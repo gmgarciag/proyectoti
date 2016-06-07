@@ -1,0 +1,11 @@
+<h1>Taller de Integración Grupo 1: Ambiente actual Desarrollo</h1>
+
+<h5> Para revisar la documentación de la API, ingrese  <a href="/documentacion">Aquí</a> </h5> 
+
+<h5> Para revisar las ordenes de compra  <a href="/vista_oc/generarVista">Aquí</a> </h5> 
+
+<h5> Para revisar los productos en bodega  <a href="vista_bodega/generarVista">Aquí</a> </h5> 
+
+<h5> Para revisar las facturas  <a href="vista_factura/generarVista">Aquí</a> </h5> 
+
+

@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  string: MyString
+  idBoleta: MyString
+  int: MyString
+  sku: MyString
+  int: MyString
+  cantidad: MyString
+  int: MyString
+  iva: MyString
+  int: MyString
+  bruto: MyString
+  int: MyString
+  total: MyString
+
+two:
+  string: MyString
+  idBoleta: MyString
+  int: MyString
+  sku: MyString
+  int: MyString
+  cantidad: MyString
+  int: MyString
+  iva: MyString
+  int: MyString
+  bruto: MyString
+  int: MyString
+  total: MyString

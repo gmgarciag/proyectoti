@@ -1,0 +1,2 @@
+class VistaFacturaController < ApplicationController
+end

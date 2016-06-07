@@ -1,13 +1,13 @@
-<h1>Documentaci&oacute;n API</h1>
+<h1>Tu compra fue realizada con exito</h1>
 
  <!DOCTYPE html>
 <html>
 <head>
-<title>Documentaci&oacute;n API</title>
+<title>Boleta</title>
 </head>
 <body>
 
-<h3>Funci&oacute;n: Entregar id Grupo</h3>
+<h3>Id Boleta: </h3>
 <p>Retorna el id del grupo</p>
 <p>- URL: integra1.ing.puc.cl/api/ids/grupo</p>
 <p>- M&eacute;todo: GET</p>
@@ -45,7 +45,7 @@
 
 <h3>Funci&oacute;n: Enviar transacci&oacute;n</h3>
 <p>Esta funci&oacute;n tiene como objetivo el enviar una transacci&oacute;n a nuestra empresa,<br> recibe como parametro el id de la transacci&oacute;n y el id de la factura que se desea pagar.<br> Retorna un JSON con la validaci&oacute;n de nuestra empresa, que el pago este bien hecho<br> y corresponda al monto pactado en la factura, y el id de la transacci&oacute;n.</p>
-<p>URL: integra1.ing.puc.cl/api/pagos/recibir/:idtrx/:idfactura</p>
+<p>URL: integra1.ing.puc.cl/api/pagos/recibir/:idtrx?idfactura=idfactura</p>
 <p>M&eacute;todo: GET</p>
 <p>Retorno: {&quot;validado&quot;: boolean, &quot;idtrx&quot;: string}</p>
 

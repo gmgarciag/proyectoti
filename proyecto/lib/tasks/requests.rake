@@ -6,13 +6,12 @@ require 'hmac-sha1'
 
 namespace :requests do
 
-  desc "TODO"
-  task nombresOC: :environment do
+desc "TODO"
+task nombresOC: :environment do
 
-  	#logger.debug("Cron test #{Time.now}")
   	puts "Cron nombresOC #{Time.now}"
 
-	Net::SFTP.start('moto.ing.puc.cl', 'integra1', :password => 'KPg5RqHE') do |sftp|
+	  Net::SFTP.start('moto.ing.puc.cl', 'integra1', :password => 'KPg5RqHE') do |sftp|#cambiar segun ambiente
 	  r=sftp.dir.foreach("./pedidos") do |entry|
 	    #puts entry.name
 	    #busca si el archivo ya existia en las ordenes de compra y lo mete a la base de datos
@@ -26,17 +25,14 @@ namespace :requests do
 	    end
 	    end
 	  end
-	end
+	 end
+   end
+desc "TODO"
+task ordenesCompra: :environment do
 
+	  puts "Cron ordenesCompra #{Time.now}"
 
-  end
-
-  desc "TODO"
-  task ordenesCompra: :environment do
-
-	puts "Cron ordenesCompra #{Time.now}"
-
-	  Net::SFTP.start('moto.ing.puc.cl', 'integra1', :password => 'KPg5RqHE') do |sftp|
+	  Net::SFTP.start('moto.ing.puc.cl', 'integra1', :password => 'KPg5RqHE') do |sftp|#cambiar segun ambiente
 
 	  i=Xml.first.id
 	  totalArchivos = Xml.last.id
@@ -62,20 +58,18 @@ namespace :requests do
 	  end
 
 
-  end
+   end
+desc "TODO"
+task actualizarInventario: :environment do
 
-
-  desc "TODO"
-  task actualizarInventario: :environment do
-
-	puts "Cron Actualiza Inventario #{Time.now}"
-  #OBTENER LOS ALMACENES
-    key = '.k3GBP9YYZmzWCr'
+	 puts "Cron Actualiza Inventario #{Time.now}"
+   #OBTENER LOS ALMACENES
+    key = '.k3GBP9YYZmzWCr'#cambiar segun ambiente
     signature = 'GET'
     hmac = HMAC::SHA1.new(key)
     hmac.update(signature)
     clave = Base64.encode64("#{hmac.digest}")
-    almacenes = RestClient.get 'http://integracion-2016-prod.herokuapp.com/bodega/almacenes', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'}
+    almacenes = RestClient.get 'http://integracion-2016-prod.herokuapp.com/bodega/almacenes', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'}#cambiar segun ambiente
     @almacenesJson = almacenes #Esta es solo para debug
     almacenesParseado = JSON.parse almacenes
     almacenesArreglo = almacenes.split("},")
@@ -168,17 +162,14 @@ namespace :requests do
     (Inventario.find_by sku:27).update(cantidadBodega:@levadura)
     (Inventario.find_by sku:39).update(cantidadBodega:@uva)
     (Inventario.find_by sku:40).update(cantidadBodega:@queso)
-    (Inventario.find_by sku:41).update(cantidadBodega:@queso)
+    (Inventario.find_by sku:41).update(cantidadBodega:@sueroDeLeche)
     (Inventario.find_by sku:45).update(cantidadBodega:@celulosa)
     (Inventario.find_by sku:47).update(cantidadBodega:@vino)
 
 
-  end
-
-
-
-  desc "TODO"
-  task revisarStock: :environment do
+   end
+desc "TODO"
+task revisarStock: :environment do
 
 		def producir sku, idTrx, cantidad
 		  #sku = params[:sku]
@@ -190,11 +181,10 @@ namespace :requests do
 		  hmac.update(signature)
 		  clave = Base64.encode64("#{hmac.digest}")
 		  RestClient.put 'http://integracion-2016-prod.herokuapp.com/bodega/fabrica/fabricar', {:sku => sku, :trxId => idTrx, :cantidad => cantidad}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'    
-		end
-                
+		 end           
                 #metodo que envia la orden de compra para comprar la materia prima cuando no se tiene
-  def comprar sku, cantidad, fechaEntrega
-    begin
+    def comprar sku, cantidad, fechaEntrega
+     begin
       #sku = (params[:sku]).to_i
       #cantidad = (params[:cantidad]).to_i
       #fechaEntrega = (params[:fechaEntrega]).to_time
@@ -214,36 +204,37 @@ namespace :requests do
           fechaEnFormato = (fechaEntrega.to_i) * 1000
           precio = proveedor.precio
           ## En produccion
-          ordenCompra=RestClient.put 'http://moto.ing.puc.cl/oc/crear/', {:cliente => '571262b8a980ba030058ab4f', :proveedor => idGrupo, :sku => sku, :fechaEntrega => fechaEnFormato, :cantidad => cantidad, :precioUnitario => precio, :canal => 'b2b'}.to_json, :content_type => 'application/json'
+          ordenCompra=RestClient.put 'http://moto.ing.puc.cl/oc/crear/', {:cliente => '572aac69bdb6d403005fb042', :proveedor => idGrupo, :sku => sku, :fechaEntrega => fechaEnFormato, :cantidad => cantidad, :precioUnitario => precio, :canal => 'b2b'}.to_json, :content_type => 'application/json'#ambiente
           ## En desarrollo
-          ##ordenCompra=RestClient.put 'http://mare.ing.puc.cl/oc/crear/', {:cliente => '571262b8a980ba030058ab4f', :proveedor => idGrupo, :sku => sku, :fechaEntrega => fechaEnFormato, :cantidad => cantidad, :precioUnitario => precio, :canal => 'b2b'}.to_json, :content_type => 'application/json'
+          ##ordenCompra=RestClient.put 'http://moto.ing.puc.cl/oc/crear/', {:cliente => '572aac69bdb6d403005fb042', :proveedor => idGrupo, :sku => sku, :fechaEntrega => fechaEnFormato, :cantidad => cantidad, :precioUnitario => precio, :canal => 'b2b'}.to_json, :content_type => 'application/json'
           ## Ya creada la orden de compra tenemos que ir a la aplicacion del grupo proveedor y exigir dicha cantidad
           hashOrdenCompra = JSON.parse ordenCompra
           ## Enviamos al grupo proveedor la orden de compra
           respuestaEnvioOC = RestClient.get 'http://integra'+grupoProveedor.to_s+'.ing.puc.cl/api/oc/recibir/'+hashOrdenCompra['_id'] ,{:Content_Type => 'application/json'}
           hashEnvioOC = JSON.parse respuestaEnvioOC
           ## Esperamos la respuesta y si es positiva tendriamos que guardarla en una base de datos y esperar que nos llegue la factura, que generara el pago automaticamente
-          if hashEnvioOC['aceptado'] == true
+          if hashEnvioOC['aceptado'] == true || hashEnvioOC['aceptado'] == 'true' ## ACA SE CAMBIO
             ## Deberiamos guardar en la base de datos que tenemos una orden aceptada
             puts 'se acepto la orden'
             ## Ver bien la insercion!
-            Pedido.create(idPedido: hashOrdenCompra['idoc'] , creacion: Time.now , proveedor: idGrupo , cantidad: cantidad.to_i , despachado: 0 , fechaEntrega: fechaEntrega.to_i , estado: 'Aceptada' , transaccion: false)
+            Pedido.create(idPedido: hashOrdenCompra['_id'] , creacion: Time.now , proveedor: idGrupo , cantidad: cantidad.to_i , despachado: 0 , fechaEntrega: fechaEntrega.to_i , estado: 'Aceptada' , transaccion: false)
           else
             ## 
             puts 'no me lee que la acepto'
-            Pedido.create(idPedido: hashOrdenCompra['idoc'] , creacion: Time.now , proveedor: idGrupo , cantidad: cantidad.to_i , despachado: 0 , fechaEntrega: fechaEntrega.to_i , estado: 'Rechazada' , transaccion: false)
+            Pedido.create(idPedido: hashOrdenCompra['_id'] , creacion: Time.now , proveedor: idGrupo , cantidad: cantidad.to_i , despachado: 0 , fechaEntrega: fechaEntrega.to_i , estado: 'Rechazada' , transaccion: false)
           end
           ## Luego hay que esperar que el cliente nos despache
         else
 
         end
       end
-    rescue
+     rescue
       ## No compra si se cae, deberia alomejor guardar en el log la informacion por la que se cayo
-    end
+     end
 
- end
-def moverInsumosDespacho sku, cantidad
+     end
+  
+    def moverInsumosDespacho sku, cantidad
     #sku = Integer(params[:sku])
     #cantidad = Integer(params[:cantidad])
     #oc = params[:oc]
@@ -265,7 +256,7 @@ def moverInsumosDespacho sku, cantidad
       sku_ = Integer(contenido[i]["_id"])
       total = Integer(contenido[i]["total"])
       if sku_ == sku
-       puts 'ehtra aca'
+
         if total >= cantidad
           necesario = 0
         else
@@ -322,7 +313,7 @@ def moverInsumosDespacho sku, cantidad
     end
    end
 
-  		puts "Cron Revisar Stock #{Time.now}"
+   puts "Cron Revisar Stock #{Time.now}"
 
 		semola = ((Inventario.find_by sku:'19').cantidadBodega).to_i - ((Inventario.find_by sku:'19').cantidadVendida).to_i
 		levadura = ((Inventario.find_by sku:'27').cantidadBodega).to_i - ((Inventario.find_by sku:'27').cantidadVendida).to_i
@@ -337,9 +328,9 @@ def moverInsumosDespacho sku, cantidad
                 cuentaFabrica = RestClient.get 'http://integracion-2016-prod.herokuapp.com/bodega/fabrica/getCuenta', :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json' 
                 puts cuentaFabrica
                 puts semola	
-           	if semola < 1000
+    if semola < 1000
                 
-		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2027760, :origen => '572aac69bdb6d403005fb04e', :destino => '572aac69bdb6d403005fb040'}.to_json, :content_type => 'application/json'
+		  transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2027760, :origen => '572aac69bdb6d403005fb04e', :destino => '572aac69bdb6d403005fb040'}.to_json, :content_type => 'application/json'## ver que onda el ambiente y los ids
 		  transaccionParseada = JSON.parse transaccion
 		  idTrx = transaccionParseada["_id"]
 		  producir 19, idTrx, 1420
@@ -370,7 +361,7 @@ def moverInsumosDespacho sku, cantidad
 		  if leche >= 1000 && sueroDeLeche >= 800
 		    moverInsumosDespacho 7, 1000
 		    moverInsumosDespacho 41, 800
-		    transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2091600, :origen => '572aac69bdb6d403005fb04e', :destino => cuentaFabrica}.to_json, :content_type => 'application/json'
+		    transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 2091600, :origen => '572aac69bdb6d403005fb04e', :destino => '572aac69bdb6d403005fb040'}.to_json, :content_type => 'application/json'
 		    transaccionParseada = JSON.parse transaccion
 		    idTrx = transaccionParseada["_id"]
 		    producir 40, idTrx, 900
@@ -391,17 +382,16 @@ def moverInsumosDespacho sku, cantidad
 		    moverInsumosDespacho 25, 1000
 		    moverInsumosDespacho 27, 570
 		    moverInsumosDespacho 39, 495
-		    transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 1921000, :origen => '572aac69bdb6d403005fb04e', :destino => cuentaFabrica}.to_json, :content_type => 'application/json'
+		    transaccion = RestClient.put 'http://moto.ing.puc.cl/banco/trx', {:monto => 1921000, :origen => '572aac69bdb6d403005fb04e', :destino => '572aac69bdb6d403005fb040'}.to_json, :content_type => 'application/json'
 		    transaccionParseada = JSON.parse transaccion
 		    idTrx = transaccionParseada["_id"]
 		    producir 47, idTrx, 1000
 		  end
 		end   
 
-  end
-
-  desc "TODO"
-  task llenarOrden: :environment do
+   end
+desc "TODO"
+task llenarOrden: :environment do
 
   	puts "Cron Llenar Orden #{Time.now}"
 
@@ -425,10 +415,9 @@ def moverInsumosDespacho sku, cantidad
 	  anulacion = ""
 	  idFactura = ""
 	  Orden.create(idOrden:id, fechaCreacion:fechaCreacion, canal:canal, cliente:cliente, sku:sku, cantidad:cantidad, despachada:despachada, precioUnitario:precioUnitario, fechaEntrega:fechaEntrega, estado:estado, rechazo:rechazo, anulacion:anulacion, idFactura:idFactura) 
-end
+    end
 
-end
-
+    end
 desc "TODO"
 task contestarOrden: :environment do
 
@@ -476,6 +465,14 @@ task contestarOrden: :environment do
      cantidadVendida += cantidad.to_i
      (Inventario.find_by sku: sku).update(cantidadVendida: cantidadVendida)
      factura = RestClient.put 'http://moto.ing.puc.cl/facturas/', {:oc => idOrden}.to_json, :content_type => 'application/json'
+     facturaParseada = JSON.parse factura
+     creado = facturaParseada['created_at']
+     cliente = facturaParseada['cliente']
+     proveedor = facturaParseada['proveedor']
+     total = facturaParseada['total']
+     id = facturaParseada['_id']
+     estado = facturaParseada['estado']
+     Factura.create(creado:creado, cliente:cliente, proveedor:proveedor, total:total, idFactura:id, estado:estado)
      (Orden.find_by idOrden: idOrden).update(estado: "LPD")
 
 
@@ -487,16 +484,14 @@ task contestarOrden: :environment do
      end
   end
   
-end
-
-
-#despacha tanto a internacional como a B2B
+ end
+ #despacha tanto a internacional como a B2B
 desc "TODO"
 task despachar: :environment do
 
-puts "Cron Despachar #{Time.now}"
+  puts "Cron Despachar #{Time.now}"
 
-##### aqui debe pegarse el metodo 'mover A despacho' que actualmente esta en logica controller
+  ##### aqui debe pegarse el metodo 'mover A despacho' que actualmente esta en logica controller
   def moverA_Despacho oc
     #sku = Integer(params[:sku])
     #cantidad = Integer(params[:cantidad])
@@ -513,6 +508,18 @@ puts "Cron Despachar #{Time.now}"
     cantidadVendida = ((Inventario.find_by sku: sku).cantidadVendida).to_i
     cantidadVendida = cantidadVendida - cantidad
     (Inventario.find_by sku: sku).update(cantidadVendida: cantidadVendida)
+   # producto = ((Inventario.find_by sku: sku).cantidadBodega).to_i - ((Inventario.find_by sku: sku).cantidadVendida).to_i
+   # if sku == 19
+   # StockItem.find(1).update(count_on_hand:producto)
+   # elsif sku == 27
+   # StockItem.find(2).update(count_on_hand:producto)
+   # elsif sku == 40
+   # StockItem.find(3).update(count_on_hand:producto)
+   # elsif sku == 45
+   # StockItem.find(4).update(count_on_hand:producto)
+   # elsif sku == 47
+   # StockItem.find(5).update(count_on_hand:producto)
+ # end
     if cliente == 'internacional'
     #Vemos si tenemos lo suficiente en el almacén de despacho
     key = '.k3GBP9YYZmzWCr'
@@ -645,7 +652,7 @@ puts "Cron Despachar #{Time.now}"
               i += 1
             end  
     end
-  #Enviamos lo restante
+    #Enviamos lo restante
    while restante > 0
    key = '.k3GBP9YYZmzWCr'
    hmac = HMAC::SHA1.new(key)
@@ -804,7 +811,7 @@ puts "Cron Despachar #{Time.now}"
         i += 1
       end  
     end
-  #Enviamos lo restante
+    #Enviamos lo restante
    while restante > 0
    key = '.k3GBP9YYZmzWCr'
    hmac = HMAC::SHA1.new(key)
@@ -830,25 +837,23 @@ puts "Cron Despachar #{Time.now}"
    end
    restante -= k
    end
-  #(Orden.find_by idOrden: oc).update(estado: "despachada")
+    #(Orden.find_by idOrden: oc).update(estado: "despachada")
    end
 
-  end
+    end
 
+ (Orden.all).each do |orden|
 
-	(Orden.all).each do |orden|
-
-		if (orden.estado == "LPD") #&& (orden.fechaEntrega > Time.now))
-			moverA_Despacho(orden.idOrden)
-			idOrden = orden.id
-			(Orden.find_by id: idOrden).update(estado: "despachada")
+ if (orden.estado == "LPD") #&& (orden.fechaEntrega > Time.now))
+  moverA_Despacho(orden.idOrden)
+	idOrden = orden.id
+	(Orden.find_by id: idOrden).update(estado: "despachada")
 			## llamar a metodo moverAdespacho
 
 		end
-	end 
+	 end 
 
 
-end
-
+ end
 
 end
