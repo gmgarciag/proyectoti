@@ -16,10 +16,10 @@ module Spree
       Price.find(7).update(amount: 3112)
       Price.find(9).update(amount: 26027)
       semola = ((Inventario.find_by sku: 19).cantidadBodega).to_i - ((Inventario.find_by sku: 19).cantidadVendida).to_i
-      levadura = ((Inventario.find_by sku: 27).cantidadBodega).to_i - ((Inventario.find_by sku: 19).cantidadVendida).to_i
-      queso = ((Inventario.find_by sku: 40).cantidadBodega).to_i - ((Inventario.find_by sku: 19).cantidadVendida).to_i
-      celulosa = ((Inventario.find_by sku: 45).cantidadBodega).to_i - ((Inventario.find_by sku: 19).cantidadVendida).to_i
-      vino = ((Inventario.find_by sku: 47).cantidadBodega).to_i - ((Inventario.find_by sku: 19).cantidadVendida).to_i
+      levadura = ((Inventario.find_by sku: 27).cantidadBodega).to_i - ((Inventario.find_by sku: 27).cantidadVendida).to_i
+      queso = ((Inventario.find_by sku: 40).cantidadBodega).to_i - ((Inventario.find_by sku: 40).cantidadVendida).to_i
+      celulosa = ((Inventario.find_by sku: 45).cantidadBodega).to_i - ((Inventario.find_by sku: 45).cantidadVendida).to_i
+      vino = ((Inventario.find_by sku: 47).cantidadBodega).to_i - ((Inventario.find_by sku: 47).cantidadVendida).to_i
       StockItem.find(1).update(count_on_hand:semola)
       StockItem.find(2).update(count_on_hand:levadura)
       StockItem.find(3).update(count_on_hand:queso)

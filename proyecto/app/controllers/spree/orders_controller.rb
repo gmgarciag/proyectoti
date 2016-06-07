@@ -24,9 +24,9 @@ module Spree
     cantidadBodega = ((Inventario.find_by sku: sku).cantidadBodega).to_i
     cantidadBodega = cantidadBodega - cantidad
     (Inventario.find_by sku: sku).update(cantidadBodega: cantidadBodega)
-    cantidadVendida = ((Inventario.find_by sku: sku).cantidadVendida).to_i
-    cantidadVendida = cantidadVendida - cantidad
-    (Inventario.find_by sku: sku).update(cantidadVendida: cantidadVendida)
+   # cantidadVendida = ((Inventario.find_by sku: sku).cantidadVendida).to_i
+   # cantidadVendida = cantidadVendida - cantidad
+   # (Inventario.find_by sku: sku).update(cantidadVendida: cantidadVendida)
     key = '.k3GBP9YYZmzWCr'
     hmac = HMAC::SHA1.new(key)
     signature = 'GET' + idDespacho

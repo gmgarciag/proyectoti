@@ -217,11 +217,11 @@ task revisarStock: :environment do
             ## Deberiamos guardar en la base de datos que tenemos una orden aceptada
             puts 'se acepto la orden'
             ## Ver bien la insercion!
-            Pedido.create(idPedido: hashOrdenCompra['idoc'] , creacion: Time.now , proveedor: idGrupo , cantidad: cantidad.to_i , despachado: 0 , fechaEntrega: fechaEntrega.to_i , estado: 'Aceptada' , transaccion: false)
+            Pedido.create(idPedido: hashOrdenCompra['_id'] , creacion: Time.now , proveedor: idGrupo , cantidad: cantidad.to_i , despachado: 0 , fechaEntrega: fechaEntrega.to_i , estado: 'Aceptada' , transaccion: false)
           else
             ## 
             puts 'no me lee que la acepto'
-            Pedido.create(idPedido: hashOrdenCompra['idoc'] , creacion: Time.now , proveedor: idGrupo , cantidad: cantidad.to_i , despachado: 0 , fechaEntrega: fechaEntrega.to_i , estado: 'Rechazada' , transaccion: false)
+            Pedido.create(idPedido: hashOrdenCompra['_id'] , creacion: Time.now , proveedor: idGrupo , cantidad: cantidad.to_i , despachado: 0 , fechaEntrega: fechaEntrega.to_i , estado: 'Rechazada' , transaccion: false)
           end
           ## Luego hay que esperar que el cliente nos despache
         else
@@ -508,18 +508,18 @@ task despachar: :environment do
     cantidadVendida = ((Inventario.find_by sku: sku).cantidadVendida).to_i
     cantidadVendida = cantidadVendida - cantidad
     (Inventario.find_by sku: sku).update(cantidadVendida: cantidadVendida)
-    producto = ((Inventario.find_by sku: sku).cantidadBodega).to_i - ((Inventario.find_by sku: sku).cantidadVendida).to_i
-    if sku == 19
-    StockItem.find(1).update(count_on_hand:producto)
-    elsif sku == 27
-    StockItem.find(2).update(count_on_hand:producto)
-    elsif sku == 40
-    StockItem.find(3).update(count_on_hand:producto)
-    elsif sku == 45
-    StockItem.find(4).update(count_on_hand:producto)
-    elsif sku == 47
-    StockItem.find(5).update(count_on_hand:producto)
-  end
+   # producto = ((Inventario.find_by sku: sku).cantidadBodega).to_i - ((Inventario.find_by sku: sku).cantidadVendida).to_i
+   # if sku == 19
+   # StockItem.find(1).update(count_on_hand:producto)
+   # elsif sku == 27
+   # StockItem.find(2).update(count_on_hand:producto)
+   # elsif sku == 40
+   # StockItem.find(3).update(count_on_hand:producto)
+   # elsif sku == 45
+   # StockItem.find(4).update(count_on_hand:producto)
+   # elsif sku == 47
+   # StockItem.find(5).update(count_on_hand:producto)
+ # end
     if cliente == 'internacional'
     #Vemos si tenemos lo suficiente en el almacén de despacho
     key = '.k3GBP9YYZmzWCr'

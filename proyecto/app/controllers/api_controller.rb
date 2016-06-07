@@ -186,8 +186,8 @@ require 'hmac-sha1'
             puts 'este es el hash de la transferencia'
             puts hashTransferencia
             ## enviar transferencia al grupo proveedor
-            respuestaTransferencia = RestClient.get 'http://integra'+grupoProveedor.to_s+'.ing.puc.cl/api/pagos/recibir/'+hashTransferencia[0]['_id'] ,{:Content_Type => 'application/json'}
-            ##respuestaTransferencia = RestClient.get 'http://prod.integra10.ing.puc.cl/api/pagos/recibir/'+hashTransferencia[0]['_id']+'?idfactura='+hashFactura[0][_id] ,{:Content_Type => 'application/json'}
+            respuestaTransferencia = RestClient.get 'http://integra'+grupoProveedor.to_s+'.ing.puc.cl/api/pagos/recibir/'+hashTransferencia[0]['_id']+'?idfactura='+hashFactura[0]['_id'] ,{:Content_Type => 'application/json'}
+            ##respuestaTransferencia = RestClient.get 'http://prod.integra10.ing.puc.cl/api/pagos/recibir/'+hashTransferencia[0]['_id']+'?idfactura='+hashFactura[0]['_id'] ,{:Content_Type => 'application/json'}
             #hasRespuestaTrans = {'validado' => 'true'}
             #puts 'aca deberia ir la respeusta al atransferencia'
             ## ver que acepten la transferencia
