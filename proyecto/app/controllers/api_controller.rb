@@ -80,6 +80,10 @@ require 'hmac-sha1'
           end
         else
           estadoOC = false
+          estado = "rechazada"
+          rechazo = "no se vende"
+          Orden.create(idOrden:id, fechaCreacion:fechaCreacion, canal:canal, cliente:cliente, sku:sku, cantidad:cantidad, despachada:despachada, precioUnitario:precioUnitario, fechaEntrega:fechaEntrega, estado:estado, rechazo:rechazo, anulacion:anulacion, idFactura:idFactura)
+
         end
       rescue
         estadoOC = false
