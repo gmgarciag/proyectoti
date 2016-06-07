@@ -54,30 +54,32 @@ require 'hmac-sha1'
         anulacion = ""
         idFactura = ""
         puts 'entrando al if'
-        if inventario == nil
-          puts 'respuesta es nil'
-        elsif cantidad > Integer(inventario.cantidadBodega) - Integer(inventario.cantidadVendida)
-          estadoOC = false
-          puts 'no hay inventario'
-          estado = "rechazada"
-          rechazo = "falta de stock"
-          Orden.create(idOrden:id, fechaCreacion:fechaCreacion, canal:canal, cliente:cliente, sku:sku, cantidad:cantidad, despachada:despachada, precioUnitario:precioUnitario, fechaEntrega:fechaEntrega, estado:estado, rechazo:rechazo, anulacion:anulacion, idFactura:idFactura)
-          ## RECHAZAR ORDEN DE COMPRA
-          RestClient.post  'http://moto.ing.puc.cl/oc/rechazar/'+idOrden.strip, {:id => idOrden, :rechazo => rechazo}.to_json, :content_type => 'application/json'
+        if sku == 19 || sku == 27 || sku == 40 || sku == 45 || sku == 47
+          if inventario == nil
+            puts 'respuesta es nil'
+          elsif cantidad > Integer(inventario.cantidadBodega) - Integer(inventario.cantidadVendida)
+            estadoOC = false
+            puts 'no hay inventario'
+            estado = "rechazada"
+            rechazo = "falta de stock"
+            Orden.create(idOrden:id, fechaCreacion:fechaCreacion, canal:canal, cliente:cliente, sku:sku, cantidad:cantidad, despachada:despachada, precioUnitario:precioUnitario, fechaEntrega:fechaEntrega, estado:estado, rechazo:rechazo, anulacion:anulacion, idFactura:idFactura)
+            ## RECHAZAR ORDEN DE COMPRA
+            RestClient.post  'http://moto.ing.puc.cl/oc/rechazar/'+idOrden.strip, {:id => idOrden, :rechazo => rechazo}.to_json, :content_type => 'application/json'
+          else
+            estadoOC = true
+            ## RECEPCIONAR ORDEN DE COMPRA
+            puts 'hay inventario'
+            estado = "aceptada"
+            Orden.create(idOrden:id, fechaCreacion:fechaCreacion, canal:canal, cliente:cliente, sku:sku, cantidad:cantidad, despachada:despachada, precioUnitario:precioUnitario, fechaEntrega:fechaEntrega, estado:estado, rechazo:rechazo, anulacion:anulacion, idFactura:idFactura)
+            RestClient.post  'http://moto.ing.puc.cl/oc/recepcionar/'+idOrden.strip, {:id => idOrden}.to_json, :content_type => 'application/json'
+
+            ### RESERVAR LA CANTIDAD!#####################
+            cantidadVendida = (Inventario.find_by sku: sku).cantidadVendida.to_i
+            cantidadVendida += cantidad.to_i
+            (Inventario.find_by sku: sku).update(cantidadVendida: cantidadVendida)
+          end
         else
-          estadoOC = true
-          ## RECEPCIONAR ORDEN DE COMPRA
-          puts 'hay inventario'
-          estado = "aceptada"
-          Orden.create(idOrden:id, fechaCreacion:fechaCreacion, canal:canal, cliente:cliente, sku:sku, cantidad:cantidad, despachada:despachada, precioUnitario:precioUnitario, fechaEntrega:fechaEntrega, estado:estado, rechazo:rechazo, anulacion:anulacion, idFactura:idFactura)
-          RestClient.post  'http://moto.ing.puc.cl/oc/recepcionar/'+idOrden.strip, {:id => idOrden}.to_json, :content_type => 'application/json'
-
-          ### RESERVAR LA CANTIDAD!#####################
-          cantidadVendida = (Inventario.find_by sku: sku).cantidadVendida.to_i
-          cantidadVendida += cantidad.to_i
-          (Inventario.find_by sku: sku).update(cantidadVendida: cantidadVendida)
-
-
+          estadoOC = false
         end
       rescue
         estadoOC = false
@@ -88,7 +90,6 @@ require 'hmac-sha1'
         ################ DEBERIA HACER SLEEP PARA QUE LA FACTURA NO LLEGUE ANTES DE QUE EL CLIENTE PROCESO LA ORDEN DE COMPRA ####################################
         #Makes the request pause 1.5 seconds
         #sleep 1.5
-        estadoOC = true
         if estadoOC
           #Creamos la factura
           begin
@@ -185,7 +186,7 @@ require 'hmac-sha1'
             hashTransferencia = JSON.parse transferencia
             puts 'este es el hash de la transferencia'
             puts hashTransferencia
-	    (Pedido.find_by idPedido: hashFactura[0]['oc']).update(estado: 'se cayo envio trx')
+	          (Pedido.find_by idPedido: hashFactura[0]['oc']).update(estado: 'se cayo envio trx')
             ## enviar transferencia al grupo proveedor
             respuestaTransferencia = RestClient.get 'http://integra'+numeroProveedor.to_s+'.ing.puc.cl/api/pagos/recibir/'+hashTransferencia['_id']+'?idfactura='+hashFactura[0]['_id'] ,{:Content_Type => 'application/json'}
             ##respuestaTransferencia = RestClient.get 'http://prod.integra10.ing.puc.cl/api/pagos/recibir/'+hashTransferencia[0]['_id']+'?idfactura='+hashFactura[0]['_id'] ,{:Content_Type => 'application/json'}
