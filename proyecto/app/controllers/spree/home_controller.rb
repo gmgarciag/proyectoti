@@ -10,11 +10,11 @@ module Spree
       Product.third.update(name: 'Queso')
       Product.fourth.update(name: 'Celulosa')
       Product.fifth.update(name: 'Vino')
-      Price.first.update(amount: 1159)
-      Price.third.update(amount: 718)
-      Price.fifth.update(amount: 1805)
-      Price.find(7).update(amount: 3112)
-      Price.find(9).update(amount: 26027)
+      Price.first.update(amount: 1613)
+      Price.third.update(amount: 1376)
+      Price.fifth.update(amount: 8744)
+      Price.find(7).update(amount: 1695)
+      Price.find(9).update(amount: 7244)
       semola = ((Inventario.find_by sku: 19).cantidadBodega).to_i - ((Inventario.find_by sku: 19).cantidadVendida).to_i
       levadura = ((Inventario.find_by sku: 27).cantidadBodega).to_i - ((Inventario.find_by sku: 27).cantidadVendida).to_i
       queso = ((Inventario.find_by sku: 40).cantidadBodega).to_i - ((Inventario.find_by sku: 40).cantidadVendida).to_i

@@ -185,8 +185,9 @@ require 'hmac-sha1'
             hashTransferencia = JSON.parse transferencia
             puts 'este es el hash de la transferencia'
             puts hashTransferencia
+	    (Pedido.find_by idPedido: hashFactura[0]['oc']).update(estado: 'se cayo envio trx')
             ## enviar transferencia al grupo proveedor
-            respuestaTransferencia = RestClient.get 'http://integra'+grupoProveedor.to_s+'.ing.puc.cl/api/pagos/recibir/'+hashTransferencia[0]['_id']+'?idfactura='+hashFactura[0]['_id'] ,{:Content_Type => 'application/json'}
+            respuestaTransferencia = RestClient.get 'http://integra'+numeroProveedor.to_s+'.ing.puc.cl/api/pagos/recibir/'+hashTransferencia['_id']+'?idfactura='+hashFactura[0]['_id'] ,{:Content_Type => 'application/json'}
             ##respuestaTransferencia = RestClient.get 'http://prod.integra10.ing.puc.cl/api/pagos/recibir/'+hashTransferencia[0]['_id']+'?idfactura='+hashFactura[0]['_id'] ,{:Content_Type => 'application/json'}
             #hasRespuestaTrans = {'validado' => 'true'}
             #puts 'aca deberia ir la respeusta al atransferencia'
@@ -197,7 +198,7 @@ require 'hmac-sha1'
               puts 'entro1'
               ordenComra1 = hashFactura[0]['oc']
               puts ordenComra1
-              #(Pedido.where(:idPedido => hashFactura[0]['oc'])).update(estado: 'pagada')
+              (Pedido.find_by idPedido: hashFactura[0]['oc']).update(estado: 'pagada')
               #elPedido = Pedido.where(:idPedido => hashFactura[0]['oc'])
               #elPedido.update(estado: 'pagada')
               ## Marcamos la factura como pagada
@@ -205,6 +206,7 @@ require 'hmac-sha1'
               puts 'termino'
             else
               puts 'No validaron el pago'
+	      (Pedido.find_by idPedido: hashFactura[0]['oc']).update(estado: 'rechazo pago')
               RestClient.post  'http://moto.ing.puc.cl/facturas/reject', {:id => idFactura, :motivo => "No fue validada"}.to_json, :content_type => 'application/json'
             end
           end
@@ -218,7 +220,7 @@ require 'hmac-sha1'
       status = 500
     end
 
-      render :status => status, json: {
+      render :status => 200, json: {
       validado: estadoFactura,
       idfactura: idFactura
     }

@@ -376,7 +376,7 @@ task revisarStock: :environment do
 		  end
 		  if uva < 495
                     time = Time.now + 4.hours
-		    comprar 39, 495, time
+		    #comprar 39, 495, time
 		  end
 		  if azucar >= 1000 && uva >= 495 && levadura >= 570
 		    moverInsumosDespacho 25, 1000
@@ -723,7 +723,7 @@ task despachar: :environment do
             signature = 'POST' + idProducto + almacenRecepcion
             hmac.update(signature)
             clave = Base64.encode64("#{hmac.digest}")
-            RestClient.post  'http://integracion-2016-prod.herokuapp.com/bodega/moveStockBodega', {:productoId => idProducto, :almacenId => almacenRecepcion, oc => oc, precio => precio}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
+            RestClient.post  'http://integracion-2016-prod.herokuapp.com/bodega/moveStockBodega', {:productoId => idProducto, :almacenId => almacenRecepcion, :oc => oc, :precio => precio}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
             k += 1
             end
           cantidad -= k
@@ -752,7 +752,7 @@ task despachar: :environment do
             signature = 'POST' + idProducto + almacenRecepcion
             hmac.update(signature)
             clave = Base64.encode64("#{hmac.digest}")
-            RestClient.post  'http://integracion-2016-prod.herokuapp.com/bodega/moveStockBodega', {:productoId => idProducto, :almacenId => almacenRecepcion, oc => oc, precio => precio}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
+            RestClient.post  'http://integracion-2016-prod.herokuapp.com/bodega/moveStockBodega', {:productoId => idProducto, :almacenId => almacenRecepcion, :oc => oc, :precio => precio}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
             k += 1
             end
           total -= k
@@ -832,7 +832,7 @@ task despachar: :environment do
    signature = 'POST' + idProducto + almacenRecepcion
    hmac.update(signature)
    clave = Base64.encode64("#{hmac.digest}")
-   RestClient.post 'http://integracion-2016-prod.herokuapp.com/bodega/moveStockBodega', {:productoId => idProducto, :almacenId => almacenRecepcion, oc => oc, precio => precio}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
+   RestClient.post 'http://integracion-2016-prod.herokuapp.com/bodega/moveStockBodega', {:productoId => idProducto, :almacenId => almacenRecepcion, :oc => oc, :precio => precio}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
    k += 1
    end
    restante -= k

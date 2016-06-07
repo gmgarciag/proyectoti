@@ -39,9 +39,9 @@ every 2.hours do
 	rake "requests:revisarStock"
 end
 
-#every 1.day, :at => '23:05 pm' do
- #      rake "requests:revisarStock"
-#end
+every 1.day, :at => '02:03 pm' do
+       rake "requests:revisarStock"
+end
 
 #every 1.day, :at => '05:00 am' do
 #      rake "requests:contestarOrden"
