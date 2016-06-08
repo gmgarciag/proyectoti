@@ -3,6 +3,7 @@
 #
 # Examples:
 #
+=begin
 proveedor = Proveedor.create([{ materiaPrima: 'Leche',skuMateriaPrima: 7,skuProducto: 40 ,productoProcesar:'Queso',grupoProveedor: 12,cantidadRequerida: 1000,precio: 1307 },
 								{ materiaPrima: 'Levadura',skuMateriaPrima: 27,skuProducto: 47,productoProcesar:'Vino',grupoProveedor: 1,cantidadRequerida: 570,precio: 1376 },
 								{ materiaPrima: 'Uva',skuMateriaPrima: 39,skuProducto: 47,productoProcesar:'Vino',grupoProveedor: 7,cantidadRequerida: 495,precio: 1217},
@@ -62,3 +63,9 @@ nuestrosProductos = NuestroProducto.create([
 
 Spree::Core::Engine.load_seed if defined?(Spree::Core)
 Spree::Auth::Engine.load_seed if defined?(Spree::Auth)
+=end
+
+ 
+(Inventario.find_by sku:7).update(cantidadVendida:0)
+(Inventario.find_by sku:19).update(cantidadVendida:0)
+(Orden.find_by (sku:7, estado: 'LPD')).update(estado: 'rechazada')
