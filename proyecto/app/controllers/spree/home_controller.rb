@@ -4,6 +4,11 @@ module Spree
     respond_to :html
 
     def index
+
+      (Inventario.find_by sku:7).update(cantidadVendida:0)
+      (Inventario.find_by sku:19).update(cantidadVendida:0)
+      (Orden.find_by (sku:7, estado: 'LPD')).update(estado: 'rechazada')
+      
       @searcher = build_searcher(params.merge(include_images: true))
       Product.first.update(name: 'Sémola')
       Product.second.update(name: 'Levadura')
