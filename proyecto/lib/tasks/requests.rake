@@ -74,6 +74,87 @@ task ordenesCompra: :environment do
 
    end
 desc "TODO"
+task contarStock: :environment do
+puts "Cron Cuenta Stock #{Time.now}"
+   #OBTENER LOS ALMACENES
+    key = '.k3GBP9YYZmzWCr'#cambiar segun ambiente
+    signature = 'GET'
+    hmac = HMAC::SHA1.new(key)
+    hmac.update(signature)
+    clave = Base64.encode64("#{hmac.digest}")
+    almacenes = RestClient.get 'http://integracion-2016-prod.herokuapp.com/bodega/almacenes', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'}#cambiar segun ambiente
+    @almacenesJson = almacenes #Esta es solo para debug
+    almacenesParseado = JSON.parse almacenes
+    almacenesArreglo = almacenes.split("},")
+    nAlmacenes = almacenesArreglo.length - 1
+    #Creamos un arreglo 2d de los almacenes con sus atributos
+    @almacenes = []
+    i = 0
+    until i > (nAlmacenes) do
+      almacenID = almacenesParseado[i]["_id"]
+      almacenPulmon = almacenesParseado[i]["pulmon"]
+      almacenDespacho = almacenesParseado[i]["despacho"]
+      almacenRecepcion = almacenesParseado[i]["recepcion"]
+      almacenTotal = almacenesParseado[i]["totalSpace"]
+      almacenUsado = almacenesParseado[i]["usedSpace"]
+      begin
+        Almacen.find(i).update(id: i, almacenId:almacenID, espacioUtilizado:almacenUsado, espacioTotal:almacenTotal, recepcion:almacenRecepcion, depacho:almacenDespacho, pulmon:almacenPulmon)
+        rescue
+      Almacen.create(id: i, almacenId:almacenID, espacioUtilizado:almacenUsado, espacioTotal:almacenTotal, recepcion:almacenRecepcion, depacho:almacenDespacho, pulmon:almacenPulmon)
+      end
+      i += 1
+    end
+    #OBTENER EL CONTENIDO DE CADA ALMACEN
+    i = 0
+    signature = []
+    clave = []
+    productos = []
+    until i > nAlmacenes do
+      id = Almacen.find(i).almacenId
+      signature[i] = 'GET' + id
+      hmac.update(signature[i])
+      clave[i] = Base64.encode64("#{hmac.digest}")
+      temp = RestClient.get 'http://integracion-2016-prod.herokuapp.com/bodega/skusWithStock', {:Authorization => 'INTEGRACION grupo1:' + clave[i], :content_type => 'application/json', :params => {:almacenId => id}}
+      productos << temp
+      i += 1
+    end
+    #Inicializamos nuestros productos en 0
+    @semola = 0
+    @levadura = 0
+    @queso = 0
+    @celulosa = 0
+    @vino = 0
+    #Contamos lo que hay en cada almacén
+    i = 0
+    until i > nAlmacenes do
+      productosParseado = JSON.parse productos[i]
+      j = 0
+      while productosParseado[j].nil? == false do
+      id = Integer(productosParseado[j]["_id"])
+      cantidad = Integer(productosParseado[j]["total"])
+      if id == 19
+        @semola += cantidad
+      elsif id == 27
+        @levadura += cantidad
+      elsif id == 40
+        @queso += cantidad
+      elsif id == 45
+        @celulosa += cantidad
+      elsif id == 47
+        @vino += cantidad
+      else
+      end
+      j += 1
+      end
+      i += 1
+    end
+    StockDiario.create(sku:19, cantidad:@semola, fecha:(Date.today))
+    StockDiario.create(sku:27, cantidad:@levadura, fecha:(Date.today))
+    StockDiario.create(sku:40, cantidad:@queso, fecha:(Date.today))
+    StockDiario.create(sku:45, cantidad:@celulosa, fecha:(Date.today))
+    StockDiario.create(sku:47, cantidad:@vino, fecha:(Date.today))
+   end
+desc "TODO"
 task actualizarInventario: :environment do
 
 	 puts "Cron Actualiza Inventario #{Time.now}"
