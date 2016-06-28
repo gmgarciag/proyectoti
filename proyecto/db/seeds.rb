@@ -51,11 +51,11 @@ idGruposProduccion = IdGrupoProduccion.create([
 	{numeroGrupo:'12' ,idGrupo:'572aac69bdb6d403005fb04d',idBanco:'572aac69bdb6d403005fb05a',idBodegaRecepcion:'572aad42bdb6d403005fb69f'}])
 
 nuestrosProductos = NuestroProducto.create([
-{sku:19, descripcion:'Sémola', precio:1159},
-{sku:27, descripcion:'Levadura', precio:718},
-{sku:40, descripcion:'Queso', precio:1805}, 
-{sku:45, descripcion:'Celulosa', precio:3112}, 
-{sku:47, descripcion:'Vino', precio:26027}])
+{sku:19, descripcion:'Sémola', precio:1613},
+{sku:27, descripcion:'Levadura', precio:1376},
+{sku:40, descripcion:'Queso', precio:8744}, 
+{sku:45, descripcion:'Celulosa', precio:1695}, 
+{sku:47, descripcion:'Vino', precio:7244}])
 
 
 

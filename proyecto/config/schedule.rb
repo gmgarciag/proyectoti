@@ -43,6 +43,10 @@ every 1.day, :at => '02:03 pm' do
        rake "requests:revisarStock"
 end
 
+every 1.day, :at => '00:27 am' do #revisa el saldo al finalizar el dia
+		rake "requests:saldo"
+end
+
 #every 1.day, :at => '05:00 am' do
 #      rake "requests:contestarOrden"
 #end

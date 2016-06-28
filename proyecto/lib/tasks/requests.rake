@@ -6,6 +6,20 @@ require 'hmac-sha1'
 
 namespace :requests do
 
+#aqui debe revisar el saldo
+desc "TODO"
+task saldo: :environment do
+puts "Cron Obtengo Saldo #{Time.now}"
+datosCuenta = RestClient.get 'http://integracion-2016-prod.herokuapp.com/banco/cuenta/572aac69bdb6d403005fb04e'
+@datosJson = datosCuenta
+datosParseado = JSON.parse datosCuenta
+cantidad = datosParseado[0]["saldo"].to_s
+timeI=Time.now.to_i
+timeI=timeI*1000-86400000
+Saldo.create(saldo: cantidad, fechaInicio: timeI, fechaFin: Time.now.to_i*1000)
+end
+
+
 desc "TODO"
 task nombresOC: :environment do
 
@@ -396,11 +410,11 @@ task llenarOrden: :environment do
   	puts "Cron Llenar Orden #{Time.now}"
 
 	  ordens = OrdenCompra.all
-	  ordens.each do |orden|
+	  ordens.each do |orden|####<<<<<<<<<<------------
 	  idOrden = orden.idOC
 	  temp = RestClient.get 'http://moto.ing.puc.cl/oc/obtener/' +idOrden.strip 
 	  ordenParseada = JSON.parse temp
-	  id = ordenParseada[0]["_id"]
+	  id = ordenParseada[0]["_id"]####<<<<<<<<----------------
 	  fechaCreacion = ordenParseada[0]["created_at"]
 	  canal = ordenParseada[0]["canal"]
 	  cliente = ordenParseada[0]["cliente"]
