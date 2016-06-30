@@ -142,6 +142,7 @@ def facturacion
     numVentasTotales += 1
     numVentasB2b += 1
   end
-  @graficoVentas = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "", :bg => 'efefef', :axis_with_labels => 'y', :legend => ['Ventas Totales', 'Ventas B2b', 'Ventas Ftp', 'Ventas B2c'], :data => [[ventasTotales],[0, ventasB2b], [0,0,ventasFtp], [0,0,0,ventasB2c]], :axis_range => [[0,30,3]], :max_value => 30)
+  @graficoVentas = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Número de ventas por canal", :bg => 'efefef', :axis_with_labels => 'y', :legend => ['Ventas Totales', 'Ventas B2b', 'Ventas Ftp', 'Ventas B2c'], :data => [[numVentasTotales],[0, numVentasB2b], [0,0,numVentasFtp], [0,0,0,numVentasB2c]], :axis_range => [[0,numVentasTotales,numVentasTotales/10]], :max_value => numVentasTotales)
+  @graficoVentasPesos = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Ingresos de ventas por canal", :bg => 'efefef', :axis_with_labels => 'y', :legend => ['Ventas Totales', 'Ventas B2b', 'Ventas Ftp', 'Ventas B2c'], :data => [[ventasTotales],[0, ventasB2b], [0,0,ventasFtp], [0,0,0,ventasB2c]], :axis_range => [[0,ventasTotales,ventasTotales/10]], :max_value => ventasTotales)
 end 
 end
