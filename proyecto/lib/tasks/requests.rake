@@ -567,7 +567,7 @@ task contestarOrden: :environment do
      total = facturaParseada['total']
      id = facturaParseada['_id']
      estado = facturaParseada['estado']
-     Factura.create(creado:creado, cliente:cliente, proveedor:proveedor, total:total, idFactura:id, estado:estado)
+     Factura.create(creado:creado, clinte:cliente, proveedor:proveedor, total:total, idFactura:id, estado:estado)
      (Orden.find_by idOrden: idOrden).update(estado: "LPD")
 
 

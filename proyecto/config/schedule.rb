@@ -31,7 +31,7 @@ every 2.hours do
 	rake "requests:despachar"
 end
 
-every 4.hours do
+every 1.day, :at => '03:54 pm' do
 	rake "requests:contestarOrden"
 end
 
