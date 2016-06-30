@@ -1,0 +1,19 @@
+<table style="width:100%">
+  <tr>
+        <td>Día</td>
+        <td>Fecha saldo </td>
+        <td>Saldo</td>
+        <td>Link</td>
+
+  </tr>
+<% (Saldo.all).each do |s|%>
+        <tr>
+        <td><%= s.id %></td>
+        <td><%= s.created_at %></td>
+        <td> <%= s.saldo%></td>
+        <td><%= link_to('Consultar cartola',{:action => 'cartola', :fecha => s.fechaInicio})%></td>
+        </tr>     
+    <%end%>
+</table>
+
+<%= image_tag @graficoSaldo %>

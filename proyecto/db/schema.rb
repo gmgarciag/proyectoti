@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20160628210341) do
     t.string   "tipoProducto"
     t.integer  "costoProdUnitario"
     t.integer  "loteProduccion"
-    t.decimal  "tiempoMedio"
+    t.integer  "tiempoMedio"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
   end
@@ -82,10 +82,10 @@ ActiveRecord::Schema.define(version: 20160628210341) do
     t.string   "insumo"
     t.integer  "cantidadRequerida"
     t.integer  "loteProducido"
-    t.integer  "skuInsumo"
-    t.integer  "skuProducto"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.integer  "skuInsumo"
+    t.integer  "skuProducto"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -119,11 +119,6 @@ ActiveRecord::Schema.define(version: 20160628210341) do
     t.string   "idBodegaRecepcion"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-  end
-
-  create_table "idgrupo_produccions", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "inventarios", force: :cascade do |t|
@@ -192,14 +187,14 @@ ActiveRecord::Schema.define(version: 20160628210341) do
 
   create_table "proveedors", force: :cascade do |t|
     t.string   "materiaPrima"
-    t.integer  "skuMateriaPrima"
-    t.integer  "skuProducto"
     t.string   "productoProcesar"
     t.integer  "grupoProveedor"
     t.integer  "cantidadRequerida"
     t.integer  "precio"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.integer  "skuMateriaPrima"
+    t.integer  "skuProducto"
   end
 
   create_table "saldos", force: :cascade do |t|

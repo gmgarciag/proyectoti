@@ -15,6 +15,10 @@ Rails.application.routes.draw do
 
   get 'vista_oc/generarVista'
 
+  get 'vista_saldo/generarVista' => 'vista_saldo#index'
+
+  get 'vista_saldo/cartola/:fecha' => 'vista_saldo#cartola'
+
   get 'vista_factura/generarVista'
 
   get 'welcome/index'

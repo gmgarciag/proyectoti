@@ -1,0 +1,21 @@
+<table style="width:100%">
+  <tr>
+        <td>id</td>
+        <td>Fecha</td>
+        <td>Monto</td>
+        <td>Destino</td>
+
+  </tr>
+
+  <% i=0 %>
+  <% while i<@ids.length do %>
+        <tr>
+        <td><%= @ids[i] %></td>
+        <td> <%= @fechas[i]%></td>
+        <td> <%= @montos[i]%></td>
+        <td><%= @destinos[i]%></td>
+        </tr> 
+        <%i=i+1%>
+        <%end%>
+
+</table>
