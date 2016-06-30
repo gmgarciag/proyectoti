@@ -125,20 +125,20 @@ def facturacion
   numVentasB2c = 0
   numVentasFtp = 0
   Ticket.all.each do |t|
-    ventasTotales += t.total
-    ventasB2c += t.total
+    ventasTotales += (t.total).to_i
+    ventasB2c += (t.total).to_i
     numVentasTotales += 1
     numVentasB2c += 1
   end
   Facturas.where(clinte:'internacional').each do |f|
-    ventasTotales += f.total
-    ventasFtp += f.total
+    ventasTotales += (f.total).to_i
+    ventasFtp += (f.total).to_i
     numVentasTotales += 1
     numVentasFtp += 1 
   end
   Facturas.where(clinte:'b2b').each do |f|
-    ventasTotales += f.total
-    ventasB2b += f.total
+    ventasTotales += (f.total).to_i
+    ventasB2b += (f.total).to_i
     numVentasTotales += 1
     numVentasB2b += 1
   end

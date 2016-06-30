@@ -130,13 +130,13 @@ def facturacion
     numVentasTotales += 1
     numVentasB2c += 1
   end
-  Facturas.where(clinte:'internacional').each do |f|
+  Factura.where(clinte:'internacional').each do |f|
     ventasTotales += (f.total).to_i
     ventasFtp += (f.total).to_i
     numVentasTotales += 1
     numVentasFtp += 1 
   end
-  Facturas.where(clinte:'b2b').each do |f|
+  Factura.where(clinte:'b2b').each do |f|
     ventasTotales += (f.total).to_i
     ventasB2b += (f.total).to_i
     numVentasTotales += 1
