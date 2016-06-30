@@ -6,82 +6,6 @@ require 'cgi'
 require 'hmac-sha1'
 
 def index
-  key = '.k3GBP9YYZmzWCr'#cambiar segun ambiente
-    signature = 'GET'
-    hmac = HMAC::SHA1.new(key)
-    hmac.update(signature)
-    clave = Base64.encode64("#{hmac.digest}")
-    almacenes = RestClient.get 'http://integracion-2016-prod.herokuapp.com/bodega/almacenes', {:Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'}#cambiar segun ambiente
-    @almacenesJson = almacenes #Esta es solo para debug
-    almacenesParseado = JSON.parse almacenes
-    almacenesArreglo = almacenes.split("},")
-    nAlmacenes = almacenesArreglo.length - 1
-    #Creamos un arreglo 2d de los almacenes con sus atributos
-    @almacenes = []
-    i = 0
-    until i > (nAlmacenes) do
-      almacenID = almacenesParseado[i]["_id"]
-      almacenPulmon = almacenesParseado[i]["pulmon"]
-      almacenDespacho = almacenesParseado[i]["despacho"]
-      almacenRecepcion = almacenesParseado[i]["recepcion"]
-      almacenTotal = almacenesParseado[i]["totalSpace"]
-      almacenUsado = almacenesParseado[i]["usedSpace"]
-      begin
-        Almacen.find(i).update(id: i, almacenId:almacenID, espacioUtilizado:almacenUsado, espacioTotal:almacenTotal, recepcion:almacenRecepcion, depacho:almacenDespacho, pulmon:almacenPulmon)
-        rescue
-      Almacen.create(id: i, almacenId:almacenID, espacioUtilizado:almacenUsado, espacioTotal:almacenTotal, recepcion:almacenRecepcion, depacho:almacenDespacho, pulmon:almacenPulmon)
-      end
-      i += 1
-    end
-    #OBTENER EL CONTENIDO DE CADA ALMACEN
-    i = 0
-    signature = []
-    clave = []
-    productos = []
-    until i > nAlmacenes do
-      id = Almacen.find(i).almacenId
-      signature[i] = 'GET' + id
-      hmac.update(signature[i])
-      clave[i] = Base64.encode64("#{hmac.digest}")
-      temp = RestClient.get 'http://integracion-2016-prod.herokuapp.com/bodega/skusWithStock', {:Authorization => 'INTEGRACION grupo1:' + clave[i], :content_type => 'application/json', :params => {:almacenId => id}}
-      productos << temp
-      i += 1
-    end
-    #Inicializamos nuestros productos en 0
-    @semola = 0
-    @levadura = 0
-    @queso = 0
-    @celulosa = 0
-    @vino = 0
-    #Contamos lo que hay en cada almacén
-    i = 0
-    until i > nAlmacenes do
-      productosParseado = JSON.parse productos[i]
-      j = 0
-      while productosParseado[j].nil? == false do
-      id = Integer(productosParseado[j]["_id"])
-      cantidad = Integer(productosParseado[j]["total"])
-      if id == 19
-        @semola += cantidad
-      elsif id == 27
-        @levadura += cantidad
-      elsif id == 40
-        @queso += cantidad
-      elsif id == 45
-        @celulosa += cantidad
-      elsif id == 47
-        @vino += cantidad
-      else
-      end
-      j += 1
-      end
-      i += 1
-    end
-    StockDiario.create(sku:19, cantidad:@semola, fecha:(Date.today))
-    StockDiario.create(sku:27, cantidad:@levadura, fecha:(Date.today))
-    StockDiario.create(sku:40, cantidad:@queso, fecha:(Date.today))
-    StockDiario.create(sku:45, cantidad:@celulosa, fecha:(Date.today))
-    StockDiario.create(sku:47, cantidad:@vino, fecha:(Date.today))
   semola = StockDiario.where(sku:19)
   cantidadesSemola = []
   fechaSemola = []
@@ -163,9 +87,62 @@ def index
     dias += 1
   end
   @graficoSemola = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Sémola", :bg => 'efefef', :axis_with_labels => 'y', :legend => fechaSemola, :data => cantidadesSemola, :axis_range => [[0,15000,1000]], :max_value => 15000)
-  @graficoLevadura = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Sémola", :bg => 'efefef', :axis_with_labels => 'y', :legend => fechaSemola, :data => cantidadesLevadura, :axis_range => [[0,15000,1000]], :max_value => 15000)
-  @graficoQueso = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Sémola", :bg => 'efefef', :axis_with_labels => 'y', :legend => fechaSemola, :data => cantidadesQueso, :axis_range => [[0,15000,1000]], :max_value => 15000)
-  @graficoCelulosa = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Sémola", :bg => 'efefef', :axis_with_labels => 'y', :legend => fechaSemola, :data => cantidadesCelulosa, :axis_range => [[0,15000,1000]], :max_value => 15000)
-  @graficoVino = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Sémola", :bg => 'efefef', :axis_with_labels => 'y', :legend => fechaSemola, :data => cantidadesVino, :axis_range => [[0,15000,1000]], :max_value => 15000)
+  @graficoLevadura = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Levadura", :bg => 'efefef', :axis_with_labels => 'y', :legend => fechaSemola, :data => cantidadesLevadura, :axis_range => [[0,15000,1000]], :max_value => 15000)
+  @graficoQueso = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Queso", :bg => 'efefef', :axis_with_labels => 'y', :legend => fechaSemola, :data => cantidadesQueso, :axis_range => [[0,15000,1000]], :max_value => 15000)
+  @graficoCelulosa = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Celulosa", :bg => 'efefef', :axis_with_labels => 'y', :legend => fechaSemola, :data => cantidadesCelulosa, :axis_range => [[0,15000,1000]], :max_value => 15000)
+  @graficoVino = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Vino", :bg => 'efefef', :axis_with_labels => 'y', :legend => fechaSemola, :data => cantidadesVino, :axis_range => [[0,15000,1000]], :max_value => 15000)
 end
+def bodegas
+  espacioTotal = 0
+  espacioUtilizado = 0
+  almacenes = Almacen.where(pulmon:false)
+  almacenes.each do |a|
+    espacioTotal += (a.espacioTotal).to_i
+    espacioUtilizado += (a.espacioUtilizado).to_i
+  end
+  espacioLibre = espacioTotal - espacioUtilizado
+  @graficoBodegas = Gchart.pie(:title => 'porcentaje uso bodegas', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [espacioLibre, espacioUtilizado], :size => '400x200', :bg => 'efefef')
+  ocupadoPrimero = almacenes.first.espacioUtilizado
+  librePrimero = almacenes.first.espacioTotal - almacenes.first.espacioUtilizado
+  ocupadoSegundo = almacenes.second.espacioUtilizado
+  libreSegundo = almacenes.second.espacioTotal - almacenes.second.espacioUtilizado
+  ocupadoTercero = almacenes.third.espacioUtilizado
+  libreTercero = almacenes.third.espacioTotal - almacenes.third.espacioUtilizado
+  ocupadoCuarto = almacenes.fourth.espacioUtilizado
+  libreCuarto = almacenes.fourth.espacioTotal - almacenes.fourth.espacioUtilizado
+  @graficoPrimero = Gchart.pie(:title => 'porcentaje uso almacén 1', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [librePrimero, ocupadoPrimero], :size => '400x200', :bg => 'efefef')
+  @graficoSegundo = Gchart.pie(:title => 'porcentaje uso almacén 2', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [libreSegundo, ocupadoSegundo], :size => '400x200', :bg => 'efefef')
+  @graficoTercero = Gchart.pie(:title => 'porcentaje uso almacén 3', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [libreTercero, ocupadoTercero], :size => '400x200', :bg => 'efefef')
+  @graficoCuarto = Gchart.pie(:title => 'porcentaje uso almacén 4', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [libreCuarto, ocupadoCuarto], :size => '400x200', :bg => 'efefef')
+end
+def facturacion
+  ventasTotales = 0
+  ventasB2c = 0
+  ventasB2b = 0
+  ventasFtp = 0
+  numVentasTotales = 0
+  numVentasB2b = 0
+  numVentasB2c = 0
+  numVentasFtp = 0
+  Ticket.all.each do |t|
+    ventasTotales += (t.total).to_i
+    ventasB2c += (t.total).to_i
+    numVentasTotales += 1
+    numVentasB2c += 1
+  end
+  Factura.where(clinte:'internacional').each do |f|
+    ventasTotales += (f.total).to_i
+    ventasFtp += (f.total).to_i
+    numVentasTotales += 1
+    numVentasFtp += 1 
+  end
+  Factura.where(clinte:'b2b').each do |f|
+    ventasTotales += (f.total).to_i
+    ventasB2b += (f.total).to_i
+    numVentasTotales += 1
+    numVentasB2b += 1
+  end
+  @graficoVentas = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "A    Número de ventas por canal", :bg => 'efefef', :axis_with_labels => 'y', :legend => ['Ventas Totales', 'Ventas B2b', 'Ventas Ftp', 'Ventas B2c'], :data => [[numVentasTotales],[0, numVentasB2b], [0,0,numVentasFtp], [0,0,0,numVentasB2c]], :axis_range => [[0,numVentasTotales,numVentasTotales/10]], :max_value => numVentasTotales)
+  @graficoVentasPesos = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Ingresos de ventas por canal", :bg => 'efefef', :axis_with_labels => 'y', :legend => ['Ventas Totales', 'Ventas B2b', 'Ventas Ftp', 'Ventas B2c'], :data => [[ventasTotales],[0, ventasB2b], [0,0,ventasFtp], [0,0,0,ventasB2c]], :axis_range => [[0,ventasTotales,ventasTotales/10]], :max_value => ventasTotales)
+end 
 end

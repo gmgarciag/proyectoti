@@ -100,6 +100,11 @@ require 'hmac-sha1'
           factura = RestClient.put 'http://moto.ing.puc.cl/facturas/', {:oc => idOrden}.to_json, :content_type => 'application/json'
           facturaParseada = JSON.parse factura
           idFactura = facturaParseada["_id"]
+          creado = facturaParseada['created_at']
+          cliente = facturaParseada['cliente']
+          proveedor = facturaParseada['proveedor']
+          total = facturaParseada['total']
+          estado = facturaParseada['estado']
           numeroGrupo = (IdGrupoProduccion.find_by idGrupo: cliente).numeroGrupo
           #respuesta = RestClient.get 'localhost:3000/api/facturas/recibir/' + idFactura
           puts "esta es la id de la factura"
@@ -116,6 +121,7 @@ require 'hmac-sha1'
            (Orden.find_by idOrden: idOrden).update(idFactura:idFactura)
            (Orden.find_by idOrden: idOrden).update(estado: 'esperando pago')
             puts "Se ha validado todo y este es el fin"
+            Factura.create(clinte:'b2b', proveedor:proveedor, idFactura:idFactura, total:total, creado:creado, estado:estado)
           else
             puts "no entro al if"
             ## HAY QUE ANULAR LA FACTURA

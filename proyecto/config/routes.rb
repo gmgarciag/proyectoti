@@ -26,6 +26,10 @@ Rails.application.routes.draw do
   get 'cancelacion' => 'cancelacion#index'
 
   get 'reporte/stockDiario' => 'reporte#index'
+
+  get 'reporte/bodegas' => 'reporte#bodegas'
+
+  get 'reporte/facturacion' => 'reporte#facturacion'
   
   get 'Celulosa', :to => redirect('http://integra1.ing.puc.cl/spree/products/ruby-on-rails-jr-spaghetti')
   get 'Sémola', :to => redirect('http://integra1.ing.puc.cl/spree/products/ruby-on-rails-tote')
