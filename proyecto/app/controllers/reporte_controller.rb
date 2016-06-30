@@ -92,4 +92,27 @@ def index
   @graficoCelulosa = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Celulosa", :bg => 'efefef', :axis_with_labels => 'y', :legend => fechaSemola, :data => cantidadesCelulosa, :axis_range => [[0,15000,1000]], :max_value => 15000)
   @graficoVino = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Vino", :bg => 'efefef', :axis_with_labels => 'y', :legend => fechaSemola, :data => cantidadesVino, :axis_range => [[0,15000,1000]], :max_value => 15000)
 end
+def bodegas
+  espacioTotal = 0
+  espacioUtilizado = 0
+  almacenes = Almacen.where(pulmon:false)
+  almacenes.each do |a|
+    espacioTotal += (a.espacioTotal).to_i
+    espacioUtilizado += (a.espacioUtilizado).to_i
+  end
+  espacioLibre = espacioTotal - espacioUtilizado
+  @graficoBodegas = Gchart.pie(:title => 'porcentaje uso bodegas', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [espacioLibre, espacioUtilizado], :size => '400x200', :bg => 'efefef')
+  ocupadoPrimero = almacenes.first.espacioUtilizado
+  librePrimero = almacenes.first.espacioTotal - almacenes.first.espacioUtilizado
+  ocupadoSegundo = almacenes.second.espacioUtilizado
+  libreSegundo = almacenes.second.espacioTotal - almacenes.second.espacioUtilizado
+  ocupadoTercero = almacenes.third.espacioUtilizado
+  libreTercero = almacenes.third.espacioTotal - almacenes.third.espacioUtilizado
+  ocupadoCuarto = almacenes.fourth.espacioUtilizado
+  libreCuarto = almacenes.fourth.espacioTotal - almacenes.fourth.espacioUtilizado
+  @graficoPrimero = Gchart.pie(:title => 'porcentaje uso almacén 1', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [librePrimero, ocupadoPrimero], :size => '400x200', :bg => 'efefef')
+  @graficoSegundo = Gchart.pie(:title => 'porcentaje uso almacén 2', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [libreSegundo, ocupadoSegundo], :size => '400x200', :bg => 'efefef')
+  @graficoTercero = Gchart.pie(:title => 'porcentaje uso almacén 3', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [libreTercero, ocupadoTercero], :size => '400x200', :bg => 'efefef')
+  @graficoCuarto = Gchart.pie(:title => 'porcentaje uso almacén 4', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [libreCuarto, ocupadoCuarto], :size => '400x200', :bg => 'efefef')
+end 
 end

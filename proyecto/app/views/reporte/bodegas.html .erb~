@@ -1,0 +1,5 @@
+<%= image_tag @graficoPrimero %>
+<%= image_tag @graficoSegundo %>
+<%= image_tag @graficoTercero %>
+<%= image_tag @graficoCuarto %>
+
