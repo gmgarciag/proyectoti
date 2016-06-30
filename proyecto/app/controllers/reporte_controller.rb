@@ -101,7 +101,7 @@ def bodegas
     espacioUtilizado += (a.espacioUtilizado).to_i
   end
   espacioLibre = espacioTotal - espacioUtilizado
-  @graficoBodegas = Gchart.pie(:title => 'porcentaje uso bodegas', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [espacioLibre, espacioUtilizado], :size => '400x200', :bg => 'efefef')
+  @graficoBodegas = Gchart.pie(:title => 'Porcentaje de uso bodegas', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [espacioLibre, espacioUtilizado], :size => '400x200', :bg => 'efefef')
   ocupadoPrimero = almacenes.first.espacioUtilizado
   librePrimero = almacenes.first.espacioTotal - almacenes.first.espacioUtilizado
   ocupadoSegundo = almacenes.second.espacioUtilizado
@@ -110,10 +110,10 @@ def bodegas
   libreTercero = almacenes.third.espacioTotal - almacenes.third.espacioUtilizado
   ocupadoCuarto = almacenes.fourth.espacioUtilizado
   libreCuarto = almacenes.fourth.espacioTotal - almacenes.fourth.espacioUtilizado
-  @graficoPrimero = Gchart.pie(:title => 'porcentaje uso almacén 1', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [librePrimero, ocupadoPrimero], :size => '400x200', :bg => 'efefef')
-  @graficoSegundo = Gchart.pie(:title => 'porcentaje uso almacén 2', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [libreSegundo, ocupadoSegundo], :size => '400x200', :bg => 'efefef')
-  @graficoTercero = Gchart.pie(:title => 'porcentaje uso almacén 3', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [libreTercero, ocupadoTercero], :size => '400x200', :bg => 'efefef')
-  @graficoCuarto = Gchart.pie(:title => 'porcentaje uso almacén 4', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [libreCuarto, ocupadoCuarto], :size => '400x200', :bg => 'efefef')
+  @graficoPrimero = Gchart.pie(:title => 'Porcentaje de uso almacén 1', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [librePrimero, ocupadoPrimero], :size => '400x200', :bg => 'efefef')
+  @graficoSegundo = Gchart.pie(:title => 'Porcentaje de uso almacén 2', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [libreSegundo, ocupadoSegundo], :size => '400x200', :bg => 'efefef')
+  @graficoTercero = Gchart.pie(:title => 'Porcentaje de uso almacén 3', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [libreTercero, ocupadoTercero], :size => '400x200', :bg => 'efefef')
+  @graficoCuarto = Gchart.pie(:title => 'Porcentaje de uso almacén 4', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [libreCuarto, ocupadoCuarto], :size => '400x200', :bg => 'efefef')
 end
 def facturacion
   ventasTotales = 0
@@ -142,7 +142,7 @@ def facturacion
     numVentasTotales += 1
     numVentasB2b += 1
   end
-  @graficoVentas = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Número de ventas por canal", :bg => 'efefef', :axis_with_labels => 'y', :legend => ['Ventas Totales', 'Ventas B2b', 'Ventas Ftp', 'Ventas B2c'], :data => [[numVentasTotales],[0, numVentasB2b], [0,0,numVentasFtp], [0,0,0,numVentasB2c]], :axis_range => [[0,numVentasTotales,numVentasTotales/10]], :max_value => numVentasTotales)
+  @graficoVentas = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "A    Número de ventas por canal", :bg => 'efefef', :axis_with_labels => 'y', :legend => ['Ventas Totales', 'Ventas B2b', 'Ventas Ftp', 'Ventas B2c'], :data => [[numVentasTotales],[0, numVentasB2b], [0,0,numVentasFtp], [0,0,0,numVentasB2c]], :axis_range => [[0,numVentasTotales,numVentasTotales/10]], :max_value => numVentasTotales)
   @graficoVentasPesos = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "Ingresos de ventas por canal", :bg => 'efefef', :axis_with_labels => 'y', :legend => ['Ventas Totales', 'Ventas B2b', 'Ventas Ftp', 'Ventas B2c'], :data => [[ventasTotales],[0, ventasB2b], [0,0,ventasFtp], [0,0,0,ventasB2c]], :axis_range => [[0,ventasTotales,ventasTotales/10]], :max_value => ventasTotales)
 end 
 end
