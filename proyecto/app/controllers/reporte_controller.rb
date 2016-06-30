@@ -114,5 +114,34 @@ def bodegas
   @graficoSegundo = Gchart.pie(:title => 'porcentaje uso almacén 2', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [libreSegundo, ocupadoSegundo], :size => '400x200', :bg => 'efefef')
   @graficoTercero = Gchart.pie(:title => 'porcentaje uso almacén 3', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [libreTercero, ocupadoTercero], :size => '400x200', :bg => 'efefef')
   @graficoCuarto = Gchart.pie(:title => 'porcentaje uso almacén 4', :legend => ['Espacio libre', 'Espacio ocupado'], :theme => :keynote, :data => [libreCuarto, ocupadoCuarto], :size => '400x200', :bg => 'efefef')
+end
+def facturacion
+  ventasTotales = 0
+  ventasB2c = 0
+  ventasB2b = 0
+  ventasFtp = 0
+  numVentasTotales = 0
+  numVentasB2b = 0
+  numVentasB2c = 0
+  numVentasFtp = 0
+  Ticket.all.each do |t|
+    ventasTotales += t.total
+    ventasB2c += t.total
+    numVentasTotales += 1
+    numVentasB2c += 1
+  end
+  Facturas.where(clinte:'internacional').each do |f|
+    ventasTotales += f.total
+    ventasFtp += f.total
+    numVentasTotales += 1
+    numVentasFtp += 1 
+  end
+  Facturas.where(clinte:'b2b').each do |f|
+    ventasTotales += f.total
+    ventasB2b += f.total
+    numVentasTotales += 1
+    numVentasB2b += 1
+  end
+  @graficoVentas = Gchart.bar(:size => '400x400', :theme => :keynote, :title => "", :bg => 'efefef', :axis_with_labels => 'y', :legend => ['Ventas Totales', 'Ventas B2b', 'Ventas Ftp', 'Ventas B2c'], :data => [[ventasTotales],[0, ventasB2b], [0,0,ventasFtp], [0,0,0,ventasB2c]], :axis_range => [[0,30,3]], :max_value => 30)
 end 
 end
