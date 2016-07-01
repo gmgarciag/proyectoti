@@ -14,7 +14,8 @@ end
 puts valores
 puts 'max:'+valores.max.to_s
 puts 'min:'+valores.min.to_s
- @graficoSaldo = Gchart.line(:size => '500x500', :theme => :keynote, :title => "Saldo", :bg => 'efefef', :axis_with_labels => 'x,y', :data => [valores] , :axis_range => [[1,dia.last,1],[valores.min,valores.max,(valores.max-valores.min)/10]], :min_y_value => valores.min, :max_y_value => valores.max, :min_x_value => 1)
+ @graficoSaldo = Gchart.line(:size => '500x500', :theme => :keynote, :title => "Saldo", :bg => 'efefef', :axis_with_labels => 'x,y',
+ :data => [valores] , :axis_range => [[dia.min,dia.last,1],[valores.min,valores.max,(valores.max-valores.min)/10]], :min_y_value => valores.min, :max_y_value => valores.max, :min_x_value => dia.min)
 end
 
 def cartola 
