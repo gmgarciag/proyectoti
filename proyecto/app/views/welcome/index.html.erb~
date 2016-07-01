@@ -1,4 +1,4 @@
-<h1>Taller de Integración Grupo 1: Ambiente actual Desarrollo</h1>
+<h1>Taller de Integración Grupo 1: Ambiente actual Produccion</h1>
 
 <h5> Para revisar la documentación de la API, ingrese  <a href="/documentacion">Aquí</a> </h5> 
 
@@ -8,5 +8,13 @@
 
 <h5> Para revisar las facturas  <a href="vista_factura/generarVista">Aquí</a> </h5> 
 
-<h5> Para ir a la página de compra  <a href="vista_factura/generarVista">Aquí</a> </h5> 
+<h5> Para ir a la página de compra  <a href="spree">Aquí</a> </h5> 
+
+<h5> Para revisar los saldos diarios <a href="vista_saldo/generarVista">Aquí</a></h5>
+
+<h5> Para revisar el estado de las bodegas <a href="reporte/bodegas">Aquí</a></h5>
+
+<h5> Para revisar los ingresos de la empresa <a href="reporte/facturacion">Aquí</a></h5>
+
+<h5> Para revisar los saldos diarios <a href="vista_saldo/generarVista">Aquí</a></h5>
 
