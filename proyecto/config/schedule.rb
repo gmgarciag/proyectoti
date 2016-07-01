@@ -10,7 +10,9 @@ env :PATH, ENV['PATH']
 set :environment, "production"
 set :output, "log/cron_log.log"
 #
-
+every 2.minute do
+        rake "actualizarOrdenes"
+end
 every 10.minute do
 	rake "requests:nombresOC"
 end
