@@ -472,7 +472,7 @@ task revisarStock: :environment do
 		  end
 		  if uva < 495
                     time = Time.now + 4.hours
-		    #comprar 39, 495, time
+		    comprar 39, 495, time
 		  end
 		  if azucar >= 1000 && uva >= 495 && levadura >= 570
 		    moverInsumosDespacho 25, 1000

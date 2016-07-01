@@ -206,6 +206,8 @@ module Spree
       quantity = params[:quantity].to_i
       options  = params[:options] || {}
       direccion = params[:direccion]
+      codigo = params[:codigo]
+      skuPromocion = (ProductosPromocion.find_by codigo:codigo).sku
       aux = variant.product_id
       if aux == 1
         sku = 19
