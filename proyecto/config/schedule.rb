@@ -27,7 +27,7 @@ every 15.minute do
 	rake "requests:llenarOrden"
 end
 
-every 2.hours do
+every 1.day, :at => '4:41 pm' do
 	rake "requests:despachar"
 end
 
