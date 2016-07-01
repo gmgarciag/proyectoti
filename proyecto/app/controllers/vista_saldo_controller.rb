@@ -12,7 +12,7 @@ i=i+1
 puts s.id
 end
 
- @graficoSaldo = Gchart.line(:size => '500x500', :theme => :keynote, :title => "Saldo", :bg => 'efefef', :axis_with_labels => 'x,y', :data => [valores] , :axis_range => [[1,dia.last,1],[valores.min,valores.max,(valores.max-valores.min)/10]], :min_y_value => valores.min, :min_x_value => 1)
+ @graficoSaldo = Gchart.line(:size => '500x500', :theme => :keynote, :title => "Saldo", :bg => 'efefef', :axis_with_labels => 'x,y', :data => [valores] , :axis_range => [[1,dia.last,1],[valores.min,valores.max,(valores.max-valores.min)/10]], :min_y_value => valores.min, :max_y_value => valores.max, :min_x_value => 1)
 end
 
 def cartola 
