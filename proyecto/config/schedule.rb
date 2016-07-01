@@ -10,7 +10,7 @@ env :PATH, ENV['PATH']
 set :environment, "production"
 set :output, "log/cron_log.log"
 #
-
+=begin
 every 10.minute do
 	rake "requests:nombresOC"
 end
