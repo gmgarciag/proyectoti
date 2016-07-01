@@ -16,5 +16,5 @@
 
 <h5> Para revisar los ingresos de la empresa <a href="reporte/facturacion">Aquí</a></h5>
 
-<h5> Para revisar los saldos diarios <a href="vista_saldo/generarVista">Aquí</a></h5>
+<h5> Para revisar la evolución de nuestro stock <a href="vista_saldo/stockDiario">Aquí</a></h5>
 
