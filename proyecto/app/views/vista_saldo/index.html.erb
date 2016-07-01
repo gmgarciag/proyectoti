@@ -2,7 +2,7 @@
   <tr>
         <td>Día</td>
         <td>Fecha saldo </td>
-        <td>Saldo</td>
+        <td>Deuda</td>
         <td>Link</td>
 
   </tr>
@@ -10,7 +10,7 @@
         <tr>
         <td><%= s.id %></td>
         <td><%= s.created_at %></td>
-        <td> <%= s.saldo%></td>
+        <td> <%= s.saldo.abs%></td>
         <td><%= link_to('Consultar cartola',{:action => 'cartola', :fecha => s.fechaInicio})%></td>
         </tr>     
     <%end%>
