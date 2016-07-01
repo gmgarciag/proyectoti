@@ -973,6 +973,7 @@ task actualizarOrdenes: :environment do
     if datosOrdenParseada["cantidadDespachada"] == datosOrdenParseada["cantidad"]
       (Orden.find_by idOrden:idOrden).update(estado:"despachada")
     end
+   end
     
 end
 end
