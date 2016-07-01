@@ -739,6 +739,7 @@ task despachar: :environment do
                    hmac.update(signature)
                    clave = Base64.encode64("#{hmac.digest}")
                    RestClient.post  'http://integracion-2016-prod.herokuapp.com/bodega/moveStock', {:productoId => idProducto, :almacenId => idDespacho}.to_json, :Authorization => 'INTEGRACION grupo1:' + clave, :content_type => 'application/json'
+                   sleep 1.5
                   k += 1
                   end
                   necesario -= k
@@ -772,6 +773,7 @@ task despachar: :environment do
    hmac.update(signature)
    clave = Base64.encode64("#{hmac.digest}")
    RestClient::Request.execute(method: :delete, url: 'http://integracion-2016-prod.herokuapp.com/bodega/stock', payload: {:productoId => idProducto, :direccion => direccion, :precio => precio, :oc => oc}, headers: {Authorization: 'INTEGRACION grupo1:'+clave})
+   sleep 1.5
    k += 1
    end
    restante -= k
