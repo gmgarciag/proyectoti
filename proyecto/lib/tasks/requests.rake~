@@ -968,6 +968,11 @@ task actualizarOrdenes: :environment do
 
   Orden.all.each do |orden|
     idOrden = orden.idOrden
-    datosCuenta = RestClient.get 'http://moto.ing.puc.cl/oc/obtener/'+ idOrden + '?id=' + idOrden
+    datosOrden = RestClient.get 'http://moto.ing.puc.cl/oc/obtener/'+ idOrden + '?id=' + idOrden
+    datosOrdenParseada = JSON.parse datosOrdenParseada
+    if datosOrdenParseada["cantidadDespachada"] == datosOrdenParseada["cantidad"]
+      (Orden.find_by idOrden:idOrden).update(estado:"despachada")
+    end
+    
 end
 end
