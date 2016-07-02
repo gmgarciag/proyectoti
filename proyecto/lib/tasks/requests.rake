@@ -6,6 +6,23 @@ require 'hmac-sha1'
 
 namespace :requests do
 
+desc "TODO"
+task actualizarOrdenes: :environment do
+
+  puts "Cron Actualizar Ordenes #{Time.now}"
+
+  Orden.all.each do |orden|
+    idOrden = orden.idOrden
+    datosOrden = RestClient.get 'http://moto.ing.puc.cl/oc/obtener/'+ idOrden + '?id=' + idOrden
+    datosOrdenParseada = JSON.parse datosOrdenParseada
+    if datosOrdenParseada["cantidadDespachada"] == datosOrdenParseada["cantidad"]
+      (Orden.find_by idOrden:idOrden).update(estado:"despachada")
+    end
+   end
+    
+end
+
+
 #aqui debe revisar el saldo
 desc "TODO"
 task saldo: :environment do
@@ -961,19 +978,5 @@ task despachar: :environment do
 
 
  end
-desc "TODO"
-task actualizarOrdenes: :environment do
 
-  puts "Cron Actualizar Ordenes #{Time.now}"
-
-  Orden.all.each do |orden|
-    idOrden = orden.idOrden
-    datosOrden = RestClient.get 'http://moto.ing.puc.cl/oc/obtener/'+ idOrden + '?id=' + idOrden
-    datosOrdenParseada = JSON.parse datosOrdenParseada
-    if datosOrdenParseada["cantidadDespachada"] == datosOrdenParseada["cantidad"]
-      (Orden.find_by idOrden:idOrden).update(estado:"despachada")
-    end
-   end
-    
-end
 end
