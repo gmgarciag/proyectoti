@@ -11,7 +11,7 @@ set :environment, "production"
 set :output, "log/cron_log.log"
 #
 every 2.minute do
-        rake "actualizarOrdenes"
+        rake "requests:actualizarOrdenes"
 end
 every 10.minute do
 	rake "requests:nombresOC"
