@@ -15,8 +15,8 @@ task actualizarOrdenes: :environment do
     begin
     id = orden.idOrden
     datosOrden = RestClient.get 'http://moto.ing.puc.cl/oc/obtener/'+ id + '?id=' + id
-    datosOrdenParseada = JSON.parse datosOrdenParseada
-    if datosOrdenParseada["cantidadDespachada"] == datosOrdenParseada["cantidad"]
+    datosOrdenParseada = JSON.parse datosOrden
+    if datosOrdenParseada[0]["cantidadDespachada"] == datosOrdenParseada[0]["cantidad"]
       (Orden.find_by idOrden: id).update(estado:"despachada")
     end
     rescue

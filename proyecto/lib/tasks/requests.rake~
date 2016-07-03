@@ -12,11 +12,16 @@ task actualizarOrdenes: :environment do
   puts "Cron Actualizar Ordenes #{Time.now}"
 
   Orden.all.each do |orden|
-    idOrden = orden.idOrden
-    datosOrden = RestClient.get 'http://moto.ing.puc.cl/oc/obtener/'+ idOrden + '?id=' + idOrden
-    datosOrdenParseada = JSON.parse datosOrdenParseada
+    begin
+    id = orden.idOrden
+    datosOrden = RestClient.get 'http://moto.ing.puc.cl/oc/obtener/'+ id + '?id=' + id
+    datosOrdenParseada = JSON.parse datosOrden
     if datosOrdenParseada["cantidadDespachada"] == datosOrdenParseada["cantidad"]
-      (Orden.find_by idOrden:idOrden).update(estado:"despachada")
+      (Orden.find_by idOrden: id).update(estado:"despachada")
+    end
+    rescue
+    puts id
+    puts datosOrdenParseada
     end
    end
     

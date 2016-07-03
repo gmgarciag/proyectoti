@@ -207,7 +207,23 @@ module Spree
       options  = params[:options] || {}
       direccion = params[:direccion]
       codigo = params[:codigo]
+      if codigo == "" || codigo == "Ingresa tu código aquí"
+      promocion = false
+      else
+      begin
       skuPromocion = (ProductosPromocion.find_by codigo:codigo).sku
+      precioPromocion = (ProductosPromocion.find_by codigo:codigo).precio
+      inicioPromocion = (ProductosPromocion.find_by codigo:codigo).inicio
+      finPromocion = (ProductosPromocion.find_by codigo:codigo).fin
+      if Time.now.to_i >= inicioPromocion && Time.now.to_i <= finPromocion
+      promocion = true
+      else
+      promocion = false
+      end
+      rescue
+      promocion = false
+      end
+      end
       aux = variant.product_id
       if aux == 1
         sku = 19
@@ -239,7 +255,11 @@ module Spree
         flash[:error] = error
         redirect_back_or_default(spree.root_path)
       else
+        if promocion = true
+        total = precioPromocion * quantity
+        else
         total = NuestroProducto.find(aux).precio * quantity
+        end
         factura = RestClient.put 'http://moto.ing.puc.cl/facturas/boleta', {:proveedor => '572aac69bdb6d403005fb042', :cliente => 'b2c', :total => total}
         facturaParseada = JSON.parse factura
         boleta = facturaParseada["_id"]
