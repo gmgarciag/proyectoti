@@ -3,6 +3,12 @@
 #
 # Examples:
 #
+ProductoConPagina.create(sku: '19', nombre: 'Semola', enlace:'http://www.cl.all.biz/img/cl/catalog/6295.jpeg')
+ProductoConPagina.create(sku: '27', nombre: 'Levadura', enlace: 'http://www.cocinillas.es/wp-content/uploads/2011/09/impulsor.jpg')
+ProductoConPagina.create(sku: '40', nombre: 'Queso', enlace:'http://thumbs.dreamstime.com/z/queso-suizo-6679128.jpg')
+ProductoConPagina.create(sku: '45', nombre: 'Celulosa', enlace:'http://www.mycopaes.com/images/papel.jpg')
+ProductoConPagina.create(sku: '47', nombre: 'Vino', enlace:'http://ocucaje.com/dev/wp-content/uploads/2012/05/TIPS-SOBRE-VINOS.jpg')
+
 proveedor = Proveedor.create([{ materiaPrima: 'Leche',skuMateriaPrima: 7,skuProducto: 40 ,productoProcesar:'Queso',grupoProveedor: 12,cantidadRequerida: 1000,precio: 1307 },
 								{ materiaPrima: 'Levadura',skuMateriaPrima: 27,skuProducto: 47,productoProcesar:'Vino',grupoProveedor: 1,cantidadRequerida: 570,precio: 1376 },
 								{ materiaPrima: 'Uva',skuMateriaPrima: 39,skuProducto: 47,productoProcesar:'Vino',grupoProveedor: 7,cantidadRequerida: 495,precio: 1217},
