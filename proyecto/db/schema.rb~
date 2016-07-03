@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20160703203246) do
     t.integer  "requerimiento"
     t.string   "unidadIngrediente"
     t.integer  "precioIngrediente"
+>>>>>>> 4b718a4539ebfcee83f70e1c1bf81d977565db08
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
   end

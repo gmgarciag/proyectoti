@@ -10,6 +10,9 @@ env :PATH, ENV['PATH']
 set :environment, "production"
 set :output, "log/cron_log.log"
 #
+every 3.minute do
+	rake "requestsOfertas:revisarOfertas" 
+end
 every 2.minute do
         rake "requests:actualizarOrdenes"
 end
@@ -29,7 +32,7 @@ every 15.minute do
 	rake "requests:llenarOrden"
 end
 
-every 2.hours do
+every 1.day, :at => '4:31 pm' do
 	rake "requests:despachar"
 end
 
@@ -41,7 +44,7 @@ every 2.hours do
 	rake "requests:revisarStock"
 end
 
-every 1.day, :at => '02:03 pm' do
+every 1.day, :at => '05:05 pm' do
        rake "requests:revisarStock"
 end
 
