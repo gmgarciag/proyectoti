@@ -11,7 +11,7 @@ set :environment, "production"
 set :output, "log/cron_log.log"
 #
 every 3.minute do
-	rake "requests:revisarOfertas" 
+	rake "requestsOfertas:revisarOfertas" 
 end
 every 2.minute do
         rake "requests:actualizarOrdenes"
