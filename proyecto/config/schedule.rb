@@ -29,7 +29,7 @@ every 15.minute do
 	rake "requests:llenarOrden"
 end
 
-every 1.day, :at => '4:41 pm' do
+every 1.day, :at => '4:31 pm' do
 	rake "requests:despachar"
 end
 
@@ -41,7 +41,7 @@ every 2.hours do
 	rake "requests:revisarStock"
 end
 
-every 1.day, :at => '02:03 pm' do
+every 1.day, :at => '05:05 pm' do
        rake "requests:revisarStock"
 end
 
